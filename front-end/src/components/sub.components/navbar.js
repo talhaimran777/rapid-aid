@@ -7,8 +7,8 @@ const TopMenu = () => {
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='ms-md-auto'>
-            <Nav.Link href='#features'>Tasks</Nav.Link>
-            <Nav.Link href='#pricing'>Post Task</Nav.Link>
+            <Nav.Link href='/tasks'>Tasks</Nav.Link>
+            <Nav.Link href='/postTask'>Post Task</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
