@@ -1,9 +1,11 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import TopMenu from './components/sub.components/navbar';
 function App() {
   return (
     <div className='App'>
-      <h1>Building My Final Year Project</h1>
+      <TopMenu />
     </div>
   );
 }
