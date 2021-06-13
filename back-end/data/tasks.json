@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Electric Work",
+        "budget": 1000,
+        "location": "Dream Avenue, Lahore",
+        "dueDate": "13 June 2021",
+        "status": "open"
+    },
+    {
+        "title": "Plumber required",
+        "budget": 1000,
+        "location": "Walton, Lahore",
+        "dueDate": "14 June 2021",
+        "status": "open"
+    },
+    {
+        "title": "Water motor mechanic",
+        "budget": 800,
+        "location": "UET, Staff Houses Engineering University Lahore, Lahore",
+        "dueDate": "13 June 2021",
+        "status": "Assigned"
+    },
+    {
+        "title": "A Good Cook Required",
+        "budget": 1000,
+        "location": "State Life Phase 1 State Life, Lahore",
+        "dueDate": "13 June 2021",
+        "status": "open"
+    },
+    {
+        "title": "Cleaning and wasing dishes",
+        "budget": 1000,
+        "location": "State Life Phase 1 State Life, Lahore",
+        "dueDate": "13 June 2021",
+        "status": "open"
+    }
+]
