@@ -1,19 +1,5 @@
-import { Navbar, Nav, Container } from 'react-bootstrap';
 const TopMenu = () => {
-  return (
-    <Navbar collapseOnSelect expand='lg' bg='primary' variant='dark'>
-      <Container>
-        <Navbar.Brand href='/'>Rapid AID</Navbar.Brand>
-        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-        <Navbar.Collapse id='responsive-navbar-nav'>
-          <Nav className='ms-md-auto'>
-            <Nav.Link href='/tasks'>Tasks</Nav.Link>
-            <Nav.Link href='/postTask'>Post Task</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+  return <h1>This is my navbar</h1>;
 };
 
 export default TopMenu;
