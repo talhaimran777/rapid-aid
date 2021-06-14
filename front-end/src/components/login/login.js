@@ -8,7 +8,7 @@ import './styles/login.css';
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
 
-import Register from '../register/register';
+// import Register from '../register/register';
 
 const Login = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -55,12 +55,12 @@ const Login = () => {
           setState={setState}
         />
 
-        <p>
+        <div>
           Not registered yet?{' '}
           <Link className='text-purple-600 font-bold ml-2' to='/register'>
             Click Here
           </Link>
-        </p>
+        </div>
         <button className='mt-10 d-block w-full border-purple-600 border-2 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
           Login
         </button>

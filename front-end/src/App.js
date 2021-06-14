@@ -1,6 +1,5 @@
 import './App.css';
-import TopMenu from './components/sub.components/navbar';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Components
 import Home from './components/home/home';
