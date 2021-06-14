@@ -1,11 +1,14 @@
 import { useState } from 'react';
 
+import { Link } from 'react-router-dom';
 // LOGIN CSS
 import './styles/login.css';
 
 // COMPONENTS
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
+
+import Register from '../register/register';
 
 const Login = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -30,7 +33,7 @@ const Login = () => {
       <form
         onSubmit={handleSubmit}
         id='login-form'
-        className='w-full sm:w-96 p-5 rounded border-purple-300'
+        className='w-full sm:w-96 p-3 sm:p-10 sm:rounded-lg sm:border-purple-400 sm:border-2 sm:shadow-2xl'
       >
         <div className='flex justify-center items-center text-purple-600 mb-10'>
           <i className='mr-3 fas fa-lock fa-3x'></i>
@@ -52,7 +55,13 @@ const Login = () => {
           setState={setState}
         />
 
-        <button className='mt-4 d-block w-full border-purple-600 border-2 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
+        <p>
+          Not registered yet?{' '}
+          <Link className='text-purple-600 font-bold ml-2' to='/register'>
+            Click Here
+          </Link>
+        </p>
+        <button className='mt-10 d-block w-full border-purple-600 border-2 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
           Login
         </button>
       </form>
