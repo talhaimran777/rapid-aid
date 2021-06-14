@@ -8,7 +8,7 @@ const Home = () => {
           <h1 className='text-5xl font-black text-purple-600  mb-4'>
             Need Help In Your Daily Routine Work?
           </h1>
-          <h1 className='text-gray-600 font-bold text-3xl mb-6'>
+          <h1 className='text-gray-600 font-black text-2xl mb-6'>
             Get Help Rapidly.
           </h1>
 

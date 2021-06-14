@@ -12,7 +12,7 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <TopMenu />
+        {/* <TopMenu /> */}
         <Switch>
           <Route exact path='/' component={Home} />
           <Route exact path='/tasks' component={Tasks} />
