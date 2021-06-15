@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getData } = require('../controller/tasksController');
+const { getData } = require('../../controller/tasksController');
 // import {
 //   getProducts,
 //   getProductById,

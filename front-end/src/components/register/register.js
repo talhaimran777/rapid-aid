@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom';
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
 
+// AXIOS
+import axios from 'axios';
+
 const Register = () => {
-  // SETTING INITIAL STATE FOR OUR REGISTRATINO COMPONENT
+  // SETTING INITIAL STATE FOR OUR REGISTRATION COMPONENT
   let initialState = {
     email: '',
     password: '',
@@ -19,8 +22,25 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { email, password, confirmPassword } = state;
-    console.log('Registering!', email, password, confirmPassword);
+    let { email, password, confirmPassword } = state;
+    // console.log('Registering!', email, password, confirmPassword);
+
+    if (!email) {
+      email = '';
+    } else if (!password) {
+      password = '';
+    } else if (!confirmPassword) {
+      confirmPassword = '';
+    }
+
+    axios
+      .post('/register', { email, password, confirmPassword })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
