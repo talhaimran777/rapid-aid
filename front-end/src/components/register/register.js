@@ -45,12 +45,14 @@ const Register = () => {
     const postData = async () => {
       try {
         let res = await axios.post('/api/register', state);
-        console.log(res.data);
+
+        if (res.data) {
+          dispatch({ type: 'CLEAR_ERRORS' });
+        }
       } catch (err) {
         if (err.response.data) {
           dispatch({ type: 'VALIDATIION_ERRORS', payload: err.response.data });
         }
-        // console.log(err.response.data);
       }
     };
 
