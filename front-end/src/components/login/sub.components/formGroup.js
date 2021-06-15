@@ -8,7 +8,7 @@ const FormGroup = (props) => {
   const { label, name, type, state, setState } = props;
   return (
     <div>
-      <label className='text-gray-700 font-bold' htmlFor={name}>
+      <label className='text-gray-600 font-bold' htmlFor={name}>
         {label}
       </label>
       <br />

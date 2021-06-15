@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
 // COMPONENTS
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
@@ -18,6 +18,9 @@ const Register = () => {
   };
 
   const [state, setState] = useState(initialState);
+
+  // EXTRACTING DISPATCH
+  const dispatch = useDispatch();
 
   // HANDLING FORM SUBMISSION
   const handleSubmit = (e) => {
@@ -39,7 +42,10 @@ const Register = () => {
         let res = await axios.post('/api/register', state);
         console.log(res.data);
       } catch (err) {
-        console.log(err.response.data);
+        if (err.response.data) {
+          dispatch({ type: 'VALIDATIION_ERRORS', payload: err.response.data });
+        }
+        // console.log(err.response.data);
       }
     };
 
