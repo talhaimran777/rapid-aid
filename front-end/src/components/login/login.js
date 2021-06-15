@@ -1,8 +1,5 @@
 import { useState } from 'react';
-
 import { Link } from 'react-router-dom';
-// LOGIN CSS
-import './styles/login.css';
 
 // COMPONENTS
 import TopMenu from '../sub.components/navbar';
@@ -28,12 +25,12 @@ const Login = () => {
   };
 
   return (
-    <div id='login-page' className='h-screen flex flex-col'>
+    <div id='form-parent' className='h-screen flex flex-col'>
       <TopMenu />
       <form
         onSubmit={handleSubmit}
-        id='login-form'
-        className='w-full sm:w-96 p-3 sm:p-10 sm:rounded-lg sm:border-purple-400 sm:border-2 sm:shadow-2xl'
+        id='form-child'
+        className='w-full sm:w-96 p-3 sm:p-10 sm:rounded-lg sm:border-purple-600 sm:border-4 sm:shadow-2xl'
       >
         <div className='flex justify-center items-center text-purple-600 mb-10'>
           <i className='mr-3 fas fa-lock fa-3x'></i>
@@ -58,7 +55,7 @@ const Login = () => {
         <div>
           Not registered yet?{' '}
           <Link className='text-purple-600 font-bold ml-2' to='/register'>
-            Click Here
+            Register Here
           </Link>
         </div>
         <button className='mt-10 d-block w-full border-purple-600 border-2 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
