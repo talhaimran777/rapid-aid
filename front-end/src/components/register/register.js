@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // COMPONENTS
@@ -18,6 +18,11 @@ const Register = () => {
   };
 
   const [state, setState] = useState(initialState);
+
+  // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS
+  useEffect(() => {
+    dispatch({ type: 'CLEAR_ERRORS' });
+  }, []);
 
   // EXTRACTING DISPATCH
   const dispatch = useDispatch();
