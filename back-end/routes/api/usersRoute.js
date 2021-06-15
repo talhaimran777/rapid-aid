@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const { register } = require('../../controller/usersController');
+
+console.log(register);
 // import {
 //   getProducts,
 //   getProductById,
@@ -12,6 +14,10 @@ const { register } = require('../../controller/usersController');
 //   getTopProducts,
 // } from '../controllers/productController.js'
 // import { protect, admin } from '../middleware/authMiddleware.js'
+
+// router.route('/register').post((req, res) => {
+//   res.send('hello');
+// });
 
 router.route('/register').post(register);
 

@@ -11,6 +11,7 @@ import axios from 'axios';
 const Register = () => {
   // SETTING INITIAL STATE FOR OUR REGISTRATION COMPONENT
   let initialState = {
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -22,25 +23,27 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let { email, password, confirmPassword } = state;
+    // let { email, password, confirmPassword } = state;
     // console.log('Registering!', email, password, confirmPassword);
 
-    if (!email) {
-      email = '';
-    } else if (!password) {
-      password = '';
-    } else if (!confirmPassword) {
-      confirmPassword = '';
-    }
+    // if (!email) {
+    //   email = '';
+    // } else if (!password) {
+    //   password = '';
+    // } else if (!confirmPassword) {
+    //   confirmPassword = '';
+    // }
 
-    axios
-      .post('/register', { email, password, confirmPassword })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const postData = async () => {
+      try {
+        let res = await axios.post('/api/register', state);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err.response.data);
+      }
+    };
+
+    postData();
   };
 
   return (
@@ -56,6 +59,13 @@ const Register = () => {
           <h1 className=' text-5xl uppercase font-extrabold'>Sign Up</h1>
         </div>
 
+        <FormGroup
+          label='Enter Name: '
+          name='name'
+          type='text'
+          state={state}
+          setState={setState}
+        />
         <FormGroup
           label='Enter Email: '
           name='email'
