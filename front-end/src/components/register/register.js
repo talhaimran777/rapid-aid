@@ -1,12 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 // COMPONENTS
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
 
 // AXIOS
 import axios from 'axios';
+
+// STYLES API FORM MATERIAL UI CORE
+import { makeStyles } from '@material-ui/core/styles';
+
+// SPINNER
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// CREATING STYLES FOR MY SPINNER OR LOADER
+const useStyles = makeStyles({
+  root: {
+    height: '1px',
+  },
+});
 
 const Register = () => {
   // SETTING INITIAL STATE FOR OUR REGISTRATION COMPONENT
@@ -19,9 +32,20 @@ const Register = () => {
 
   const [state, setState] = useState(initialState);
 
-  // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS
+  // USING HISTORY
+  const history = useHistory();
+
+  // STYLE CLASSES FOR MY SPINNER
+  const classes = useStyles();
+
+  // EXTRACTING INPROCESS VARIABLE FROM GLOBAL STATE
+  const { inProcess } = useSelector((state) => state.signup);
+
+  // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS UPON COMPONENTS EXITS
   useEffect(() => {
-    dispatch({ type: 'CLEAR_ERRORS' });
+    return function () {
+      dispatch({ type: 'CLEAR_ERRORS' });
+    };
   }, []);
 
   // EXTRACTING DISPATCH
@@ -31,27 +55,26 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // let { email, password, confirmPassword } = state;
-    // console.log('Registering!', email, password, confirmPassword);
-
-    // if (!email) {
-    //   email = '';
-    // } else if (!password) {
-    //   password = '';
-    // } else if (!confirmPassword) {
-    //   confirmPassword = '';
-    // }
+    // STARTING THE REGISTRATION PROCESS
+    dispatch({ type: 'REGISTRATION_INITIATED' });
 
     const postData = async () => {
       try {
         let res = await axios.post('/api/register', state);
 
         if (res.data) {
-          dispatch({ type: 'CLEAR_ERRORS' });
+          // REGISTRATION SUCCESS
+          dispatch({ type: 'REGISTRATION_SUCCESS' });
+
+          // REDIRECT TO LOGIN COMPONENT
+          history.push('/login');
         }
       } catch (err) {
         if (err.response.data) {
           dispatch({ type: 'VALIDATIION_ERRORS', payload: err.response.data });
+
+          // REGISTRATION FAILED
+          dispatch({ type: 'REGISTRATION_FAILED' });
         }
       }
     };
@@ -107,9 +130,20 @@ const Register = () => {
             Login Here
           </Link>
         </div>
-        <button className='mt-10 d-block w-full border-purple-600 border-2 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
-          Register
-        </button>
+
+        <div className='mt-10 flex justify-start items-center'>
+          <button className=' d-inline border-purple-600 border-2 px-3 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
+            Register
+          </button>
+
+          {inProcess ? (
+            <div className='text-center ml-3'>
+              <CircularProgress />
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
       </form>
     </div>
   );
