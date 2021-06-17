@@ -23,8 +23,8 @@ const Login = () => {
 
   const [state, setState] = useState(initialState);
 
-  // EXTRACTING INPROCESS & STATUS VARIABLES FROM GLOBAL STATE
-  const { inProcess, status } = useSelector((state) => state.login);
+  // EXTRACTING INPROCESS FROM GLOBAL STATE
+  const { inProcess } = useSelector((state) => state.login);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -51,10 +51,11 @@ const Login = () => {
           // LOGIN SUCCESS
           dispatch({ type: 'LOGIN_SUCCESS' });
 
-          if (status === 'SUCCESS') {
-            // REDIRECT TO HOMEPAGE
-            history.push('/');
-          }
+          // CLEARING IF ANY ERRORS ALREADY EXISTS
+          dispatch({ type: 'CLEAR_ERRORS' });
+
+          // REDIRECT TO HOMEPAGE
+          history.push('/');
         }
       } catch (err) {
         if (err.response.data) {

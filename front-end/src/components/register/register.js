@@ -26,7 +26,7 @@ const Register = () => {
   const history = useHistory();
 
   // EXTRACTING INPROCESS VARIABLE FROM GLOBAL STATE
-  const { inProcess, status } = useSelector((state) => state.signup);
+  const { inProcess } = useSelector((state) => state.signup);
 
   // EXTRACTING DISPATCH
   const dispatch = useDispatch();
@@ -53,10 +53,11 @@ const Register = () => {
           // REGISTRATION SUCCESS
           dispatch({ type: 'REGISTRATION_SUCCESS' });
 
-          // REDIRECT TO LOGIN COMPONENT
-          if (status === 'success') {
-            history.push('/login');
-          }
+          // CLEARING IF ANY ERRORS ALREADY EXISTS
+          dispatch({ type: 'CLEAR_ERRORS' });
+
+          // REDIRECTION TO LOGIN COMPONENT
+          history.push('/login');
         }
       } catch (err) {
         if (err.response.data) {
