@@ -1,11 +1,18 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
+// AXIOS
+import axios from 'axios';
+
+// DISPATCH
+import { useDispatch, useSelector } from 'react-redux';
 
 // COMPONENTS
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
 
-// import Register from '../register/register';
+// SPINNER
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Login = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -16,12 +23,50 @@ const Login = () => {
 
   const [state, setState] = useState(initialState);
 
+  // EXTRACTING INPROCESS & STATUS VARIABLES FROM GLOBAL STATE
+  const { inProcess, status } = useSelector((state) => state.login);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS UPON COMPONENTS EXITS
+  useEffect(() => {
+    return function () {
+      dispatch({ type: 'CLEAR_ERRORS' });
+    };
+  }, [dispatch]);
+
   // HANDLING FORM SUBMISSION
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { email, password } = state;
-    console.log('LOGGING IN', email, password);
+    // STARTING THE REGISTRATION PROCESS
+    dispatch({ type: 'LOGIN_INITIATED' });
+
+    const postData = async () => {
+      try {
+        let res = await axios.post('/api/login', state);
+
+        if (res.data) {
+          // LOGIN SUCCESS
+          dispatch({ type: 'LOGIN_SUCCESS' });
+
+          if (status === 'SUCCESS') {
+            // REDIRECT TO HOMEPAGE
+            history.push('/');
+          }
+        }
+      } catch (err) {
+        if (err.response.data) {
+          dispatch({ type: 'VALIDATIION_ERRORS', payload: err.response.data });
+
+          // LOGIN FAILED
+          dispatch({ type: 'LOGIN_FAILED' });
+        }
+      }
+    };
+
+    postData();
   };
 
   return (
@@ -58,9 +103,20 @@ const Login = () => {
             Register Here
           </Link>
         </div>
-        <button className='mt-10 d-block w-full border-purple-600 border-2 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
-          Login
-        </button>
+
+        <div className='mt-10 flex justify-start items-center'>
+          <button className=' d-inline border-purple-600 border-2 px-3 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
+            Login
+          </button>
+
+          {inProcess ? (
+            <div className='text-center ml-3'>
+              <CircularProgress />
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
       </form>
     </div>
   );

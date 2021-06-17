@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import errorsReducer from './errors.reducer';
 import authReducer from './auth.reducer';
 import registerReducer from './register.reducer';
+import loginReducer from './login.reducer';
 // import counterReducer from './counterReducer';
 // import signupReducer from './signupReducer';
 // import loginReducer from './loginReducer';
@@ -13,7 +14,7 @@ let rootReducer = combineReducers({
   signup: registerReducer,
   //   signup: signupReducer,
   //   counter: counterReducer,
-  //   login: loginReducer,
+  login: loginReducer,
   //   dashboard: dashboardReducer,
 });
 

@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { register } = require('../../controller/usersController');
-
-console.log(register);
+const { register, login } = require('../../controller/usersController');
 // import {
 //   getProducts,
 //   getProductById,
@@ -20,6 +18,7 @@ console.log(register);
 // });
 
 router.route('/register').post(register);
+router.route('/login').post(login);
 
 // router.route('/:id/reviews').post(protect, createProductReview);
 // router.get('/top', getTopProducts);

@@ -8,18 +8,8 @@ import FormGroup from './sub.components/formGroup';
 // AXIOS
 import axios from 'axios';
 
-// STYLES API FORM MATERIAL UI CORE
-import { makeStyles } from '@material-ui/core/styles';
-
 // SPINNER
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-// CREATING STYLES FOR MY SPINNER OR LOADER
-const useStyles = makeStyles({
-  root: {
-    height: '1px',
-  },
-});
 
 const Register = () => {
   // SETTING INITIAL STATE FOR OUR REGISTRATION COMPONENT
@@ -35,21 +25,18 @@ const Register = () => {
   // USING HISTORY
   const history = useHistory();
 
-  // STYLE CLASSES FOR MY SPINNER
-  const classes = useStyles();
-
   // EXTRACTING INPROCESS VARIABLE FROM GLOBAL STATE
-  const { inProcess } = useSelector((state) => state.signup);
+  const { inProcess, status } = useSelector((state) => state.signup);
+
+  // EXTRACTING DISPATCH
+  const dispatch = useDispatch();
 
   // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS UPON COMPONENTS EXITS
   useEffect(() => {
     return function () {
       dispatch({ type: 'CLEAR_ERRORS' });
     };
-  }, []);
-
-  // EXTRACTING DISPATCH
-  const dispatch = useDispatch();
+  }, [dispatch]);
 
   // HANDLING FORM SUBMISSION
   const handleSubmit = (e) => {
@@ -67,7 +54,9 @@ const Register = () => {
           dispatch({ type: 'REGISTRATION_SUCCESS' });
 
           // REDIRECT TO LOGIN COMPONENT
-          history.push('/login');
+          if (status === 'success') {
+            history.push('/login');
+          }
         }
       } catch (err) {
         if (err.response.data) {
