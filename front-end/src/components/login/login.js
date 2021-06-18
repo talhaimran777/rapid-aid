@@ -7,12 +7,21 @@ import axios from 'axios';
 // DISPATCH
 import { useDispatch, useSelector } from 'react-redux';
 
+// JWT-DECODE
+import jwt_decode from 'jwt-decode';
+
 // COMPONENTS
 import TopMenu from '../sub.components/navbar';
 import FormGroup from './sub.components/formGroup';
 
 // SPINNER
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+// SET AUTH TOKEN
+import setAuthToken from '../../utils/setAuthToken';
+
+// AUTH ACTIONS
+import { setCurrentUser } from '../../actions/authActions';
 
 const Login = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -26,8 +35,18 @@ const Login = () => {
   // EXTRACTING INPROCESS FROM GLOBAL STATE
   const { inProcess } = useSelector((state) => state.login);
 
+  // FOR CHECKING AUTHENTICATION
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // IF AUTHENTICATED PUSH TOWARDS THE HOME PAGE
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/');
+    }
+  }, [isAuthenticated, history]);
 
   // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS UPON COMPONENTS EXITS
   useEffect(() => {
@@ -40,7 +59,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // STARTING THE REGISTRATION PROCESS
+    // STARTING THE LOGIN PROCESS
     dispatch({ type: 'LOGIN_INITIATED' });
 
     const postData = async () => {
@@ -48,6 +67,19 @@ const Login = () => {
         let res = await axios.post('/api/login', state);
 
         if (res.data) {
+          const { token } = res.data;
+
+          localStorage.setItem('jwtToken', token);
+
+          // Set token to Auth header
+          setAuthToken(token);
+
+          // Decode token to get user data
+          const decoded = jwt_decode(token);
+
+          // Set current user
+          dispatch(setCurrentUser(decoded));
+
           // LOGIN SUCCESS
           dispatch({ type: 'LOGIN_SUCCESS' });
 

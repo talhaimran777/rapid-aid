@@ -28,8 +28,18 @@ const Register = () => {
   // EXTRACTING INPROCESS VARIABLE FROM GLOBAL STATE
   const { inProcess } = useSelector((state) => state.signup);
 
+  // FOR CHECKING AUTHENTICATION
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   // EXTRACTING DISPATCH
   const dispatch = useDispatch();
+
+  // IF AUTHENTICATED PUSH TOWARDS THE HOME PAGE
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/');
+    }
+  }, [isAuthenticated, history]);
 
   // USING THIS HOOK TO CLEAR THE FORM VALIDATIION_ERRORS UPON COMPONENTS EXITS
   useEffect(() => {
