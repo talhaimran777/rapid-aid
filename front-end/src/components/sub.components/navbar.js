@@ -2,6 +2,9 @@ import './styles/navbar.css';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+// PROFILE IMAGE
+import ProfileImage from '../profileImage/profile.image';
+
 const TopMenu = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   return (
@@ -57,7 +60,7 @@ const TopMenu = () => {
               </li>
             </>
           ) : (
-            ''
+            <ProfileImage />
           )}
         </ul>
       </div>
