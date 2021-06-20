@@ -1,7 +1,16 @@
-import React from 'react';
+import { useEffect } from 'react';
 import TopMenu from '../sub.components/navbar';
 
+import axios from 'axios';
+
 const Tasks = () => {
+  useEffect(() => {
+    axios
+      .get('/api/tasks')
+      .then((response) => console.log(response.data))
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <div>
       <TopMenu />

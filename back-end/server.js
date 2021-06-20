@@ -13,8 +13,8 @@ app.use(
 // const dotenv = require('dotenv');
 
 // ROUTES
-// const tasksRoute = require('./routes/tasksRoute');
 const usersRoute = require('./routes/api/usersRoute');
+const tasksRoute = require('./routes/api/tasksRoute');
 // const authRoute = require('./routes/authRoute');
 // const clientsRoute = require('./routes/clientsRoute');
 
@@ -23,11 +23,11 @@ const usersRoute = require('./routes/api/usersRoute');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// USING TASKS ROUTE
-// app.use('/api', tasksRoute);
-
 // USING USERS ROUTES
 app.use('/api', usersRoute);
+
+// USING TASKS ROUTE
+app.use('/api', tasksRoute);
 
 // USING USERS ROUTES
 // app.use('/api', clientsRoute);
