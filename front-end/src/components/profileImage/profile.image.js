@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import md5 from 'md5';
 
 // MATERIAL UI
@@ -55,7 +56,7 @@ const ProfileImage = () => {
   const { user } = useSelector((state) => state.auth);
 
   // GETTING EMAIL FROM THE USER OBJECT
-  const { email } = user;
+  const { email, id } = user;
 
   // HASHING EMAIL WITH MD5
   const hashedEmail = md5(email);
@@ -82,14 +83,12 @@ const ProfileImage = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem
-          className='flex justify-between items-end'
-          onClick={handleClose}
-        >
-          <PersonIcon style={{ fontSize: 24 }} />
-          <h1 className='ml-1'>Profile</h1>
-        </StyledMenuItem>
-
+        <Link to={`/${id}`}>
+          <StyledMenuItem className='flex justify-between items-end'>
+            <PersonIcon style={{ fontSize: 24 }} />
+            <h1 className='ml-1'>Profile</h1>
+          </StyledMenuItem>
+        </Link>
         <StyledMenuItem
           className='flex justify-between items-end'
           onClick={logout}

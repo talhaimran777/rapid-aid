@@ -12,6 +12,7 @@ import Tasks from './components/tasks/tasks';
 import PostTask from './components/postTask/postTask';
 import Login from './components/login/login';
 import Register from './components/register/register';
+import Profile from './components/profile/profile';
 
 // UTILS
 import setAuthToken from './utils/setAuthToken';
@@ -58,13 +59,14 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        {/* <TopMenu /> */}
+        {/* <Profile /> */}
         <Switch>
           <Route exact path='/' component={Home} />
           <PrivateRoute exact path='/tasks' component={Tasks} />
           <PrivateRoute exact path='/postTask' component={PostTask} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
+          <PrivateRoute exact path='/:id' component={Profile} />
         </Switch>
       </Router>
     </div>
