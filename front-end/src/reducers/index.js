@@ -3,6 +3,7 @@ import errorsReducer from './errors.reducer';
 import authReducer from './auth.reducer';
 import registerReducer from './register.reducer';
 import loginReducer from './login.reducer';
+import tasksReducer from './tasks.reducer';
 // import counterReducer from './counterReducer';
 // import signupReducer from './signupReducer';
 // import loginReducer from './loginReducer';
@@ -15,6 +16,7 @@ let rootReducer = combineReducers({
   //   signup: signupReducer,
   //   counter: counterReducer,
   login: loginReducer,
+  tasks: tasksReducer,
   //   dashboard: dashboardReducer,
 });
 

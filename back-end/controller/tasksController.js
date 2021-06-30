@@ -11,7 +11,7 @@ const getData = (req, res) => {
   if (data) {
     res.status(200).json({
       status: 'OK',
-      data: JSON.parse(data),
+      tasks: JSON.parse(data),
     });
   } else {
     res.status(500).json({
