@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import md5 from 'md5';
 
 // MATERIAL UI
 import Menu from '@material-ui/core/Menu';
@@ -14,13 +13,12 @@ import { withStyles } from '@material-ui/core/styles';
 
 // UTILS
 import setAuthToken from '../../utils/setAuthToken';
+import getImageURL from '../../utils/getImageURL';
 
 // AUTH ACTIONS
 import { setCurrentUser } from '../../actions/authActions';
 
 const ProfileImage = () => {
-  const imageRef = useRef(null);
-
   const dispatch = useDispatch();
 
   const StyledMenuItem = withStyles({
@@ -33,7 +31,7 @@ const ProfileImage = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
-    setAnchorEl(imageRef.current);
+    setAnchorEl(event.target);
   };
 
   const handleClose = () => {
@@ -60,25 +58,24 @@ const ProfileImage = () => {
   // GETTING EMAIL FROM THE USER OBJECT
   const { email, id } = user;
 
-  // HASHING EMAIL WITH MD5
-  const hashedEmail = md5(email);
-
-  // REQUEST URL
-  const url = `https://www.gravatar.com/avatar/${hashedEmail}?s=200`;
+  // GET PROFILE IMAGE URL
+  const url = getImageURL(email, 200);
 
   return (
     <div>
-      <img
+      <div
         aria-controls='simple-menu'
         aria-haspopup='true'
-        ref={imageRef}
         onClick={handleClick}
-        height='35px'
-        width='35px'
-        className=' rounded-full cursor-pointer ml-5'
-        src={url}
-        alt=''
-      />
+      >
+        <img
+          height='35px'
+          width='35px'
+          className=' rounded-full cursor-pointer ml-5'
+          src={url}
+          alt='userimage'
+        />
+      </div>
       <Menu
         id='simple-menu'
         anchorEl={anchorEl}
