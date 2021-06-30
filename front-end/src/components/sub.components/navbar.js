@@ -19,13 +19,13 @@ const TopMenu = () => {
 
         <ul className='flex text-white items-center'>
           <li className='mr-4'>
-            <Link className='font-normal text-sm hover:text-gray-300' to='/'>
+            <Link className='text-sm font-semibold hover:text-gray-300' to='/'>
               Home
             </Link>
           </li>
           <li className='mr-4'>
             <Link
-              className='font-normal text-sm hover:text-gray-300'
+              className='text-sm font-semibold hover:text-gray-300'
               to='/postTask'
             >
               Post Work
@@ -33,7 +33,7 @@ const TopMenu = () => {
           </li>
           <li className='mr-4'>
             <Link
-              className='font-normal text-sm hover:text-gray-300'
+              className='text-sm font-semibold hover:text-gray-300'
               to='/tasks'
             >
               Check Work
@@ -44,7 +44,7 @@ const TopMenu = () => {
             <>
               <li className='mr-4'>
                 <Link
-                  className='font-normal text-sm hover:text-gray-300'
+                  className='font-semibold text-sm hover:text-gray-300'
                   to='/login'
                 >
                   Login
@@ -52,7 +52,7 @@ const TopMenu = () => {
               </li>
               <li>
                 <Link
-                  className='font-normal text-sm hover:text-gray-300'
+                  className='font-semibold text-sm hover:text-gray-300'
                   to='/register'
                 >
                   Register

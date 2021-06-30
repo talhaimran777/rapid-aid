@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import md5 from 'md5';
@@ -19,6 +19,8 @@ import setAuthToken from '../../utils/setAuthToken';
 import { setCurrentUser } from '../../actions/authActions';
 
 const ProfileImage = () => {
+  const imageRef = useRef(null);
+
   const dispatch = useDispatch();
 
   const StyledMenuItem = withStyles({
@@ -31,7 +33,7 @@ const ProfileImage = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(imageRef.current);
   };
 
   const handleClose = () => {
@@ -69,6 +71,7 @@ const ProfileImage = () => {
       <img
         aria-controls='simple-menu'
         aria-haspopup='true'
+        ref={imageRef}
         onClick={handleClick}
         height='35px'
         width='35px'
