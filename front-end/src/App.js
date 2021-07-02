@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 // COMPONENTS
 import Home from './components/home/home';
 import Tasks from './components/tasks/tasks';
+import TaskDetails from './components/tasks/taskDetails';
 import PostTask from './components/postTask/postTask';
 import Login from './components/login/login';
 import Register from './components/register/register';
@@ -63,6 +64,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Home} />
           <PrivateRoute exact path='/tasks' component={Tasks} />
+          <PrivateRoute exact path='/tasks/:id' component={TaskDetails} />
           <PrivateRoute exact path='/postTask' component={PostTask} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
