@@ -16,7 +16,7 @@ const tasksReducer = (state = {}, action) => {
       return {
         ...state,
         loading: false,
-        tasks: action.payload,
+        data: action.payload,
       };
 
     default:
