@@ -111,7 +111,7 @@ const Tasks = () => {
 
                         <div className='bottom'>
                           <hr className='my-3 mb-6' />
-                          <h1 className='bg-purple-600 text-white rounded-lg text-sm font-semibold inline pt-1 pb-2 px-3'>
+                          <h1 className='bg-purple-500 text-white rounded-lg text-xs font-semibold inline py-1 px-3 uppercase'>
                             Open
                           </h1>
                         </div>
