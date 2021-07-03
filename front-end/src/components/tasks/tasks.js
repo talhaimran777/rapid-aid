@@ -40,11 +40,6 @@ const Tasks = () => {
   };
 
   useEffect(() => {
-    // axios
-    //   .get('/api/tasks')
-    //   .then((response) => console.log(response.data))
-    //   .catch((error) => console.log(error));
-
     dispatch(loadTasks());
     fetchTasks();
   }, [dispatch]);
@@ -69,7 +64,7 @@ const Tasks = () => {
                 ? data.map((task) => (
                     <Link key={task.id} to={`tasks/${task.id}`}>
                       <div className='px-3 pt-3 pb-4 bg-white  sm:rounded-md my-5 hover:shadow-lg cursor-pointer'>
-                        <div className='top flex justify-between items-center'>
+                        <div className='top flex justify-between items-center flex-wrap'>
                           <div className='left'>
                             <img
                               className='rounded-full border-2 border-purple-600'
