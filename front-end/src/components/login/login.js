@@ -108,7 +108,7 @@ const Login = () => {
       <form
         onSubmit={handleSubmit}
         id='form-child'
-        className='w-full sm:w-96 p-3 sm:p-10 sm:rounded-lg sm:border-purple-600 sm:border-4 sm:shadow-2xl bg-white'
+        className='w-full sm:w-96 px-3 py-10 sm:p-10 sm:rounded-lg sm:border-purple-600 sm:border-4 sm:shadow-2xl bg-white'
       >
         <div className='flex justify-center items-center text-purple-600 mb-10'>
           <i className='mr-3 fas fa-lock fa-3x'></i>
