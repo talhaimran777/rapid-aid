@@ -1,13 +1,14 @@
 import React from 'react';
 // import { useSelector } from 'react-redux';
+import onChangeHandler from '../../../utils/onChangeHandlerFunc';
 
 const FormGroup = (props) => {
   // EXTRACTING ERRORS
   // const { data } = useSelector((state) => state.errors);
 
-  const onChangeHandler = (state, setState, e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
+  // const onChangeHandler = (state, setState, e) => {
+  //   setState({ ...state, [e.target.name]: e.target.value });
+  // };
 
   const { label, name, type, state, setState } = props;
 
@@ -25,7 +26,7 @@ const FormGroup = (props) => {
       )} */}
       <label className='text-gray-600 font-bold' htmlFor={name}>
         {label}
-      </label>{' '}
+      </label>
       <br />
       <input
         className='border-b-2 py-1 px-3 w-full mb-6 focus:border-purple-700 text-gray-500 outline-none'

@@ -6,6 +6,8 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 
 // COMPONENTS
 import FormGroup from './sub.components/formGroup';
+import AreaGroup from './sub.components/areaGroup';
+import BudgetSlider from './sub.components/budgetSlider';
 
 const PostTask = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -13,7 +15,7 @@ const PostTask = () => {
     title: '',
     description: '',
     location: '',
-    budget: '',
+    budget: 0,
     dueDate: '',
   };
 
@@ -84,28 +86,35 @@ const PostTask = () => {
         </div>
 
         <FormGroup
-          label='Enter task title: '
+          label='Enter Task Title: '
           name='title'
           type='text'
           state={state}
           setState={setState}
         />
 
-        <FormGroup
-          label='Enter description: '
+        <AreaGroup
+          label='Enter Description: '
           name='description'
-          type='text'
           state={state}
           setState={setState}
         />
+
         <FormGroup
-          label='Enter your location: '
+          label='Give Address: '
           name='location'
           type='text'
           state={state}
           setState={setState}
         />
-        <FormGroup
+
+        <BudgetSlider
+          label='Set Budget: '
+          name='budget'
+          state={state}
+          setState={setState}
+        />
+        {/*<FormGroup
           label='Enter your budget: '
           name='budget'
           type='text'
@@ -118,7 +127,7 @@ const PostTask = () => {
           type='text'
           state={state}
           setState={setState}
-        />
+        /> */}
 
         <div className='mt-5 flex justify-start items-center'>
           <button className=' d-inline border-purple-600 border-2 px-3 py-1 text-purple-600 rounded font-bold hover:bg-purple-600 hover:text-white outline-none focus-within:outline-none'>
