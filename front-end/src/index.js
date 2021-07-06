@@ -4,11 +4,21 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 // import reportWebVitals from './reportWebVitals';
+const myCustomTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#7C3AED',
+    },
+  },
+});
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MuiThemeProvider theme={myCustomTheme}>
+      <App />
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
 );

@@ -8,6 +8,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import FormGroup from './sub.components/formGroup';
 import AreaGroup from './sub.components/areaGroup';
 import BudgetSlider from './sub.components/budgetSlider';
+import DueDate from './sub.components/dueDate';
 
 const PostTask = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -16,7 +17,7 @@ const PostTask = () => {
     description: '',
     location: '',
     budget: 0,
-    dueDate: '',
+    dueDate: new Date(),
   };
 
   const [state, setState] = useState(initialState);
@@ -111,6 +112,13 @@ const PostTask = () => {
         <BudgetSlider
           label='Set Budget: '
           name='budget'
+          state={state}
+          setState={setState}
+        />
+
+        <DueDate
+          label='Select Due Date: '
+          name='dueDate'
           state={state}
           setState={setState}
         />

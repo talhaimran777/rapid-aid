@@ -56,7 +56,7 @@ export default function BudgetSlider(props) {
       </label>
       <br />
 
-      <div className='flex justify-betweem items-Center mb-6'>
+      <div className='flex justify-betweem items-Center'>
         <MySlider
           className='flex 1 mr-10 '
           value={typeof budget === 'number' ? budget : 0}
