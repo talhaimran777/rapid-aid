@@ -8,6 +8,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import FormGroup from './sub.components/formGroup';
 import AreaGroup from './sub.components/areaGroup';
 import BudgetSlider from './sub.components/budgetSlider';
+import DueDatePicker from './sub.components/duedatePicker';
 
 const PostTask = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -114,6 +115,8 @@ const PostTask = () => {
           state={state}
           setState={setState}
         />
+
+        <DueDatePicker />
         {/*<FormGroup
           label='Enter your budget: '
           name='budget'
