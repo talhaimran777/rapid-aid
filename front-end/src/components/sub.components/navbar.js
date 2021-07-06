@@ -29,7 +29,7 @@ const TopMenu = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
-    <nav className='h-12 px-3 bg-purple-600'>
+    <nav className='h-12 px-3 bg-purple-600 sticky top-0 shadow-sm'>
       <div className='min-h-full max-w-screen-lg mx-auto flex h-full justify-center items-center'>
         <div className='flex flex-1 items-center'>
           <img className='mr-1' src='images/logo.svg' alt='' />
