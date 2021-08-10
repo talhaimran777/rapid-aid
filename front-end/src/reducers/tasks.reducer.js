@@ -1,8 +1,8 @@
 import {
   LOAD_TASKS,
   LOAD_TASKS_SUCCESS,
-  ZERO_TASKS,
-} from '../actions/actionTypes';
+  // ZERO_TASKS,
+} from '../actions/actionTypes'
 
 const tasksReducer = (state = {}, action) => {
   switch (action.type) {
@@ -10,18 +10,18 @@ const tasksReducer = (state = {}, action) => {
       return {
         ...state,
         loading: true,
-      };
+      }
 
     case LOAD_TASKS_SUCCESS:
       return {
         ...state,
         loading: false,
         data: action.payload,
-      };
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default tasksReducer;
+export default tasksReducer

@@ -1,48 +1,49 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 // COMPONENTS
-import TopMenu from '../sub.components/navbar';
+import TopMenu from '../sub.components/navbar'
 
 // ACTIONS
 import {
   loadTasks,
   loadTasksSuccess,
   zeroTasks,
-} from '../../actions/tasksActions';
+} from '../../actions/tasksActions'
 
 // SPINNER
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LocationOnIcon from '@material-ui/icons/LocationOn'
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-import axios from 'axios';
+import axios from 'axios'
 
 const Tasks = () => {
-  const { loading, data } = useSelector((state) => state.tasks);
+  const { loading, data } = useSelector((state) => state.tasks)
 
   // DISPATCH
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   // FETCHING TASKS HERE
-  const fetchTasks = async () => {
-    const res = await axios.get('/api/tasks');
-    const { data } = res;
 
-    const { tasks } = data;
+  const fetchTasks = useCallback(async () => {
+    const res = await axios.get('/api/tasks')
+    const { data } = res
+
+    const { tasks } = data
 
     if (tasks.length) {
-      dispatch(loadTasksSuccess(tasks));
+      dispatch(loadTasksSuccess(tasks))
     } else {
-      dispatch(zeroTasks());
+      dispatch(zeroTasks())
     }
-  };
+  }, [dispatch])
 
   useEffect(() => {
-    dispatch(loadTasks());
-    fetchTasks();
-  }, [dispatch]);
+    dispatch(loadTasks())
+    fetchTasks()
+  }, [dispatch, fetchTasks])
 
   return (
     <div>
@@ -119,7 +120,7 @@ const Tasks = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Tasks;
+export default Tasks
