@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import TopMenu from '../sub.components/navbar';
-
+import React, { useState } from 'react'
+import TopMenu from '../sub.components/navbar'
+import axios from 'axios'
 // MATERIAL UI DETAILS
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssignmentIcon from '@material-ui/icons/Assignment'
 
 // COMPONENTS
-import FormGroup from './sub.components/formGroup';
-import AreaGroup from './sub.components/areaGroup';
-import BudgetSlider from './sub.components/budgetSlider';
-import DueDate from './sub.components/dueDate';
+import FormGroup from './sub.components/formGroup'
+import AreaGroup from './sub.components/areaGroup'
+import BudgetSlider from './sub.components/budgetSlider'
+import DueDate from './sub.components/dueDate'
 
 const PostTask = () => {
   // SETTING INITIAL STATE FOR LOGIN
@@ -18,57 +18,38 @@ const PostTask = () => {
     location: '',
     budget: 0,
     dueDate: new Date(),
-  };
+  }
 
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(initialState)
 
   // HANDLING FORM SUBMISSION
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // STARTING THE LOGIN PROCESS
     // dispatch({ type: 'LOGIN_INITIATED' });
 
     const postData = async () => {
-      console.log('Task Posted ', state);
-      // try {
-      //   let res = await axios.post('/api/login', state);
+      // console.log('Task Posted ', state);
+      try {
+        let res = await axios.post('/api/tasks', state)
 
-      //   if (res.data) {
-      //     const { token } = res.data;
+        if (res.data) {
+          console.log(res.data)
+        }
+      } catch (err) {
+        if (err.response.data) {
+          console.log(err.response.data)
+          // dispatch({ type: 'VALIDATIION_ERRORS', payload: err.response.data })
 
-      //     localStorage.setItem('jwtToken', token);
+          // // LOGIN FAILED
+          // dispatch({ type: 'LOGIN_FAILED' })
+        }
+      }
+    }
 
-      //     // Set token to Auth header
-      //     setAuthToken(token);
-
-      //     // Decode token to get user data
-      //     const decoded = jwt_decode(token);
-
-      //     // Set current user
-      //     dispatch(setCurrentUser(decoded));
-
-      //     // LOGIN SUCCESS
-      //     dispatch({ type: 'LOGIN_SUCCESS' });
-
-      //     // CLEARING IF ANY ERRORS ALREADY EXISTS
-      //     dispatch({ type: 'CLEAR_ERRORS' });
-
-      //     // REDIRECT TO HOMEPAGE
-      //     history.push('/');
-      //   }
-      // } catch (err) {
-      //   if (err.response.data) {
-      //     dispatch({ type: 'VALIDATIION_ERRORS', payload: err.response.data });
-
-      //     // LOGIN FAILED
-      //     dispatch({ type: 'LOGIN_FAILED' });
-      //   }
-      // }
-    };
-
-    postData();
-  };
+    postData()
+  }
 
   return (
     <div className=''>
@@ -152,7 +133,7 @@ const PostTask = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default PostTask;
+export default PostTask
