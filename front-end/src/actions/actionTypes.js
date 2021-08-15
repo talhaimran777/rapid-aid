@@ -1,4 +1,0 @@
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-export const LOAD_TASKS = 'LOAD_TASKS';
-export const LOAD_TASKS_SUCCESS = 'LOAD_TASKS_SUCCESS';
-export const ZERO_TASKS = 'ZERO_TASKS';
