@@ -1,34 +1,36 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const app = require('./server');
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+const app = require('./server')
 
-dotenv.config();
+dotenv.config()
 
 let connectDb = async () => {
-  let connectionString = process.env.CONNECTION_STRING;
-  let databaseName = process.env.DATABASE;
-  let databasePass = process.env.DATABASE_PASS;
+  let connectionString = process.env.CONNECTION_STRING
+  let databaseName = process.env.DATABASE
+  let databasePass = process.env.DATABASE_PASS
 
   connectionString = connectionString
     .replace('<PASSWORD>', databasePass)
-    .replace('<DATABASE>', databaseName);
+    .replace('<DATABASE>', databaseName)
 
   try {
     let db = await mongoose.connect(connectionString, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    });
+    })
 
     if (db) {
-      console.log('Database Connected!');
+      console.log('Database Connected!')
 
-      const port = process.env.PORT || 5000;
+      const port = process.env.PORT || 5000
 
-      app.listen(port, () => console.log('Listening for requests!'));
+      app.listen(port, () =>
+        console.log('Listening for requests on port: ' + port)
+      )
     }
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
-};
+}
 
-connectDb();
+connectDb()

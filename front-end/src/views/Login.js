@@ -1,32 +1,135 @@
+/*eslint comma-dangle: ["error", "always-multiline"]*/
+import { useState, useContext, Fragment } from 'react'
+import classnames from 'classnames'
+import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
-import { Link, Redirect } from 'react-router-dom'
-import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
+import useJwt from '@src/auth/jwt/useJwt'
+import { useDispatch, useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
+import { toast, Slide } from 'react-toastify'
+// import { handleLogin } from '@store/actions/auth'
+import { AbilityContext } from '@src/utility/context/Can'
+import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
-import { Row, Col, CardTitle, CardText, Form, FormGroup, Label, Input, CustomInput, Button } from 'reactstrap'
+import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
+import {
+  Facebook,
+  Twitter,
+  Mail,
+  GitHub,
+  HelpCircle,
+  Coffee,
+} from 'react-feather'
+import {
+  Alert,
+  Row,
+  Col,
+  CardTitle,
+  CardText,
+  Form,
+  Input,
+  FormGroup,
+  Label,
+  CustomInput,
+  Button,
+  UncontrolledTooltip,
+} from 'reactstrap'
+
 import '@styles/base/pages/page-auth.scss'
+import themeConfig from '../configs/themeConfig'
+import axios from 'axios'
+import { handleLogin, loginInitiated } from '../redux/actions/auth/loginActions'
+import SpinnerComponent from '../@core/components/spinner/Fallback-spinner'
 
-const Login = () => {
+const ToastContent = ({ name, role }) => (
+  <Fragment>
+    <div className='toastify-header'>
+      <div className='title-wrapper'>
+        <Avatar size='sm' color='success' icon={<Coffee size={12} />} />
+        <h6 className='toast-title font-weight-bold'>Welcome, {name}</h6>
+      </div>
+    </div>
+    <div className='toastify-body'>
+      <span>
+        You have successfully logged in as an {role} user to Vuexy. Now you can
+        start to explore. Enjoy!
+      </span>
+    </div>
+  </Fragment>
+)
+
+const Login = (props) => {
   const [skin, setSkin] = useSkin()
+  const ability = useContext(AbilityContext)
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const [email, setEmail] = useState('admin@demo.com')
+  const [password, setPassword] = useState('admin')
 
+  const { register, errors, handleSubmit } = useForm()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
 
-  return (
+  // ** EXTRACTING STUFF FROM REDUX STATE
+  const { inProcess } = useSelector((state) => state.login)
+
+  const onSubmit = async () => {
+    if (isObjEmpty(errors)) {
+      dispatch(loginInitiated())
+      dispatch(handleLogin({ email, password }))
+      // alert('You are ready to login!')
+      // try {
+      //   const res = await axios.post('/api/v1/auth/login', { email, password })
+
+      //   // const res = axios.get('/api')
+
+      //   if (res && res.data) {
+      //     console.log(res.data)
+      //   }
+      // } catch (err) {
+      //   if (err.response && err.response.data) {
+      //     console.log(err.response.data)
+      //   }
+      // }
+    }
+  }
+
+  return inProcess ? (
+    <SpinnerComponent />
+  ) : (
     <div className='auth-wrapper auth-v2'>
       <Row className='auth-inner m-0'>
-        <Link className='brand-logo' to='/'>
+        <Link className='brand-logo' to='/' onClick={(e) => e.preventDefault()}>
           <svg viewBox='0 0 139 95' version='1.1' height='28'>
             <defs>
-              <linearGradient x1='100%' y1='10.5120544%' x2='50%' y2='89.4879456%' id='linearGradient-1'>
+              <linearGradient
+                x1='100%'
+                y1='10.5120544%'
+                x2='50%'
+                y2='89.4879456%'
+                id='linearGradient-1'
+              >
                 <stop stopColor='#000000' offset='0%'></stop>
                 <stop stopColor='#FFFFFF' offset='100%'></stop>
               </linearGradient>
-              <linearGradient x1='64.0437835%' y1='46.3276743%' x2='37.373316%' y2='100%' id='linearGradient-2'>
+              <linearGradient
+                x1='64.0437835%'
+                y1='46.3276743%'
+                x2='37.373316%'
+                y2='100%'
+                id='linearGradient-2'
+              >
                 <stop stopColor='#EEEEEE' stopOpacity='0' offset='0%'></stop>
                 <stop stopColor='#FFFFFF' offset='100%'></stop>
               </linearGradient>
             </defs>
-            <g id='Page-1' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+            <g
+              id='Page-1'
+              stroke='none'
+              strokeWidth='1'
+              fill='none'
+              fillRule='evenodd'
+            >
               <g id='Artboard' transform='translate(-400.000000, -178.000000)'>
                 <g id='Group' transform='translate(400.000000, 178.000000)'>
                   <path
@@ -63,67 +166,75 @@ const Login = () => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ml-1'>Vuexy</h2>
+          <h2 className='brand-text text-primary ml-1'>
+            {themeConfig.app.appName}
+          </h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
             <img className='img-fluid' src={source} alt='Login V2' />
           </div>
         </Col>
-        <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
+        <Col
+          className='d-flex align-items-center auth-bg px-2 p-lg-5'
+          lg='4'
+          sm='12'
+        >
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Welcome to Vuexy! 👋
+              Please sign-in to your account
             </CardTitle>
-            <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            <Form className='auth-login-form mt-2' onSubmit={e => e.preventDefault()}>
+            <CardText className='mb-2'></CardText>
+            <Form
+              className='auth-login-form mt-2'
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <FormGroup>
                 <Label className='form-label' for='login-email'>
                   Email
                 </Label>
-                <Input type='email' id='login-email' placeholder='john@example.com' autoFocus />
+                <Input
+                  autoFocus
+                  type='email'
+                  value={email}
+                  id='login-email'
+                  name='login-email'
+                  placeholder='john@example.com'
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={classnames({
+                    'is-invalid': errors['login-email'],
+                  })}
+                  innerRef={register({
+                    required: true,
+                    validate: (value) => value !== '',
+                  })}
+                />
               </FormGroup>
               <FormGroup>
                 <div className='d-flex justify-content-between'>
                   <Label className='form-label' for='login-password'>
                     Password
                   </Label>
-                  <Link to='/'>
-                    <small>Forgot Password?</small>
-                  </Link>
                 </div>
-                <InputPasswordToggle className='input-group-merge' id='login-password' />
+                <InputPasswordToggle
+                  value={password}
+                  id='login-password'
+                  name='login-password'
+                  className='input-group-merge'
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={classnames({
+                    'is-invalid': errors['login-password'],
+                  })}
+                  innerRef={register({
+                    required: true,
+                    validate: (value) => value !== '',
+                  })}
+                />
               </FormGroup>
-              <FormGroup>
-                <CustomInput type='checkbox' className='custom-control-Primary' id='remember-me' label='Remember Me' />
-              </FormGroup>
-              <Button.Ripple tag={Link} to='/' color='primary' block>
+              <Button.Ripple type='submit' color='primary' block>
                 Sign in
               </Button.Ripple>
             </Form>
-            <p className='text-center mt-2'>
-              <span className='mr-25'>New on our platform?</span>
-              <Link to='/'>
-                <span>Create an account</span>
-              </Link>
-            </p>
-            <div className='divider my-2'>
-              <div className='divider-text'>or</div>
-            </div>
-            <div className='auth-footer-btn d-flex justify-content-center'>
-              <Button.Ripple color='facebook'>
-                <Facebook size={14} />
-              </Button.Ripple>
-              <Button.Ripple color='twitter'>
-                <Twitter size={14} />
-              </Button.Ripple>
-              <Button.Ripple color='google'>
-                <Mail size={14} />
-              </Button.Ripple>
-              <Button.Ripple className='mr-0' color='github'>
-                <GitHub size={14} />
-              </Button.Ripple>
-            </div>
           </Col>
         </Col>
       </Row>

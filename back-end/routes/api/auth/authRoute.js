@@ -1,7 +1,8 @@
 const express = require('express')
+const { login } = require('../../../controllers/auth/authController')
 const router = express.Router()
 
-const { register, login } = require('../../controllers/usersController')
+// const { register, login } = require('../../controller/usersController');
 // import {
 //   getProducts,
 //   getProductById,
@@ -17,7 +18,7 @@ const { register, login } = require('../../controllers/usersController')
 //   res.send('hello');
 // });
 
-router.route('/register').post(register)
+// router.route('/register').post(register);
 router.route('/login').post(login)
 
 // router.route('/:id/reviews').post(protect, createProductReview);
