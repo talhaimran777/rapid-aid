@@ -1,21 +1,31 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 // ** UseJWT import to get config
 import useJwt from '@src/auth/jwt/useJwt'
-import { LOGIN_INITIATED } from '../action.types/actionTypes'
+import { LOGIN_INITIATED, LOGIN_SUCCESS, SET_CURRENT_USER } from '../action.types/actionTypes'
+import jwt_decode from 'jwt-decode'
 
 const config = useJwt.jwtConfig
 
 // ** Handle User Login
-export const handleLogin = (data) => {
+export const handleLogin = (data, history) => {
   return async (dispatch) => {
     try {
       // const res = await axios.post('/api/v1/auth/login', { email, password })
 
-      const res = await useJwt.login(data)
-      // const res = axios.get('/api')
+      const response = await useJwt.login(data)
+      // const response = axios.get('/api')
 
-      if (res && res.data) {
-        console.log(res.data)
+      if (response && response.data) {
+        // console.log(res.data)
+        const { token } = response.data
+        // console.log(token)
+        useJwt.setToken(token)
+        const decoded = jwt_decode(token)
+        // console.log(decoded)
+        dispatch({ type: LOGIN_SUCCESS, payload: decoded })
+        dispatch({ type: SET_CURRENT_USER, payload: decoded })
+
+        history.push('/')
       }
     } catch (err) {
       if (err.response && err.response.data) {

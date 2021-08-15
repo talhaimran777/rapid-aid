@@ -12,14 +12,7 @@ import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory } from 'react-router-dom'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { getHomeRouteForLoggedInUser, isObjEmpty } from '@utils'
-import {
-  Facebook,
-  Twitter,
-  Mail,
-  GitHub,
-  HelpCircle,
-  Coffee,
-} from 'react-feather'
+import { Facebook, Twitter, Mail, GitHub, HelpCircle, Coffee } from 'react-feather'
 import {
   Alert,
   Row,
@@ -50,10 +43,7 @@ const ToastContent = ({ name, role }) => (
       </div>
     </div>
     <div className='toastify-body'>
-      <span>
-        You have successfully logged in as an {role} user to Vuexy. Now you can
-        start to explore. Enjoy!
-      </span>
+      <span>You have successfully logged in as an {role} user to Vuexy. Now you can start to explore. Enjoy!</span>
     </div>
   </Fragment>
 )
@@ -76,7 +66,7 @@ const Login = (props) => {
   const onSubmit = async () => {
     if (isObjEmpty(errors)) {
       dispatch(loginInitiated())
-      dispatch(handleLogin({ email, password }))
+      dispatch(handleLogin({ email, password }, history))
       // alert('You are ready to login!')
       // try {
       //   const res = await axios.post('/api/v1/auth/login', { email, password })
@@ -102,34 +92,16 @@ const Login = (props) => {
         <Link className='brand-logo' to='/' onClick={(e) => e.preventDefault()}>
           <svg viewBox='0 0 139 95' version='1.1' height='28'>
             <defs>
-              <linearGradient
-                x1='100%'
-                y1='10.5120544%'
-                x2='50%'
-                y2='89.4879456%'
-                id='linearGradient-1'
-              >
+              <linearGradient x1='100%' y1='10.5120544%' x2='50%' y2='89.4879456%' id='linearGradient-1'>
                 <stop stopColor='#000000' offset='0%'></stop>
                 <stop stopColor='#FFFFFF' offset='100%'></stop>
               </linearGradient>
-              <linearGradient
-                x1='64.0437835%'
-                y1='46.3276743%'
-                x2='37.373316%'
-                y2='100%'
-                id='linearGradient-2'
-              >
+              <linearGradient x1='64.0437835%' y1='46.3276743%' x2='37.373316%' y2='100%' id='linearGradient-2'>
                 <stop stopColor='#EEEEEE' stopOpacity='0' offset='0%'></stop>
                 <stop stopColor='#FFFFFF' offset='100%'></stop>
               </linearGradient>
             </defs>
-            <g
-              id='Page-1'
-              stroke='none'
-              strokeWidth='1'
-              fill='none'
-              fillRule='evenodd'
-            >
+            <g id='Page-1' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
               <g id='Artboard' transform='translate(-400.000000, -178.000000)'>
                 <g id='Group' transform='translate(400.000000, 178.000000)'>
                   <path
@@ -166,29 +138,20 @@ const Login = (props) => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ml-1'>
-            {themeConfig.app.appName}
-          </h2>
+          <h2 className='brand-text text-primary ml-1'>{themeConfig.app.appName}</h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
             <img className='img-fluid' src={source} alt='Login V2' />
           </div>
         </Col>
-        <Col
-          className='d-flex align-items-center auth-bg px-2 p-lg-5'
-          lg='4'
-          sm='12'
-        >
+        <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
             <CardTitle tag='h2' className='font-weight-bold mb-1'>
               Please sign-in to your account
             </CardTitle>
             <CardText className='mb-2'></CardText>
-            <Form
-              className='auth-login-form mt-2'
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Label className='form-label' for='login-email'>
                   Email

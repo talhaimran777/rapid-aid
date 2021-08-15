@@ -1,3 +1,5 @@
+/*eslint comma-dangle: ["error", "always-multiline"]*/
+
 // ** React Imports
 import { Suspense, useContext, lazy } from 'react'
 
@@ -28,7 +30,7 @@ const Router = () => {
   const [transition, setTransition] = useRouterTransition()
 
   // ** ACL Ability Context
-  const ability = useContext(AbilityContext)
+  // const ability = useContext(AbilityContext)
 
   // ** Default Layout
   const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
@@ -40,12 +42,12 @@ const Router = () => {
   const currentActiveItem = null
 
   // ** Return Filtered Array of Routes & Paths
-  const LayoutRoutesAndPaths = layout => {
+  const LayoutRoutesAndPaths = (layout) => {
     const LayoutRoutes = []
     const LayoutPaths = []
 
     if (Routes) {
-      Routes.filter(route => {
+      Routes.filter((route) => {
         // ** Checks if Route layout or Default layout matches current layout
         if (route.layout === layout || (route.layout === undefined && DefaultLayout === layout)) {
           LayoutRoutes.push(route)
@@ -65,7 +67,7 @@ const Router = () => {
   /**
    ** Final Route Component Checks for Login & User Role and then redirects to the route
    */
-  const FinalRoute = props => {
+  const FinalRoute = (props) => {
     const route = props.route
     let action, resource
 
@@ -90,9 +92,6 @@ const Router = () => {
     } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
       return <Redirect to='/' />
-    } else if (isUserLoggedIn() && !ability.can(action || 'read', resource)) {
-      // ** If user is Logged in and doesn't have ability to visit the page redirect the user to Not Authorized
-      return <Redirect to='/misc/not-authorized' />
     } else {
       // ** If none of the above render component
       return <route.component {...props} />
@@ -129,17 +128,17 @@ const Router = () => {
             currentActiveItem={currentActiveItem}
           >
             <Switch>
-              {LayoutRoutes.map(route => {
+              {LayoutRoutes.map((route) => {
                 return (
                   <Route
                     key={route.path}
                     path={route.path}
                     exact={route.exact === true}
-                    render={props => {
+                    render={(props) => {
                       // ** Assign props to routerProps
                       Object.assign(routerProps, {
                         ...props,
-                        meta: route.meta
+                        meta: route.meta,
                       })
 
                       return (
@@ -153,23 +152,23 @@ const Router = () => {
                             /*eslint-disable */
                             {...(route.appLayout
                               ? {
-                                  appLayout: route.appLayout
+                                  appLayout: route.appLayout,
                                 }
                               : {})}
                             {...(route.meta
                               ? {
-                                  routeMeta: route.meta
+                                  routeMeta: route.meta,
                                 }
                               : {})}
                             {...(route.className
                               ? {
-                                  wrapperClass: route.className
+                                  wrapperClass: route.className,
                                 }
                               : {})}
                             /*eslint-enable */
                           >
                             <route.component {...props} />
-                            {/* <FinalRoute route={route} {...props} /> */}
+                            <FinalRoute route={route} {...props} />
                           </LayoutWrapper>
                         </Suspense>
                       )
@@ -206,7 +205,7 @@ const Router = () => {
         <Route
           exact
           path='/not-authorized'
-          render={props => (
+          render={(props) => (
             <Layouts.BlankLayout>
               <NotAuthorized />
             </Layouts.BlankLayout>
