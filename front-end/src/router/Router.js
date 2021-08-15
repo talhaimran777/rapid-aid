@@ -1,7 +1,13 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
-
 // ** React Imports
 import { Suspense, useContext, lazy } from 'react'
+import { useDispatch } from 'react-redux'
+
+// ** JWT SERVICE
+import useJwt from '@src/auth/jwt/useJwt'
+
+// ** JWT
+import jwt_decode from 'jwt-decode'
 
 // ** Utils
 import { isUserLoggedIn } from '@utils'
@@ -14,7 +20,8 @@ import { useRouterTransition } from '@hooks/useRouterTransition'
 import LayoutWrapper from '@layouts/components/layout-wrapper'
 
 // ** Router Components
-import { BrowserRouter as AppRouter, Route, Switch, Redirect } from 'react-router-dom'
+/*eslint comma-dangle: ["error", "always-multiline"]*/
+import { BrowserRouter as AppRouter, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 
 // ** Routes & Default Routes
 import { DefaultRoute, Routes } from './routes'
@@ -23,11 +30,16 @@ import { DefaultRoute, Routes } from './routes'
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
+// import { handleLogin } from '../redux/actions/auth/loginActions'
+// import { LOGIN_SUCCESS } from '../redux/actions/actionType/actionTypes'
+// import { getUserRole } from '../utility/Utils'
 
 const Router = () => {
   // ** Hooks
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
+  const history = useHistory()
+  const dispatch = useDispatch()
 
   // ** ACL Ability Context
   // const ability = useContext(AbilityContext)
@@ -68,14 +80,18 @@ const Router = () => {
    ** Final Route Component Checks for Login & User Role and then redirects to the route
    */
   const FinalRoute = (props) => {
+    // alert('Hello')
     const route = props.route
     let action, resource
 
     // ** Assign vars based on route meta
+    /*eslint brace-style: "error"*/
     if (route.meta) {
       action = route.meta.action ? route.meta.action : null
       resource = route.meta.resource ? route.meta.resource : null
     }
+
+    // console.log(route)
 
     if (
       (!isUserLoggedIn() && route.meta === undefined) ||
@@ -91,9 +107,22 @@ const Router = () => {
       return <Redirect to='/login' />
     } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
       // ** If route has meta and authRole and user is Logged in then redirect user to home page (DefaultRoute)
+
+      // alert('Hello')
       return <Redirect to='/' />
+    } else if (route.meta && route.meta.accessTo !== 'user' && isUserLoggedIn()) {
+      return <Redirect to='/misc/not-authorized' />
     } else {
       // ** If none of the above render component
+
+      // if (useJwt.getToken()) {
+      //   const token = useJwt.getToken()
+      //   const decoded = jwt_decode(token)
+
+      //   // dispatch({type: LOGIN_SUCCESSFUL, payload: decoded})
+
+      //   dispatch({ type: LOGIN_SUCCESS, payload: decoded })
+      // }
       return <route.component {...props} />
     }
   }
@@ -167,7 +196,6 @@ const Router = () => {
                               : {})}
                             /*eslint-enable */
                           >
-                            <route.component {...props} />
                             <FinalRoute route={route} {...props} />
                           </LayoutWrapper>
                         </Suspense>
@@ -187,24 +215,17 @@ const Router = () => {
     <AppRouter basename={process.env.REACT_APP_BASENAME}>
       <Switch>
         {/* If user is logged in Redirect user to DefaultRoute else to login */}
-        {/* <Route
+        <Route
           exact
           path='/'
           render={() => {
             return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to='/login' />
           }}
-        /> */}
-        <Route
-          exact
-          path='/'
-          render={() => {
-            return <Redirect to={DefaultRoute} />
-          }}
         />
         {/* Not Auth Route */}
         <Route
           exact
-          path='/not-authorized'
+          path='/misc/not-authorized'
           render={(props) => (
             <Layouts.BlankLayout>
               <NotAuthorized />
@@ -212,8 +233,9 @@ const Router = () => {
           )}
         />
         {ResolveRoutes()}
+
         {/* NotFound Error page */}
-        <Route path='*' component={Error} />/
+        <Route path='*' component={Error} />
       </Switch>
     </AppRouter>
   )

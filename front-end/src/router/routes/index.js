@@ -1,3 +1,4 @@
+/*eslint comma-dangle: ["error", "always-multiline"]*/
 import { lazy } from 'react'
 
 // ** Document title
@@ -10,25 +11,28 @@ const DefaultRoute = '/home'
 const Routes = [
   {
     path: '/home',
-    component: lazy(() => import('../../views/Home'))
+    component: lazy(() => import('../../views/Home')),
+    meta: {
+      accessTo: 'user',
+    },
   },
   {
     path: '/second-page',
-    component: lazy(() => import('../../views/SecondPage'))
+    component: lazy(() => import('../../views/SecondPage')),
   },
   {
     path: '/login',
     component: lazy(() => import('../../views/Login')),
     layout: 'BlankLayout',
     meta: {
-      authRoute: true
-    }
+      authRoute: true,
+    },
   },
   {
     path: '/error',
     component: lazy(() => import('../../views/Error')),
-    layout: 'BlankLayout'
-  }
+    layout: 'BlankLayout',
+  },
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }
