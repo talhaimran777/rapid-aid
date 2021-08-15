@@ -1,5 +1,5 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
-import { useState, useContext, Fragment } from 'react'
+import { useState, useContext, Fragment, useEffect } from 'react'
 import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
@@ -31,8 +31,9 @@ import {
 import '@styles/base/pages/page-auth.scss'
 import themeConfig from '../configs/themeConfig'
 import axios from 'axios'
-import { handleLogin, loginInitiated } from '../redux/actions/auth/loginActions'
+import { handleLogin, loginInitiated } from '../redux/actions/auth/authActions'
 import SpinnerComponent from '../@core/components/spinner/Fallback-spinner'
+import { CLEAR_ERRORS } from '../redux/actions/action.types/actionTypes'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>
@@ -62,6 +63,7 @@ const Login = (props) => {
 
   // ** EXTRACTING STUFF FROM REDUX STATE
   const { inProcess } = useSelector((state) => state.login)
+  const { data } = useSelector((state) => state.error)
 
   const onSubmit = async () => {
     if (isObjEmpty(errors)) {
@@ -83,6 +85,13 @@ const Login = (props) => {
       // }
     }
   }
+
+  useEffect(() => {
+    dispatch({ type: CLEAR_ERRORS })
+    return () => {
+      dispatch({ type: CLEAR_ERRORS })
+    }
+  }, [])
 
   return inProcess ? (
     <SpinnerComponent />
@@ -194,6 +203,9 @@ const Login = (props) => {
                   })}
                 />
               </FormGroup>
+
+              {data && data.email ? <p className='text-danger'>{data.email}</p> : ''}
+              {data && data.password ? <p className='text-danger'>{data.password}</p> : ''}
               <Button.Ripple type='submit' color='primary' block>
                 Sign in
               </Button.Ripple>

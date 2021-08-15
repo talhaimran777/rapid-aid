@@ -1,7 +1,13 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 // ** UseJWT import to get config
 import useJwt from '@src/auth/jwt/useJwt'
-import { LOGIN_INITIATED, LOGIN_SUCCESS, SET_CURRENT_USER } from '../action.types/actionTypes'
+import {
+  LOGIN_FAILED,
+  LOGIN_INITIATED,
+  LOGIN_SUCCESS,
+  SET_CURRENT_USER,
+  VALIDATIION_ERRORS,
+} from '../action.types/actionTypes'
 import jwt_decode from 'jwt-decode'
 
 const config = useJwt.jwtConfig
@@ -29,6 +35,9 @@ export const handleLogin = (data, history) => {
       }
     } catch (err) {
       if (err.response && err.response.data) {
+        dispatch({ type: VALIDATIION_ERRORS, payload: err.response.data })
+        dispatch({ type: LOGIN_FAILED })
+
         console.log(err.response.data)
       }
     }
@@ -56,16 +65,10 @@ export const handleLogin = (data, history) => {
 // ** Handle User Logout
 export const handleLogout = () => {
   return (dispatch) => {
+    localStorage.removeItem('accessToken')
     dispatch({
-      type: 'LOGOUT',
-      [config.storageTokenKeyName]: null,
-      [config.storageRefreshTokenKeyName]: null,
+      type: 'LOGOUT_SUCCESSFULL',
     })
-
-    // ** Remove user, accessToken & refreshToken from localStorage
-    localStorage.removeItem('userData')
-    localStorage.removeItem(config.storageTokenKeyName)
-    localStorage.removeItem(config.storageRefreshTokenKeyName)
   }
 }
 
