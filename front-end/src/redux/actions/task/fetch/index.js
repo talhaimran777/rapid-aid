@@ -1,4 +1,5 @@
 import useJwt from '@src/auth/jwt/useJwt'
+import { TASKS_FETCH_SUCCESS } from '../../action.types/actionTypes'
 
 // ** INITIATING TASKS FETCHING
 export const initiateTaskFetch = () => {
@@ -26,11 +27,12 @@ export const initiateTaskFetch = () => {
 
 export const handleFetchTasks = () => {
   return async (dispatch) => {
-    // dispatch(initiateTaskFetch())
+    dispatch(initiateTaskFetch())
     try {
       const res = await useJwt.getTasks()
 
       if (res && res.data) {
+        dispatch({ type: TASKS_FETCH_SUCCESS, payload: res.data.tasks })
         console.log(res.data)
       }
     } catch (err) {

@@ -9,6 +9,7 @@ import layout from './layout'
 import loginReducer from './login/login.reducer'
 import errorsReducer from './error'
 import registerReducer from './register/register.reducer'
+import taskReducer from './task/task.reducer'
 
 const rootReducer = combineReducers({
   auth,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   login: loginReducer,
   register: registerReducer,
   error: errorsReducer,
+  task: taskReducer,
 })
 
 export default rootReducer
