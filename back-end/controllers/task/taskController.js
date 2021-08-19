@@ -2,6 +2,7 @@
 
 const fs = require('fs')
 const path = require('path')
+const Task = require('../../models/Task')
 
 // INITIALLY I'M GETING TASKS FORM THE LOCAL JSON FILE
 let data = fs.readFileSync(path.resolve(__dirname, '../../data/tasks.json'), 'utf-8')
@@ -17,6 +18,29 @@ const getTasks = (req, res) => {
       status: 'Failed',
       error: err,
     })
+  }
+}
+
+const postTask = async (req, res) => {
+  const { title, description, budget, dueDate } = req.body
+  console.log(req.body)
+  try {
+    const task = new Task({
+      // _id: new mongoose.Types.ObjectId(),
+      title: req.body.title,
+      description: req.body.description,
+      budget: req.body.budget,
+      dueDate: req.body.dueDate,
+      status: 'open',
+    })
+
+    console.log('result', task)
+    const result = await task.save()
+
+    console.log(result)
+    res.status(201).json({ status: 'Created', task: result })
+  } catch (err) {
+    res.status(500).json({ status: 'Failed', error: {} })
   }
 }
 
@@ -65,5 +89,5 @@ const getTasks = (req, res) => {
 
 module.exports = {
   getTasks,
-  //   postData,
+  postTask,
 }

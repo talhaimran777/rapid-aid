@@ -3,7 +3,7 @@
 export default {
   loginEndpoint: '/api/v1/auth/login',
   registerEndpoint: '/api/v1/auth/register',
-  getTasksEndpoint: '/api/v1/task/getTasks',
+  getTasksEndpoint: '/api/v1/task/tasks',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 

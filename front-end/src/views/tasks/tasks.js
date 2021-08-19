@@ -60,13 +60,13 @@ const Tasks = () => {
                 </Row>
                 <Row className='align-items-center mb-1'>
                   <Col xs={12} className='text-truncate text-left'>
-                    <MapPin className='mr-1' size={20} />
+                    <MapPin className='mr-1 text-primary' size={20} />
                     {task.location}
                   </Col>
                 </Row>
                 <Row className='justify-content-center align-items-center'>
                   <Col xs={12} className='text-left'>
-                    <Calendar className='mr-1' size={20} />
+                    <Calendar className='mr-1 text-primary' size={20} />
                     {task.dueDate}
                   </Col>
                 </Row>

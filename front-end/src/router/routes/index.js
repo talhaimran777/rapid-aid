@@ -21,6 +21,10 @@ const Routes = [
     component: lazy(() => import('../../views/tasks/tasks')),
   },
   {
+    path: '/postTask',
+    component: lazy(() => import('../../views/tasks/postTask')),
+  },
+  {
     path: '/login',
     component: lazy(() => import('../../views/authentication/Login')),
     layout: 'BlankLayout',

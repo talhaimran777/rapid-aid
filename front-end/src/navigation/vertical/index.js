@@ -14,4 +14,10 @@ export default [
     icon: <Briefcase size={20} />,
     navLink: '/tasks',
   },
+  {
+    id: 'postTask',
+    title: 'Post Task',
+    icon: <Briefcase size={20} />,
+    navLink: '/postTask',
+  },
 ]

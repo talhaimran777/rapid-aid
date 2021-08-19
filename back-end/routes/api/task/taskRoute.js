@@ -1,5 +1,5 @@
 const express = require('express')
-const { getTasks } = require('../../../controllers/task/taskController')
+const { getTasks, postTask } = require('../../../controllers/task/taskController')
 // const { login, register } = require('../../../controllers/auth/authController')
 const router = express.Router()
 
@@ -19,7 +19,7 @@ const router = express.Router()
 //   res.send('hello');
 // });
 
-router.route('/getTasks').get(getTasks)
+router.route('/tasks').get(getTasks).post(postTask)
 // router.route('/register').post(register);
 // router.route('/login').post(login)
 // router.route('/register').post(register)
