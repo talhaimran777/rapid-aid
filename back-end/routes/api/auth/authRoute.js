@@ -1,5 +1,5 @@
 const express = require('express')
-const { login } = require('../../../controllers/auth/authController')
+const { login, register } = require('../../../controllers/auth/authController')
 const router = express.Router()
 
 // const { register, login } = require('../../controller/usersController');
@@ -20,6 +20,7 @@ const router = express.Router()
 
 // router.route('/register').post(register);
 router.route('/login').post(login)
+router.route('/register').post(register)
 
 // router.route('/:id/reviews').post(protect, createProductReview);
 // router.get('/top', getTopProducts);

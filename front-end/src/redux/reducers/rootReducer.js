@@ -8,12 +8,14 @@ import navbar from './navbar'
 import layout from './layout'
 import loginReducer from './login/login.reducer'
 import errorsReducer from './error'
+import registerReducer from './register/register.reducer'
 
 const rootReducer = combineReducers({
   auth,
   navbar,
   layout,
   login: loginReducer,
+  register: registerReducer,
   error: errorsReducer,
 })
 

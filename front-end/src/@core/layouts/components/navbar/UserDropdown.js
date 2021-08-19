@@ -6,10 +6,11 @@ import { Link } from 'react-router-dom'
 import Avatar from '@components/avatar'
 
 // ** Utils
-import { isUserLoggedIn } from '@utils'
+import { isUserLoggedIn, getImageURL } from '@utils'
 
 // ** Store & Actions
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+
 // import { handleLogout } from '@store/actions/auth'
 
 // ** Third Party Components
@@ -24,8 +25,14 @@ const UserDropdown = () => {
   // ** Store Vars
   const dispatch = useDispatch()
 
+  // ** REDUX SELECTORS
+  const { user } = useSelector((state) => state.auth)
+
   // ** State
   const [userData, setUserData] = useState(null)
+
+  // ** GETTING PROFILE IMAGE URL FROM EMAIL
+  const imageURL = getImageURL(user.email, 40)
 
   //** ComponentDidMount
   useEffect(() => {
@@ -41,10 +48,10 @@ const UserDropdown = () => {
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={(e) => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name font-weight-bold'>{(userData && userData['username']) || 'John Doe'}</span>
-          <span className='user-status'>{(userData && userData.role) || 'Admin'}</span>
+          <span className='user-name font-weight-bold'>{(user && user['name']) || 'John Doe'}</span>
+          <span className='user-email'>{(user && user.email) || 'john231@gmail.com'}</span>
         </div>
-        <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
+        <Avatar img={imageURL} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
       <DropdownMenu right>
         <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>

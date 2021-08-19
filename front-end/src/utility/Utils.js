@@ -1,3 +1,5 @@
+import md5 from 'md5'
+
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 
 // ** Checks if an object is empty (returns boolean)
@@ -79,3 +81,14 @@ export const selectThemeColors = (theme) => ({
     neutral30: '#ededed', // for input hover border-color
   },
 })
+
+export const getImageURL = (email, size) => {
+  // HASHING EMAIL WITH MD5
+  const hashedEmail = md5(email)
+
+  // REQUEST URL
+  const url = `https://www.gravatar.com/avatar/${hashedEmail}?s=${size}`
+
+  // RETURN THE PROFILE IMAGE URL
+  return url
+}

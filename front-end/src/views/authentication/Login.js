@@ -29,11 +29,11 @@ import {
 } from 'reactstrap'
 
 import '@styles/base/pages/page-auth.scss'
-import themeConfig from '../configs/themeConfig'
+import themeConfig from '../../configs/themeConfig'
 import axios from 'axios'
-import { handleLogin, loginInitiated } from '../redux/actions/auth/authActions'
-import SpinnerComponent from '../@core/components/spinner/Fallback-spinner'
-import { CLEAR_ERRORS } from '../redux/actions/action.types/actionTypes'
+import { handleLogin, loginInitiated } from '../../redux/actions/auth/authActions'
+import SpinnerComponent from '../../@core/components/spinner/Fallback-spinner'
+import { CLEAR_ERRORS, CLEAR_LOGIN_STATE } from '../../redux/actions/action.types/actionTypes'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>
@@ -87,9 +87,10 @@ const Login = (props) => {
   }
 
   useEffect(() => {
-    dispatch({ type: CLEAR_ERRORS })
+    // dispatch({ type: CLEAR_ERRORS })
     return () => {
       dispatch({ type: CLEAR_ERRORS })
+      dispatch({ type: CLEAR_LOGIN_STATE })
     }
   }, [])
 
@@ -204,8 +205,23 @@ const Login = (props) => {
                 />
               </FormGroup>
 
-              {data && data.email ? <p className='text-danger'>{data.email}</p> : ''}
-              {data && data.password ? <p className='text-danger'>{data.password}</p> : ''}
+              {data && data.email && data.validationFormType === 'login' ? (
+                <p className='text-danger'>{data.email}</p>
+              ) : (
+                ''
+              )}
+              {data && data.password && data.validationFormType === 'login' ? (
+                <p className='text-danger'>{data.password}</p>
+              ) : (
+                ''
+              )}
+
+              <p>
+                Dont't have an account yet?
+                <Link className='ml-1' to='/register'>
+                  Click here
+                </Link>
+              </p>
               <Button.Ripple type='submit' color='primary' block>
                 Sign in
               </Button.Ripple>
