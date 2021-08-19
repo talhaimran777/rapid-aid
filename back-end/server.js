@@ -15,6 +15,7 @@ const app = express()
 // ROUTES
 
 const authRoute = require('./routes/api/auth/authRoute')
+const taskRoute = require('./routes/api/task/taskRoute')
 // const usersRoute = require('./routes/api/usersRoute');
 // const tasksRoute = require('./routes/api/tasksRoute');
 // const authRoute = require('./routes/authRoute');
@@ -26,6 +27,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/task', taskRoute)
 
 // USING AUTH ROUTE
 // app.post('/login', (req, res) => {

@@ -17,8 +17,6 @@ dotenv.config()
 // @access Public
 
 const login = (req, res) => {
-  console.log(req.body)
-
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body)
 
