@@ -1,4 +1,4 @@
-// const validateTask = require('../validation/task')
+const validateTask = require('../../validation/task')
 
 const fs = require('fs')
 const path = require('path')
@@ -22,22 +22,48 @@ const getTasks = (req, res) => {
 }
 
 const postTask = async (req, res) => {
-  const { title, description, budget, dueDate } = req.body
-  console.log(req.body)
+  const { errors, isValid } = validateTask(req.body)
+  // validateT
+
+  if (!isValid) {
+    return res.status(400).json({ ...errors, validationFormType: 'postTask' })
+  }
+
+  const { title, description, budget, address, dueDate } = req.body
+  // console.log(dueDate[0])
+
+  const year = dueDate[0].slice(0, 4)
+  const month = dueDate[0].slice(5, 7)
+  let day = dueDate[0].slice(8, 10)
+
+  day = parseInt(day, 10) + 1
+
+  // const newDueDate = {
+  //   day,
+  //   month,
+  //   year,
+  // }
+
+  const taskDueDate = year + '-' + month + '-' + day
+
+  const today = new Date()
+  const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+  const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+  const dateTime = date + ' ' + time
+
   try {
     const task = new Task({
-      // _id: new mongoose.Types.ObjectId(),
-      title: req.body.title,
-      description: req.body.description,
-      budget: req.body.budget,
-      dueDate: req.body.dueDate,
+      title: title,
+      description: description,
+      budget: budget,
+      dueDate: taskDueDate,
+      address: address,
       status: 'open',
+      creationTime: dateTime,
     })
 
-    console.log('result', task)
     const result = await task.save()
 
-    console.log(result)
     res.status(201).json({ status: 'Created', task: result })
   } catch (err) {
     res.status(500).json({ status: 'Failed', error: {} })

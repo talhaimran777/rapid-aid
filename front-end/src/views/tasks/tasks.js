@@ -12,7 +12,7 @@ const Tasks = () => {
   const dispatch = useDispatch()
 
   // ** REDUX SELECTORS
-  const { tasks, inProcess } = useSelector((state) => state.task)
+  const { tasks, inProcess } = useSelector((state) => state.taskFetch)
 
   const fetchTasks = useCallback(async () => {
     // dispatch(initiateTaskFetch())

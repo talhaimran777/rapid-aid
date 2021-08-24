@@ -13,6 +13,10 @@ const taskSchema = new Schema({
     required: true,
   },
   budget: {
+    type: Number,
+    required: true,
+  },
+  address: {
     type: String,
     required: true,
   },

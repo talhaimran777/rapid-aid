@@ -105,6 +105,10 @@ export default class JwtService {
     return axios.get(this.jwtConfig.getTasksEndpoint)
   }
 
+  postTask(data) {
+    return axios.post(this.jwtConfig.postTaskEndPoint, data)
+  }
+
   refreshToken() {
     return axios.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken(),
