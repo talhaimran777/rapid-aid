@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../../models/User')
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv')
+const md5 = require('md5')
 
 dotenv.config()
 
@@ -47,6 +48,7 @@ const login = (req, res) => {
           id: user.id,
           name: user.name,
           email: user.email,
+          avatar: user.avatar,
         }
 
         // Sign token
@@ -93,10 +95,23 @@ const register = (req, res) => {
         validationFormType: 'register',
       })
     } else {
+      // USER AVATAR
+
+      const { name, email, password } = req.body
+      const hashedEmail = md5(email)
+      const avatar = `https://www.gravatar.com/avatar/${hashedEmail}?s=200`
+
+      const today = new Date()
+      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+      const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      const dateTime = date + ' ' + time
+
       const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
+        name,
+        email,
+        password,
+        avatar,
+        creationTime: dateTime,
       })
 
       // Hash password before saving in database

@@ -32,7 +32,7 @@ const UserDropdown = () => {
   const [userData, setUserData] = useState(null)
 
   // ** GETTING PROFILE IMAGE URL FROM EMAIL
-  const imageURL = getImageURL(user.email, 40)
+  // const imageURL = getImageURL(user.email, 40)
 
   //** ComponentDidMount
   useEffect(() => {
@@ -51,7 +51,7 @@ const UserDropdown = () => {
           <span className='user-name font-weight-bold'>{(user && user['name']) || 'John Doe'}</span>
           <span className='user-email'>{(user && user.email) || 'john231@gmail.com'}</span>
         </div>
-        <Avatar img={imageURL} imgHeight='40' imgWidth='40' status='online' />
+        <Avatar img={user.avatar} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
       <DropdownMenu right>
         <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>
