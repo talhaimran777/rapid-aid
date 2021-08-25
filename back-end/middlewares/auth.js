@@ -1,35 +1,36 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
 
-dotenv.config();
+dotenv.config()
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.headers['authorization'];
+    console.log(req.headers)
+    const token = req.headers['authorization']
 
     if (!token)
       return res.status(401).json({
         status: 'Failed!',
         message: 'Token not found!',
-      });
+      })
 
     // REMOVING BEARER FROM THE TOKEN STRING
-    const withoutBearerToken = token.split(' ')[1];
+    const withoutBearerToken = token.split(' ')[1]
 
-    const privateKey = process.env.SECRET_KEY;
+    const privateKey = process.env.SECRET_KEY
 
-    let payload = await jwt.verify(withoutBearerToken, privateKey);
+    let payload = await jwt.verify(withoutBearerToken, privateKey)
 
     // PUTTING USERS OBJECT IN THE REQUEST.USER OBJECT
-    req.body.user = payload;
+    req.body.user = payload
   } catch (err) {
     res.status(401).json({
       status: 'Failed!',
       message: 'Not authorized!',
-    });
+    })
   }
 
-  next();
-};
+  next()
+}
 
-module.exports = auth;
+module.exports = auth

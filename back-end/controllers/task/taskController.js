@@ -3,6 +3,7 @@ const validateTask = require('../../validation/task')
 const fs = require('fs')
 const path = require('path')
 const Task = require('../../models/Task')
+const User = require('../../models/User')
 
 // INITIALLY I'M GETING TASKS FORM THE LOCAL JSON FILE
 let data = fs.readFileSync(path.resolve(__dirname, '../../data/tasks.json'), 'utf-8')
@@ -29,20 +30,13 @@ const postTask = async (req, res) => {
     return res.status(400).json({ ...errors, validationFormType: 'postTask' })
   }
 
-  const { title, description, budget, address, dueDate } = req.body
-  // console.log(dueDate[0])
+  const { title, description, budget, address, dueDate, userId } = req.body
 
   const year = dueDate[0].slice(0, 4)
   const month = dueDate[0].slice(5, 7)
   let day = dueDate[0].slice(8, 10)
 
   day = parseInt(day, 10) + 1
-
-  // const newDueDate = {
-  //   day,
-  //   month,
-  //   year,
-  // }
 
   const taskDueDate = year + '-' + month + '-' + day
 
@@ -52,6 +46,7 @@ const postTask = async (req, res) => {
   const dateTime = date + ' ' + time
 
   try {
+    const user = await User.findById(userId).select('-password')
     const task = new Task({
       title: title,
       description: description,
@@ -59,14 +54,17 @@ const postTask = async (req, res) => {
       dueDate: taskDueDate,
       address: address,
       status: 'open',
+      user: userId,
+      name: user.name,
+      avatar: user.avatar,
       creationTime: dateTime,
     })
 
     const result = await task.save()
 
-    res.status(201).json({ status: 'Created', task: result })
+    res.status(201).json({ status: 'SUCCESS', task: result })
   } catch (err) {
-    res.status(500).json({ status: 'Failed', error: {} })
+    res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
   }
 }
 
