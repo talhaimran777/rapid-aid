@@ -20,7 +20,7 @@ const router = express.Router()
 //   res.send('hello');
 // });
 
-router.route('/tasks').get(auth, getTasks).post(auth, postTask)
+router.route('/').get(auth, getTasks).post(auth, postTask)
 // router.route('/register').post(register);
 // router.route('/login').post(login)
 // router.route('/register').post(register)

@@ -40,28 +40,22 @@ const Tasks = () => {
               <CardBody>
                 <Row className=' align-items-center mb-2'>
                   <Col xs={2} sm={2} md={2} className='text-left text-sm-left'>
-                    <Image
-                      src='https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'
-                      alt='task'
-                      roundedCircle
-                      height='50px'
-                      width='50px'
-                    />
+                    <Image src={task.avatar} alt='task' roundedCircle height='50px' width='50px' />
                   </Col>
                   <Col xs={10} sm={10} md={6} className='text-left text-sm-left'>
                     {' '}
                     <h5 className='text-truncate'>{task.title}</h5>{' '}
                   </Col>
-                  <Col xs={12} md={4} className='text-left  text-sm-left text-md-right mt-1 mt-md-0'>
+                  <Col xs={12} md={4} className='text-left text-primary text-sm-left text-md-right mt-1 mt-md-0'>
                     {' '}
-                    <strong>RS </strong>
+                    <strong className=''>RS </strong>
                     {task.budget}
                   </Col>
                 </Row>
                 <Row className='align-items-center mb-1'>
                   <Col xs={12} className='text-truncate text-left'>
                     <MapPin className='mr-1 text-primary' size={20} />
-                    {task.location}
+                    {task.address}
                   </Col>
                 </Row>
                 <Row className='justify-content-center align-items-center'>

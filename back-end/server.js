@@ -27,7 +27,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/v1/auth', authRoute)
-app.use('/api/v1/task', taskRoute)
+app.use('/api/v1/tasks', taskRoute)
 
 // USING AUTH ROUTE
 // app.post('/login', (req, res) => {

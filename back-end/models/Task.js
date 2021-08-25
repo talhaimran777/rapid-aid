@@ -28,13 +28,16 @@ const taskSchema = new Schema({
     type: String,
     required: true,
   },
-  status: { true: String },
+  status: { type: String, required: true },
   name: {
     type: String,
+    required: true,
   },
   avatar: {
     type: String,
+    required: true,
   },
+  creationTime: { type: String, required: true },
   comments: [
     {
       user: {
@@ -46,9 +49,11 @@ const taskSchema = new Schema({
       },
       name: {
         type: String,
+        required: true,
       },
       avatar: {
         type: String,
+        required: true,
       },
       date: {
         type: Date,
