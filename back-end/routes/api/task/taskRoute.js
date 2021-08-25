@@ -1,6 +1,7 @@
 const express = require('express')
-const { getTasks, postTask } = require('../../../controllers/task/taskController')
+const { getTasks, getTask, postTask } = require('../../../controllers/task/taskController')
 const auth = require('../../../middlewares/auth')
+const checkObjectId = require('../../../middlewares/checkObjectId')
 // const { login, register } = require('../../../controllers/auth/authController')
 const router = express.Router()
 
@@ -21,6 +22,8 @@ const router = express.Router()
 // });
 
 router.route('/').get(auth, getTasks).post(auth, postTask)
+
+router.route('/:id').get([auth, checkObjectId('id')], getTask)
 // router.route('/register').post(register);
 // router.route('/login').post(login)
 // router.route('/register').post(register)

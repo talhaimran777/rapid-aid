@@ -18,7 +18,13 @@ const Routes = [
   },
   {
     path: '/tasks',
+    exact: true,
     component: lazy(() => import('../../views/tasks/tasks')),
+  },
+  {
+    path: '/tasks/:id',
+    exact: true,
+    component: lazy(() => import('../../views/tasks/taskDetails')),
   },
   {
     path: '/postTask',

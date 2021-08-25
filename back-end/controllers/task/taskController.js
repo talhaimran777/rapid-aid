@@ -30,6 +30,28 @@ const getTasks = async (req, res) => {
   // }
 }
 
+const getTask = async (req, res) => {
+  console.log(req.params.id)
+  // try {
+  //   const tasks = await Task.find().sort({ _id: -1 })
+  //   res.status(200).json({ status: 'ok', tasks })
+  // } catch (err) {
+  //   console.error(err.message)
+  //   res.status(500).send('Server Error')
+  // }
+  // if (data) {
+  //   res.status(200).json({
+  //     status: 'OK',
+  //     tasks: JSON.parse(data),
+  //   })
+  // } else {
+  //   res.status(500).json({
+  //     status: 'Failed',
+  //     error: err,
+  //   })
+  // }
+}
+
 const postTask = async (req, res) => {
   const { errors, isValid } = validateTask(req.body)
   // validateT
@@ -121,5 +143,6 @@ const postTask = async (req, res) => {
 
 module.exports = {
   getTasks,
+  getTask,
   postTask,
 }
