@@ -24,6 +24,8 @@ export default class JwtService {
         // ** If token is present add it to request's Authorization Header
         if (accessToken) {
           // ** eslint-disable-next-line no-param-reassign
+
+          console.log(accessToken)
           config.headers.Authorization = `${this.jwtConfig.tokenType} ${accessToken}`
         }
         return config
