@@ -32,6 +32,21 @@ const getTasks = async (req, res) => {
 
 const getTask = async (req, res) => {
   console.log(req.params.id)
+
+  try {
+    const task = await Task.findById(req.params.id)
+    console.log(task)
+    if (!task) {
+      return res.status(404).json({ status: 'FAILED', msg: 'Task was not found!' })
+    }
+
+    res.status(200).json({ status: 'SUCCESS', task })
+  } catch (err) {
+    console.error(err.message)
+
+    res.status(500).send({ status: 'FAILED', msg: 'Server Error' })
+  }
+
   // try {
   //   const tasks = await Task.find().sort({ _id: -1 })
   //   res.status(200).json({ status: 'ok', tasks })
@@ -74,7 +89,7 @@ const postTask = async (req, res) => {
   const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
   const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
   const dateTime = date + ' ' + time
-
+  const postedDate = Date.now()
   try {
     const user = await User.findById(userId).select('-password')
     const task = new Task({
@@ -88,6 +103,7 @@ const postTask = async (req, res) => {
       name: user.name,
       avatar: user.avatar,
       creationTime: dateTime,
+      postedDate,
     })
 
     const result = await task.save()

@@ -38,6 +38,7 @@ const taskSchema = new Schema({
     required: true,
   },
   creationTime: { type: String, required: true },
+  postedDate: { type: Date, required: true },
   comments: [
     {
       user: {

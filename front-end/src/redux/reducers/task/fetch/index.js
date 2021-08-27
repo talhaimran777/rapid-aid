@@ -9,6 +9,7 @@ import {
   CLEAR_FETCH_TASKS,
   TASKS_FETCH_INITIATED,
   TASKS_FETCH_SUCCESS,
+  TASK_FETCH_FAILED,
   TASK_FETCH_INITIATED,
   TASK_FETCH_SUCCESS,
 } from '../../../actions/action.types/actionTypes'
@@ -26,6 +27,8 @@ const taskFetchReducer = (state = {}, action) => {
 
     case TASK_FETCH_SUCCESS:
       return { inProcess: false, task: action.payload }
+    case TASK_FETCH_FAILED:
+      return { inProcess: false, error: action.payload }
 
     case CLEAR_FETCH_TASKS:
       return {}
