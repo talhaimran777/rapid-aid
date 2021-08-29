@@ -36,13 +36,13 @@ const Tasks = () => {
         <CardTitle>Tasks</CardTitle>
       </CardHeader> */}
       <Col xs={12} sm={10} md={8} lg={7} xl={6}>
-        {tasks &&
+        {tasks && tasks.length >= 1 ? (
           tasks.map((task) => (
             <Link key={task._id} to={`/tasks/${task._id}`}>
               <Card style={{ cursor: 'pointer' }}>
                 {/* <CardHeader>
-                <CardTitle>{task.title}</CardTitle>
-              </CardHeader> */}
+                  <CardTitle>{task.title}</CardTitle>
+                </CardHeader> */}
                 <CardBody>
                   <Row className=' align-items-center mb-2'>
                     <Col xs={2} sm={2} md={2} className='text-left text-sm-left'>
@@ -50,9 +50,9 @@ const Tasks = () => {
                     </Col>
                     <Col xs={10} sm={10} md={6} className='text-left text-sm-left'>
                       {' '}
-                      <h5 className='text-truncate'>{task.title}</h5>{' '}
+                      <h3 className='text-truncate text-primary font-weight-bold'>{task.title}</h3>{' '}
                     </Col>
-                    <Col xs={12} md={4} className='text-left text-primary text-sm-left text-md-right mt-1 mt-md-0'>
+                    <Col xs={12} md={4} className='text-left text-sm-left text-md-right mt-1 mt-md-0'>
                       {' '}
                       <strong className=''>RS </strong>
                       {task.budget}
@@ -60,14 +60,14 @@ const Tasks = () => {
                   </Row>
                   <Row className='align-items-center mb-1'>
                     <Col xs={12} className='text-truncate text-left'>
-                      <MapPin className='mr-1 text-primary' size={20} />
-                      {task.address}
+                      <MapPin className='mr-1' size={20} />
+                      <span className='text-white font-weight-light'>{task.address}</span>
                     </Col>
                   </Row>
                   <Row className='justify-content-center align-items-center'>
                     <Col xs={12} className='text-left'>
-                      <Calendar className='mr-1 text-primary' size={20} />
-                      {task.dueDate}
+                      <Calendar className='mr-1 ' size={20} />
+                      <span className='text-white font-weight-light'>{task.dueDate}</span>
                     </Col>
                   </Row>
 
@@ -83,7 +83,10 @@ const Tasks = () => {
                 </CardBody>
               </Card>
             </Link>
-          ))}
+          ))
+        ) : (
+          <h1 className='text-center'>No Tasks Available</h1>
+        )}
       </Col>
     </Row>
   )

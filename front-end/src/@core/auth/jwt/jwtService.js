@@ -116,6 +116,12 @@ export default class JwtService {
     return axios.post(this.jwtConfig.postTaskEndPoint, data)
   }
 
+  addComment(data) {
+    const endPoint = `${this.jwtConfig.addCommentEndPoint}/${data.taskId}`
+
+    return axios.post(endPoint, data)
+  }
+
   refreshToken() {
     return axios.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken(),

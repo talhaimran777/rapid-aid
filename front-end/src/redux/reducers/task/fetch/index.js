@@ -12,6 +12,7 @@ import {
   TASK_FETCH_FAILED,
   TASK_FETCH_INITIATED,
   TASK_FETCH_SUCCESS,
+  TASK_FETCH_SUCCESS_NO_UPDATES_VERSION,
 } from '../../../actions/action.types/actionTypes'
 
 const taskFetchReducer = (state = {}, action) => {
@@ -26,6 +27,8 @@ const taskFetchReducer = (state = {}, action) => {
       return { inProcess: true }
 
     case TASK_FETCH_SUCCESS:
+      return { inProcess: false, task: action.payload }
+    case TASK_FETCH_SUCCESS_NO_UPDATES_VERSION:
       return { inProcess: false, task: action.payload }
     case TASK_FETCH_FAILED:
       return { inProcess: false, error: action.payload }

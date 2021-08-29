@@ -11,6 +11,7 @@ import errorsReducer from './error'
 import registerReducer from './register/register.reducer'
 import taskFetchReducer from './task/fetch'
 import taskPostReducer from './task/post'
+import addCommentReducer from './task/comment/add'
 
 const rootReducer = combineReducers({
   auth,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
 
   taskFetch: taskFetchReducer,
   taskPost: taskPostReducer,
+  addComment: addCommentReducer,
 })
 
 export default rootReducer

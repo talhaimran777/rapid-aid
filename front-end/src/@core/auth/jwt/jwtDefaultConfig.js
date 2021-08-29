@@ -6,6 +6,7 @@ export default {
   getTasksEndpoint: '/api/v1/tasks',
   getTaskEndpoint: '/api/v1/tasks',
   postTaskEndPoint: '/api/v1/tasks',
+  addCommentEndPoint: '/api/v1/tasks/comment',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 

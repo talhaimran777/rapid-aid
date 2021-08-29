@@ -1,11 +1,14 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 import useJwt from '@src/auth/jwt/useJwt'
 import {
+  ADD_COMMENT_SUCCESS,
   TASKS_FETCH_INITIATED,
   TASKS_FETCH_SUCCESS,
   TASK_FETCH_FAILED,
   TASK_FETCH_INITIATED,
+  TASK_FETCH_INITIATED_NO_UPDATES_VERSION,
   TASK_FETCH_SUCCESS,
+  TASK_FETCH_SUCCESS_NO_UPDATES_VERSION,
 } from '../../action.types/actionTypes'
 
 // ** INITIATING TASKS FETCHING
@@ -21,6 +24,18 @@ export const initiateTaskFetch = () => {
     dispatch({ type: TASK_FETCH_INITIATED })
   }
 }
+
+export const initiateTaskFetchNoUpdatesVersion = () => {
+  return (dispatch) => {
+    dispatch({ type: TASK_FETCH_INITIATED_NO_UPDATES_VERSION })
+  }
+}
+
+// export const TaskFetchNoUpdatesVersion = () => {
+//   return (dispatch) => {
+//     dispatch({ type: TASKS_FETCH_INITIATED_NO_UPDATES_VERSION })
+//   }
+// }
 // ** GET ALL TASKS
 // export const getTasks = () => {
 //   return async (dispatch) => {
@@ -65,6 +80,26 @@ export const handleFetchTask = (id) => {
 
       if (res && res.data) {
         dispatch({ type: TASK_FETCH_SUCCESS, payload: res.data.task })
+      }
+    } catch (err) {
+      if (err.response && err.response.data) {
+        // console.log(err.response.data)
+        dispatch({ type: TASK_FETCH_FAILED, payload: err.response.data })
+      }
+    }
+  }
+}
+
+export const handleFetchTaskNoUpdatesVersion = (id) => {
+  return async (dispatch) => {
+    dispatch(initiateTaskFetchNoUpdatesVersion())
+    try {
+      const res = await useJwt.getTask(id)
+
+      if (res && res.data) {
+        dispatch({ type: TASK_FETCH_SUCCESS_NO_UPDATES_VERSION, payload: res.data.task })
+
+        dispatch({ type: ADD_COMMENT_SUCCESS })
       }
     } catch (err) {
       if (err.response && err.response.data) {

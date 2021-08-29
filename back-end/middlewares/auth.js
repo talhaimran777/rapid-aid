@@ -5,7 +5,7 @@ dotenv.config()
 
 const auth = async (req, res, next) => {
   try {
-    console.log(req.headers)
+    // console.log(req.headers)
     const token = req.headers['authorization']
 
     if (!token)

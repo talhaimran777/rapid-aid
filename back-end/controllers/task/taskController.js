@@ -1,4 +1,5 @@
 const validateTask = require('../../validation/task')
+const validateComment = require('../../validation/comment')
 
 const fs = require('fs')
 const path = require('path')
@@ -31,18 +32,18 @@ const getTasks = async (req, res) => {
 }
 
 const getTask = async (req, res) => {
-  console.log(req.params.id)
+  // console.log(req.params.id)
 
   try {
     const task = await Task.findById(req.params.id)
-    console.log(task)
+    // console.log(task)
     if (!task) {
       return res.status(404).json({ status: 'FAILED', msg: 'Task was not found!' })
     }
 
     res.status(200).json({ status: 'SUCCESS', task })
   } catch (err) {
-    console.error(err.message)
+    // console.error(err.message)
 
     res.status(500).send({ status: 'FAILED', msg: 'Server Error' })
   }
@@ -114,6 +115,46 @@ const postTask = async (req, res) => {
   }
 }
 
+const addComment = async (req, res) => {
+  // res.status(201).json({ status: 'SUCCESS', task: result })
+  const { errors, isValid } = validateComment(req.body)
+  if (!isValid) {
+    return res.status(400).json({ ...errors, validationFormType: 'comment' })
+  }
+
+  // console.log(req.body)
+
+  const { user, comment } = req.body
+  const { id } = user
+
+  console.log(id)
+  try {
+    // console.log(req.params)
+    const user = await User.findById(id).select('-password')
+    const task = await Task.findById(req.params.id)
+
+    const newComment = {
+      comment: comment,
+      name: user.name,
+      avatar: user.avatar,
+      user: user.id,
+    }
+
+    console.log(newComment)
+
+    task.comments.unshift(newComment)
+
+    await task.save()
+
+    res.status(201).json({ status: 'SUCCESS', comments: task.comments })
+
+    // console.log(req.body)
+  } catch (err) {
+    console.log('ERROR')
+    res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
+  }
+}
+
 // const postData = (req, res) => {
 // Form validation
 //   const { errors, isValid } = validateTask(req.body)
@@ -161,4 +202,5 @@ module.exports = {
   getTasks,
   getTask,
   postTask,
+  addComment,
 }
