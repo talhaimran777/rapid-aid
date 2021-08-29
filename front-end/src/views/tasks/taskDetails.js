@@ -90,7 +90,7 @@ const TaskDetails = () => {
 
       <CardBody>
         <Row>
-          <Col sm={12} xl={10}>
+          <Col sm={12} md={10} lg={8}>
             <CardText>{task.description}</CardText>
 
             <Row className='mt-3 justify-content-between align-items-center'>
@@ -103,15 +103,18 @@ const TaskDetails = () => {
                 <h5 className='text-primary'>Posted At</h5>
                 <p>{postTime || '26 mins ago'}</p>
               </Col>
+              <Col className='d-flex justify-content-end'>
+                <Button.Ripple color='primary'>Make Offer</Button.Ripple>
+              </Col>
             </Row>
             <Row className='my-3 justify-content-between align-items-center'>
               <Col>
-                <div className='d-flex align-items-center mb-1'>
+                <div className='d-flex mb-1'>
                   <MapPin className='mr-1 text-primary' />
                   <h5 className='font-weight-bold'>{task.address}</h5>
                 </div>
 
-                <div className='d-flex align-items-center'>
+                <div className='d-flex'>
                   <Calendar className='mr-1 text-primary' />
                   <h5 className='font-weight-bold'>{task.dueDate}</h5>
                 </div>
@@ -129,7 +132,7 @@ const TaskDetails = () => {
                 Add Comment
               </Label>
               <Row className='mb-3'>
-                <Col className='d-flex justify-content-between align-items-start' sm={12} md={10}>
+                <Col className='d-flex justify-content-between align-items-start'>
                   <Image src={avatar} alt='avatar' roundedCircle height='40px' width='40px' className='mr-1' />
 
                   <Input
@@ -168,7 +171,7 @@ const TaskDetails = () => {
               <CardTitle>Comments</CardTitle>
               {task &&
                 task.comments.map((comment) => (
-                  <Col sm={12} md={10}>
+                  <Col className=''>
                     <Card className='border p-1'>
                       <Row className='align-items-center'>
                         <Col sm={2} className='mb-1 mb-sm-0'>

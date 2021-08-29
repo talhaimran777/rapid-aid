@@ -47,6 +47,11 @@ const Routes = [
     },
   },
   {
+    path: '/profile/me',
+    component: lazy(() => import('../../views/profile/Profile')),
+    exact: true,
+  },
+  {
     path: '/error',
     component: lazy(() => import('../../views/Error')),
     layout: 'BlankLayout',

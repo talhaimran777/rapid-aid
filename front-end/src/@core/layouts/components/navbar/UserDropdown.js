@@ -55,14 +55,16 @@ const UserDropdown = () => {
       </DropdownToggle>
       <DropdownMenu right>
         <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>
-          <User size={14} className='mr-75' />
-          <span className='align-middle'>Profile</span>
+          <Link to={`/profile/me`}>
+            <User size={14} className='mr-75' />
+            <span className='align-middle'>Profile</span>
+          </Link>
         </DropdownItem>
         <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>
           <Mail size={14} className='mr-75' />
           <span className='align-middle'>Inbox</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>
+        <DropdownItem tag={Link} to='#sdfsdf' onClick={(e) => e.preventDefault()}>
           <CheckSquare size={14} className='mr-75' />
           <span className='align-middle'>Tasks</span>
         </DropdownItem>
