@@ -1,33 +1,28 @@
 import { useState } from 'react'
-import { AlignJustify, Rss, Info, Users, Edit } from 'react-feather'
-import { Card, CardImg, Collapse, Navbar, Nav, NavItem, NavLink, Button, CardHeader } from 'reactstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { Image } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { AlignJustify, Rss, Info, Image, Users, Edit } from 'react-feather'
+import { Card, CardImg, Collapse, Navbar, Nav, NavItem, NavLink, Button } from 'reactstrap'
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const { user } = useSelector((state) => state.auth)
   const toggle = () => setIsOpen(!isOpen)
+  const { user } = useSelector((state) => state.auth)
 
   return (
     <Card className='profile-header mb-2'>
-      {/* <CardImg src={user.avatar} alt='User Profile Image' top /> */}
-
-      <CardHeader>
-        <div className='position-relative'>
-          <div className='profile-img-container d-flex align-items-center'>
-            <div className='profile-img'>
-              <Image src={user.avatar} alt='avatar' roundedCircle width='120px' height='120px' />
-              {/* <img className='rounded img-fluid' src={user.avatar} alt='Card image' /> */}
-            </div>
-            <div className='profile-title ml-3'>
-              <h2 className='text-white'>{user.name}</h2>
-              {/* <p className='text-white'>React Developer</p> */}
-            </div>
+      <CardImg src='https://via.placeholder.com/728x200.png/283046/283046' alt='User Profile Image' top />
+      <div className='position-relative'>
+        <div className='profile-img-container d-flex align-items-center'>
+          <div className='profile-img'>
+            <img className='rounded img-fluid' src={user.avatar} alt='Card image' />
+          </div>
+          <div className='profile-title ml-3'>
+            <h2 className='text-white'>{user.name}</h2>
+            <p className='text-white'>React Developer</p>
           </div>
         </div>
-      </CardHeader>
-      {/* <div className='profile-header-nav'>
+      </div>
+      <div className='profile-header-nav'>
         <Navbar className='justify-content-end justify-content-md-between w-100' expand='md' light>
           <Button color='' className='btn-icon navbar-toggler' onClick={toggle}>
             <AlignJustify size={21} />
@@ -67,7 +62,7 @@ const ProfileHeader = () => {
             </div>
           </Collapse>
         </Navbar>
-      </div> */}
+      </div>
     </Card>
   )
 }

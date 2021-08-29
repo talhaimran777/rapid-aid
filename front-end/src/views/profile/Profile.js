@@ -1,4 +1,5 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
+import '@styles/react/pages/page-profile.scss'
 import ProfileHeader from './header/ProfileHeader'
 import { Fragment } from 'react'
 import {
