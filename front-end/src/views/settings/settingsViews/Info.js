@@ -8,6 +8,8 @@ import { Label, Input, FormGroup, Row, Col, Button, Form, Card, CardBody } from 
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import Menu from '../menu/Menu'
 import { handleFetchOwnProfile } from '../../../redux/actions/profile/fetch/getOwnProfile'
+import { handleUpdateOwnProfile } from '../../../redux/actions/profile/update/updateOwnProfile'
+import { isObjEmpty } from '@utils'
 
 const ComponentSpinner = () => {
   return (
@@ -38,12 +40,30 @@ const UpdateInfo = () => {
     defaultValues: { dob: new Date() },
   })
 
+  const dispatch = useDispatch()
+
   const onSubmit = (data) => {
-    //Hello world
+    if (isObjEmpty) {
+      const data = {}
+
+      data.country = 'Pakistan'
+      data.designation = state.designation.trim()
+
+      if (state.bio) {
+        data.bio = state.bio.trim()
+      }
+
+      data.city = state.city.trim()
+      data.address = state.address.trim()
+      data.phone = state.phone.trim()
+
+      dispatch(handleUpdateOwnProfile(data))
+    }
   }
 
-  const dispatch = useDispatch()
-  const { fetchOwnProfileInProcess, profile } = useSelector((state) => state.profile)
+  const { fetchOwnProfileInProcess, profile, updateOwnProfileInProcess, updateSuccess } = useSelector(
+    (state) => state.profile
+  )
 
   const onChangeHandler = (e) => {
     setState({ ...state, [e.target.name]: e.target.value })
@@ -63,7 +83,7 @@ const UpdateInfo = () => {
     <Card>
       <Menu currentActive='info' />
 
-      {fetchOwnProfileInProcess ? (
+      {fetchOwnProfileInProcess || updateOwnProfileInProcess ? (
         <ComponentSpinner />
       ) : (
         <CardBody>
@@ -77,7 +97,7 @@ const UpdateInfo = () => {
                     id='designation'
                     type='text'
                     name='designation'
-                    value={state.designation}
+                    value={state.designation || ''}
                     placeholder='Certified Instructor'
                     className={classnames({
                       'is-invalid': errors.designation,
@@ -91,14 +111,12 @@ const UpdateInfo = () => {
                   <Label for='bio'>Bio</Label>
                   <Input
                     onChange={onChangeHandler}
-                    value={state.bio}
+                    value={state.bio || ''}
                     id='bio'
                     rows='4'
                     name='bio'
                     type='textarea'
                     placeholder='Your Bio data here...'
-                    innerRef={register({ required: true })}
-                    className={classnames({ 'is-invalid': errors.bio })}
                   />
                 </FormGroup>
               </Col>
@@ -120,17 +138,7 @@ const UpdateInfo = () => {
               <Col sm='6'>
                 <FormGroup>
                   <Label for='country'>Country</Label>
-                  <Input
-                    id='country'
-                    type='text'
-                    name='country'
-                    value='Pakistan'
-                    value={state.country}
-                    //   className={classnames({
-                    //     'is-invalid': errors.country,
-                    //   })}
-                    //   innerRef={register({ required: true })}
-                  />
+                  <Input id='country' type='text' name='country' value='Pakistan' readOnly />
                 </FormGroup>
               </Col>
               <Col sm='6'>
@@ -142,7 +150,7 @@ const UpdateInfo = () => {
                     type='text'
                     name='city'
                     placeholder='Lahore'
-                    value={state.city}
+                    value={state.city || ''}
                     className={classnames({
                       'is-invalid': errors.city,
                     })}
@@ -159,7 +167,7 @@ const UpdateInfo = () => {
                     type='text'
                     name='address'
                     placeholder='Home Address'
-                    value={state.address}
+                    value={state.address || ''}
                     className={classnames({
                       'is-invalid': errors.address,
                     })}
@@ -175,7 +183,7 @@ const UpdateInfo = () => {
                     type='url'
                     id='website'
                     name='website'
-                    value={state.website}
+                    value={state.website || ''}
                     placeholder='Website Address'
                   />
                 </FormGroup>
@@ -188,7 +196,7 @@ const UpdateInfo = () => {
                     id='phone'
                     name='phone'
                     placeholder='Phone Number'
-                    value={state.phone}
+                    value={state.phone || ''}
                     className={classnames({
                       'is-invalid': errors.phone,
                     })}
@@ -197,6 +205,7 @@ const UpdateInfo = () => {
                 </FormGroup>
               </Col>
               <Col className='mt-1' sm='12'>
+                {updateSuccess ? <p className='text-success'> Profile updated successfully!</p> : ''}
                 <Button.Ripple className='mr-1' color='primary' type='submit'>
                   Save
                 </Button.Ripple>
