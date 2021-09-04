@@ -16,6 +16,7 @@ const app = express()
 
 const authRoute = require('./routes/api/auth/authRoute')
 const taskRoute = require('./routes/api/task/taskRoute')
+const profileRoute = require('./routes/api/profile/profileRoute')
 // const usersRoute = require('./routes/api/usersRoute');
 // const tasksRoute = require('./routes/api/tasksRoute');
 // const authRoute = require('./routes/authRoute');
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/tasks', taskRoute)
+app.use('/api/v1/profiles', profileRoute)
 
 // USING AUTH ROUTE
 // app.post('/login', (req, res) => {

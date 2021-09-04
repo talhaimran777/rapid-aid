@@ -1,7 +1,6 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 import useJwt from '@src/auth/jwt/useJwt'
 import {
-  ADD_COMMENT_SUCCESS,
   TASKS_FETCH_INITIATED,
   TASKS_FETCH_SUCCESS,
   TASK_FETCH_FAILED,
@@ -98,8 +97,6 @@ export const handleFetchTaskNoUpdatesVersion = (id) => {
 
       if (res && res.data) {
         dispatch({ type: TASK_FETCH_SUCCESS_NO_UPDATES_VERSION, payload: res.data.task })
-
-        dispatch({ type: ADD_COMMENT_SUCCESS })
       }
     } catch (err) {
       if (err.response && err.response.data) {

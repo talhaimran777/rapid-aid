@@ -52,6 +52,21 @@ const Routes = [
     exact: true,
   },
   {
+    path: '/settings-general',
+    component: lazy(() => import('../../views/settings/settingsViews/General')),
+    exact: true,
+  },
+  {
+    path: '/settings-info',
+    component: lazy(() => import('../../views/settings/settingsViews/Info')),
+    exact: true,
+  },
+  {
+    path: '/settings-social',
+    component: lazy(() => import('../../views/settings/settingsViews/Social')),
+    exact: true,
+  },
+  {
     path: '/error',
     component: lazy(() => import('../../views/Error')),
     layout: 'BlankLayout',

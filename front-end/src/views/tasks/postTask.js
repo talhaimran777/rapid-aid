@@ -59,7 +59,7 @@ const PostTask = () => {
     title: '',
     description: '',
     address: '',
-    budget: 0,
+    budget: '',
   }
 
   // STATE FOR GRABBING ERRORS FOR SHOWING VALIDATION ERRORS
@@ -115,8 +115,12 @@ const PostTask = () => {
   }
 
   useEffect(() => {
+    setTitleError('')
+    setDescriptionError('')
+    setAddressError('')
     if (errs && errs.length) {
       // setErrorState({ titleError: '', descriptionError: '', addressError: '' })
+
       const titleERR = errs.find((err) => err.param === 'title')
       const descriptionERR = errs.find((err) => err.param === 'description')
       const addressERR = errs.find((err) => err.param === 'address')
@@ -176,16 +180,15 @@ const PostTask = () => {
                     // value={email}
                     id='title'
                     name='title'
-                    placeholder='Logo required'
                     onChange={onChangeHandler}
                     value={state.title}
-                    // className={classnames({
-                    //   'is-invalid': errors['title'],
-                    // })}
-                    // innerRef={register({
-                    //   required: true,
-                    //   validate: (value) => value !== '',
-                    // })}
+                    className={classnames({
+                      'is-invalid': errors['title'],
+                    })}
+                    innerRef={register({
+                      required: true,
+                      validate: (value) => value !== '',
+                    })}
                   />
                 </FormGroup>
               </Col>
@@ -202,10 +205,9 @@ const PostTask = () => {
                   )}
 
                   <Input
-                    type='text'
+                    type='textarea'
                     name='description'
                     id='description'
-                    autoFocus
                     onChange={onChangeHandler}
                     value={state.description}
                     className={classnames({
@@ -234,9 +236,7 @@ const PostTask = () => {
                   )}
 
                   <Input
-                    autoFocus
                     type='text'
-                    // value={email}
                     id='address'
                     name='address'
                     onChange={onChangeHandler}
@@ -258,7 +258,6 @@ const PostTask = () => {
                     Enter your budget
                   </Label>
                   <Input
-                    autoFocus
                     type='number'
                     // value={email}
                     id='budget'
@@ -292,14 +291,6 @@ const PostTask = () => {
                       dateFormat: 'Y-m-d',
                     }}
                   />
-                  {/* <DatePicker /> */}
-                  {/* <Flatpickr
-                    data-enable-time
-                    value={state.dueDate}
-                    onChange={(date) => {
-                      setState({ ...state, ['dueDate']: date })
-                    }}
-                  /> */}
                 </FormGroup>
               </Col>
             </Row>

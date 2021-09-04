@@ -50,9 +50,10 @@ const TaskDetails = () => {
     if (isObjEmpty(errors)) {
       const data = {}
       data.taskId = task._id
-      data.comment = comment
+      data.comment = comment.trim()
 
       dispatch(handleAddComment(data))
+      setComment('')
     }
   }
 
@@ -153,16 +154,10 @@ const TaskDetails = () => {
                 </Col>
                 <Col sm={12}>
                   <Button.Ripple className='mt-2 mr-1' color='primary' type='submit'>
-                    Post
+                    Add
                   </Button.Ripple>
 
-                  {commentAddInProcess ? (
-                    <span>
-                      <Spinner type='grow' color='primary' />{' '}
-                    </span>
-                  ) : (
-                    ''
-                  )}
+                  {commentAddInProcess ? <Spinner type='grow' color='primary' /> : ''}
                 </Col>
               </Row>
             </form>

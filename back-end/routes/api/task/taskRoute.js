@@ -29,17 +29,15 @@ router
   .post(
     [
       auth,
-      body('title').isLength({ min: 10, max: 30 }).withMessage('Title must be between 10 and 30 characters'),
-      body('description')
-        .isLength({ min: 50, max: 300 })
-        .withMessage('Description must be between 50 to 300 characters'),
-      body('address').isLength({ min: 10, max: 100 }).withMessage('Address must be between 10 to 100 characters'),
+      body('title').isLength({ min: 10 }).withMessage('Title must be atleast 10 characters long!'),
+      body('description').isLength({ min: 30 }).withMessage('Description must be atleast 30 characters long!'),
+      body('address').isLength({ min: 10 }).withMessage('Address must be atleast 10 characters long!'),
       body('budget').isNumeric().withMessage('Budget must be a number'),
     ],
     postTask
   )
 router.route('/:id').get([auth, checkObjectId('id')], getTask)
-router.route('/comment/:id').post([auth, checkObjectId('id')], addComment)
+router.route('/comment/:id').post([auth, checkObjectId('id'), body('comment')], addComment)
 // router.route('/register').post(register);
 // router.route('/login').post(login)
 // router.route('/register').post(register)
