@@ -58,15 +58,28 @@ const PostTask = () => {
   const initialState = {
     title: '',
     description: '',
-    location: '',
+    address: '',
     budget: 0,
   }
 
+  // STATE FOR GRABBING ERRORS FOR SHOWING VALIDATION ERRORS
+  const initialErrorState = {
+    titleError: '',
+    descriptionError: '',
+    addressError: '',
+  }
+
   const [state, setState] = useState(initialState)
+
+  // STATE TO TACKLE ERROR MESSAGES
+  const [titleError, setTitleError] = useState('')
+  const [descriptionError, setDescriptionError] = useState('')
+  const [addressError, setAddressError] = useState('')
+
   const [dueDate, setDueDate] = useState(new Date())
   const { register, errors, handleSubmit } = useForm()
   const { user } = useSelector((state) => state.auth)
-  const { status, inProcess } = useSelector((state) => state.taskPost)
+  const { status, inProcess, errs } = useSelector((state) => state.taskPost)
 
   const dispatch = useDispatch()
 
@@ -102,6 +115,31 @@ const PostTask = () => {
   }
 
   useEffect(() => {
+    if (errs && errs.length) {
+      // setErrorState({ titleError: '', descriptionError: '', addressError: '' })
+      const titleERR = errs.find((err) => err.param === 'title')
+      const descriptionERR = errs.find((err) => err.param === 'description')
+      const addressERR = errs.find((err) => err.param === 'address')
+
+      if (titleERR) {
+        setTitleError(titleERR.msg)
+      }
+
+      if (descriptionERR) {
+        setDescriptionError(descriptionERR.msg)
+      }
+
+      if (addressERR) {
+        setAddressError(addressERR.msg)
+      }
+
+      // if (addressERR) {
+      //   setErrorState({ ...errorState, addressError: addressERR.msg })
+      // }
+    }
+  }, [errs])
+
+  useEffect(() => {
     return () => {
       dispatch({ type: RESET_TASK_POST })
     }
@@ -123,6 +161,15 @@ const PostTask = () => {
                   <Label className='' for='title'>
                     Task Title
                   </Label>
+
+                  {titleError ? (
+                    <span style={{ fontSize: '10px' }} className='text-danger ml-1'>
+                      {titleError}
+                    </span>
+                  ) : (
+                    ''
+                  )}
+
                   <Input
                     autoFocus
                     type='text'
@@ -131,13 +178,14 @@ const PostTask = () => {
                     name='title'
                     placeholder='Logo required'
                     onChange={onChangeHandler}
-                    className={classnames({
-                      'is-invalid': errors['title'],
-                    })}
-                    innerRef={register({
-                      required: true,
-                      validate: (value) => value !== '',
-                    })}
+                    value={state.title}
+                    // className={classnames({
+                    //   'is-invalid': errors['title'],
+                    // })}
+                    // innerRef={register({
+                    //   required: true,
+                    //   validate: (value) => value !== '',
+                    // })}
                   />
                 </FormGroup>
               </Col>
@@ -145,12 +193,21 @@ const PostTask = () => {
               <Col sm={12} lg={6}>
                 <FormGroup>
                   <Label for='description'>Task Description</Label>
+                  {descriptionError ? (
+                    <span style={{ fontSize: '10px' }} className='text-danger ml-1'>
+                      {descriptionError}
+                    </span>
+                  ) : (
+                    ''
+                  )}
+
                   <Input
                     type='text'
                     name='description'
                     id='description'
                     autoFocus
                     onChange={onChangeHandler}
+                    value={state.description}
                     className={classnames({
                       'is-invalid': errors['description'],
                     })}
@@ -167,6 +224,15 @@ const PostTask = () => {
                   <Label className='' for='address'>
                     Give Address
                   </Label>
+
+                  {addressError ? (
+                    <span style={{ fontSize: '10px' }} className='text-danger ml-1'>
+                      {addressError}
+                    </span>
+                  ) : (
+                    ''
+                  )}
+
                   <Input
                     autoFocus
                     type='text'
@@ -174,6 +240,7 @@ const PostTask = () => {
                     id='address'
                     name='address'
                     onChange={onChangeHandler}
+                    value={state.address}
                     className={classnames({
                       'is-invalid': errors['address'],
                     })}
@@ -197,6 +264,7 @@ const PostTask = () => {
                     id='budget'
                     name='budget'
                     onChange={onChangeHandler}
+                    value={state.budget}
                     min={100}
                     className={classnames({
                       'is-invalid': errors['budget'],

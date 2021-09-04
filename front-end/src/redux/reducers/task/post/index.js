@@ -11,7 +11,7 @@ import {
   POST_TASK_SUCCESS,
   RESET_TASK_POST,
 } from '../../../actions/action.types/actionTypes'
-
+//
 const taskPostReducer = (state = {}, action) => {
   switch (action.type) {
     case POST_TASK_INITIATED:
@@ -21,7 +21,7 @@ const taskPostReducer = (state = {}, action) => {
       return { inProcess: false, task: action.payload.task, status: 'SUCCESS' }
 
     case POST_TASK_FAILED:
-      return { inProcess: false, err: action.payload }
+      return { inProcess: false, errs: action.payload.errors }
 
     case RESET_TASK_POST:
       return {}

@@ -7,7 +7,7 @@ import UserDropdown from './UserDropdown'
 import { Sun, Moon, Menu } from 'react-feather'
 import { NavItem, NavLink } from 'reactstrap'
 
-const NavbarUser = props => {
+const NavbarUser = (props) => {
   // ** Props
   const { skin, setSkin, setMenuVisibility } = props
 

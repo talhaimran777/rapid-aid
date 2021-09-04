@@ -1,6 +1,7 @@
 const validateTask = require('../../validation/task')
 const validateComment = require('../../validation/comment')
 
+const { body, check, validationResult } = require('express-validator')
 const fs = require('fs')
 const path = require('path')
 const Task = require('../../models/Task')
@@ -69,11 +70,24 @@ const getTask = async (req, res) => {
 }
 
 const postTask = async (req, res) => {
-  const { errors, isValid } = validateTask(req.body)
+  // const { errors, isValid } = validateTask(req.body)
   // validateT
 
-  if (!isValid) {
-    return res.status(400).json({ ...errors, validationFormType: 'postTask' })
+  // if (!isValid) {
+  //   return res.status(400).json({ ...errors, validationFormType: 'postTask' })
+  // }
+
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+
+  // check('title', 'Title is required').notEmpty()
+
+  // body('title').isLength({ min: 5, max: 30 }).withMessage('Title must be between 5 and 30 characters')
+
+  const errors = validationResult(req)
+  console.log(errors)
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
   }
 
   const { title, description, budget, address, dueDate, userId } = req.body
@@ -122,12 +136,9 @@ const addComment = async (req, res) => {
     return res.status(400).json({ ...errors, validationFormType: 'comment' })
   }
 
-  // console.log(req.body)
-
   const { user, comment } = req.body
   const { id } = user
 
-  console.log(id)
   try {
     // console.log(req.params)
     const user = await User.findById(id).select('-password')
@@ -139,8 +150,6 @@ const addComment = async (req, res) => {
       avatar: user.avatar,
       user: user.id,
     }
-
-    console.log(newComment)
 
     task.comments.unshift(newComment)
 

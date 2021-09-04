@@ -21,7 +21,7 @@ export const handlePostTask = (data) => {
       const response = await useJwt.postTask(data)
       if (response && response.data) {
         dispatch(postTaskSuccess(response.data))
-        // console.log(response.data)
+        console.log(response.data)
       }
     } catch (err) {
       if (err.response && err.response.data) {
