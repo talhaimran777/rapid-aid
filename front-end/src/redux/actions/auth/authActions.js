@@ -122,7 +122,7 @@ export const handleLogout = () => {
   return (dispatch) => {
     localStorage.removeItem('accessToken')
     dispatch({
-      type: 'LOGOUT_SUCCESSFULL',
+      type: 'LOGOUT',
     })
   }
 }
