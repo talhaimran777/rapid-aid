@@ -2,7 +2,9 @@
 import useJwt from '@src/auth/jwt/useJwt'
 import {
   TASKS_FETCH_INITIATED,
+  TASKS_FETCH_INITIATED_NO_UPDATES_VERSION,
   TASKS_FETCH_SUCCESS,
+  TASKS_FETCH_SUCCESS_NO_UPDATES_VERSION,
   TASK_FETCH_FAILED,
   TASK_FETCH_INITIATED,
   TASK_FETCH_INITIATED_NO_UPDATES_VERSION,
@@ -14,6 +16,13 @@ import {
 export const initiateTasksFetch = () => {
   return (dispatch) => {
     dispatch({ type: TASKS_FETCH_INITIATED })
+  }
+}
+
+// ** INITIATING TASKS FETCHING
+export const initiateTasksFetchNoUpdatesVersion = () => {
+  return (dispatch) => {
+    dispatch({ type: TASKS_FETCH_INITIATED_NO_UPDATES_VERSION })
   }
 }
 
@@ -61,6 +70,24 @@ export const handleFetchTasks = () => {
 
       if (res && res.data) {
         dispatch({ type: TASKS_FETCH_SUCCESS, payload: res.data.tasks })
+        console.log(res.data)
+      }
+    } catch (err) {
+      if (err.res && err.res.data) {
+        console.log(err.res.data)
+      }
+    }
+  }
+}
+
+export const handleFetchTasksNoUpdatesVersion = (searchKeyword) => {
+  return async (dispatch) => {
+    dispatch(initiateTasksFetchNoUpdatesVersion())
+    try {
+      const res = await useJwt.getTasks(searchKeyword)
+
+      if (res && res.data) {
+        dispatch({ type: TASKS_FETCH_SUCCESS_NO_UPDATES_VERSION, payload: res.data.tasks })
         console.log(res.data)
       }
     } catch (err) {

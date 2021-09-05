@@ -8,7 +8,9 @@
 import {
   CLEAR_FETCH_TASKS,
   TASKS_FETCH_INITIATED,
+  TASKS_FETCH_INITIATED_NO_UPDATES_VERSION,
   TASKS_FETCH_SUCCESS,
+  TASKS_FETCH_SUCCESS_NO_UPDATES_VERSION,
   TASK_FETCH_FAILED,
   TASK_FETCH_INITIATED,
   TASK_FETCH_SUCCESS,
@@ -22,6 +24,15 @@ const taskFetchReducer = (state = {}, action) => {
 
     case TASKS_FETCH_SUCCESS:
       return { inProcess: false, tasks: action.payload }
+
+    case TASK_FETCH_INITIATED:
+      return { inProcess: true }
+
+    // case TASKS_FETCH_INITIATED_NO_UPDATES_VERSION:
+    //   return {}
+
+    case TASKS_FETCH_SUCCESS_NO_UPDATES_VERSION:
+      return { tasks: action.payload }
 
     case TASK_FETCH_INITIATED:
       return { inProcess: true }

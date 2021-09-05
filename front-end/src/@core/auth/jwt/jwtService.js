@@ -103,8 +103,15 @@ export default class JwtService {
     return axios.post(this.jwtConfig.registerEndpoint, ...args)
   }
 
-  getTasks() {
-    return axios.get(this.jwtConfig.getTasksEndpoint)
+  getTasks(searchKeyword = null) {
+    let endPoint = this.jwtConfig.getTasksEndpoint
+
+    if (searchKeyword) {
+      endPoint = `${endPoint}?searchKeyword=${searchKeyword}`
+    }
+
+    console.log(endPoint)
+    return axios.get(endPoint)
   }
 
   getTask(id) {

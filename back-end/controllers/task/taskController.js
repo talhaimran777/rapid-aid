@@ -11,25 +11,37 @@ const User = require('../../models/User')
 let data = fs.readFileSync(path.resolve(__dirname, '../../data/tasks.json'), 'utf-8')
 
 const getTasks = async (req, res) => {
-  try {
-    const tasks = await Task.find().sort({ _id: -1 })
-    res.status(200).json({ status: 'ok', tasks })
-  } catch (err) {
-    console.error(err.message)
-    res.status(500).send('Server Error')
-  }
+  const { searchKeyword } = req.query
 
-  // if (data) {
-  //   res.status(200).json({
-  //     status: 'OK',
-  //     tasks: JSON.parse(data),
-  //   })
-  // } else {
-  //   res.status(500).json({
-  //     status: 'Failed',
-  //     error: err,
-  //   })
-  // }
+  if (!searchKeyword) {
+    try {
+      const tasks = await Task.find().sort({ _id: -1 })
+      res.status(200).json({ status: 'ok', tasks })
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).send('Server Error')
+    }
+  } else {
+    try {
+      // const tasks = await Task.find({
+      //   title: { $regex: searchKeyword, $options: 'i' },
+      // }).sort({ _id: -1 })
+
+      const tasks = await Task.find()
+        .or([
+          { title: { $regex: searchKeyword, $options: 'i' } },
+          { description: { $regex: searchKeyword, $options: 'i' } },
+          { name: { $regex: searchKeyword, $options: 'i' } },
+          { address: { $regex: searchKeyword, $options: 'i' } },
+          { status: { $regex: searchKeyword, $options: 'i' } },
+        ])
+        .sort({ _id: -1 })
+      res.status(200).json({ status: 'ok', tasks })
+    } catch (err) {
+      console.error(err.message)
+      res.status(500).send('Server Error')
+    }
+  }
 }
 
 const getTask = async (req, res) => {

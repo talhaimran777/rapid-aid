@@ -1,8 +1,8 @@
-import { Card, CardHeader, CardBody, CardTitle, CardText, Row, Col, Badge } from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle, CardText, Row, Col, Badge, Input } from 'reactstrap'
 import { Image } from 'react-bootstrap'
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { handleFetchTasks, initiateTaskFetch } from '../../redux/actions/task/fetch'
+import { handleFetchTasks, handleFetchTasksNoUpdatesVersion, initiateTaskFetch } from '../../redux/actions/task/fetch'
 import useJwt from '@src/auth/jwt/useJwt'
 import axios from 'axios'
 import ComponentSpinner from '../../@core/components/spinner/Loading-spinner'
@@ -10,6 +10,7 @@ import { MapPin, Calendar } from 'react-feather'
 import { Link } from 'react-router-dom'
 
 const Tasks = () => {
+  const [keyword, setKeyword] = useState('')
   const dispatch = useDispatch()
 
   // ** REDUX SELECTORS
@@ -19,6 +20,20 @@ const Tasks = () => {
     // dispatch(initiateTaskFetch())
     dispatch(handleFetchTasks())
   }, [dispatch])
+
+  const onChangeHandler = (e) => {
+    setKeyword(e.target.value)
+  }
+
+  useEffect(() => {
+    if (keyword) {
+      dispatch(handleFetchTasksNoUpdatesVersion(keyword))
+    }
+
+    if (keyword === '') {
+      dispatch(handleFetchTasksNoUpdatesVersion(''))
+    }
+  }, [keyword])
 
   useEffect(() => {
     fetchTasks()
@@ -36,6 +51,7 @@ const Tasks = () => {
         <CardTitle>Tasks</CardTitle>
       </CardHeader> */}
       <Col xs={12} sm={10} md={8} lg={7} xl={6}>
+        <Input type='search' name='keyword' className='mb-1' placeholder='Search Tasks' onChange={onChangeHandler} />
         {tasks && tasks.length >= 1 ? (
           tasks.map((task) => (
             <Link key={task._id} to={`/tasks/${task._id}`}>
