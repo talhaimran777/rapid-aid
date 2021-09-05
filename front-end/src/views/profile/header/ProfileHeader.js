@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { AlignJustify, Rss, Info, Image, Users, Edit } from 'react-feather'
 import { Card, CardImg, Collapse, Navbar, Nav, NavItem, NavLink, Button } from 'reactstrap'
 
-const ProfileHeader = ({ data }) => {
+const ProfileHeader = ({ profile }) => {
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen(!isOpen)
   const { user } = useSelector((state) => state.auth)
@@ -19,7 +19,7 @@ const ProfileHeader = ({ data }) => {
           </div>
           <div className='profile-title ml-3'>
             <h2 className='text-white'>{user.name}</h2>
-            <p className='text-white'>React Developer</p>
+            <p className='text-white'>{profile.designation ? profile.designation : 'Update your designation!'}</p>
           </div>
         </div>
       </div>

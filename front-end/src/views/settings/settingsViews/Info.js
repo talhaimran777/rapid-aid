@@ -35,6 +35,7 @@ const UpdateInfo = () => {
     phone: '',
   }
   const [state, setState] = useState(initialState)
+  const [birthDate, setBirthDate] = useState(new Date())
 
   const { register, errors, handleSubmit, control, trigger } = useForm({
     defaultValues: { dob: new Date() },
@@ -53,10 +54,19 @@ const UpdateInfo = () => {
         data.bio = state.bio.trim()
       }
 
+      if (birthDate) {
+        data.birthDate = birthDate[0]
+      }
+
+      if (state.website) {
+        data.website = state.website.trim()
+      }
+
       data.city = state.city.trim()
       data.address = state.address.trim()
       data.phone = state.phone.trim()
 
+      console.log(data)
       dispatch(handleUpdateOwnProfile(data))
     }
   }
@@ -76,7 +86,11 @@ const UpdateInfo = () => {
   useEffect(() => {
     // dispatch(handleFetchOwnProfile())
 
-    setState({ ...profile })
+    if (profile) {
+      setState({ ...profile })
+
+      setBirthDate(profile.birthDate)
+    }
   }, [profile])
 
   return (
@@ -123,7 +137,15 @@ const UpdateInfo = () => {
               <Col sm='6'>
                 <FormGroup>
                   <Label for='birth-date'>Birth Date</Label>
-                  <Controller
+
+                  <Flatpickr
+                    className='form-control'
+                    name='birthDate'
+                    value={birthDate}
+                    onChange={(date) => setBirthDate(date)}
+                    id='birthDate'
+                  />
+                  {/* <Controller
                     name='dob'
                     as={Flatpickr}
                     id='birth-date'
@@ -132,7 +154,7 @@ const UpdateInfo = () => {
                     className={classnames('form-control', {
                       'is-invalid': errors.dob,
                     })}
-                  />
+                  /> */}
                 </FormGroup>
               </Col>
               <Col sm='6'>
@@ -180,7 +202,7 @@ const UpdateInfo = () => {
                   <Label for='website'>Website</Label>
                   <Input
                     onChange={onChangeHandler}
-                    type='url'
+                    type='text'
                     id='website'
                     name='website'
                     value={state.website || ''}

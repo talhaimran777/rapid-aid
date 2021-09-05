@@ -1,3 +1,4 @@
+const normalize = require('normalize-url')
 const Profile = require('../../models/Profile')
 const { validationResult } = require('express-validator')
 const mongoose = require('mongoose')
@@ -52,6 +53,18 @@ const updateProfile = async (req, res) => {
     city,
     phone,
     address,
+  }
+
+  if (bio) {
+    profileFields.bio = bio
+  }
+
+  if (birthDate) {
+    profileFields.birthDate = birthDate
+  }
+
+  if (website && website !== '') {
+    profileFields.website = normalize(website, { forceHttps: true })
   }
 
   try {
