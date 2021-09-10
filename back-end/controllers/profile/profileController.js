@@ -28,8 +28,6 @@ const updateProfile = async (req, res) => {
     return res.status(400).json({ errors: errors.array() })
   }
 
-  console.log(req.body.user.id)
-
   const {
     designation,
     bio,
@@ -77,35 +75,8 @@ const updateProfile = async (req, res) => {
     return res.json({ status: 'SUCCESS', profile })
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server Error')
+    res.status(500).json({ status: 'FAILED', error: err.response, message: 'Server Error' })
   }
-
-  //   try {
-  //     let profile = await Profile.findOneAndUpdate(
-  //       { user: mongoose.Types.ObjectId(userId) },
-  //       { $set: profileFields },
-  //       { new: true, upsert: true, setDefaultsOnInsert: true }
-  //     )
-
-  //     console.log(profile)
-  //     return res.json({ status: 'SUCCESS', profile })
-  //   } catch (err) {
-  //     console.error(err.message)
-  //     return res.status(500).send('Server Error')
-  //   }
-
-  //   try {
-  //       const profile = await Profile.findOne({
-  //         user: req.user.id
-  //       }).populate('user', ['name', 'avatar']);
-  //       if (!profile) {
-  //         return res.status(400).json({ msg: 'There is no profile for this user' });
-  //       }
-  //       res.json(profile);
-  //     } catch (err) {
-  //       console.error(err.message);
-  //       res.status(500).send('Server Error');
-  //     }
 }
 
 module.exports = {
