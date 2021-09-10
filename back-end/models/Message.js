@@ -15,6 +15,9 @@ const MessageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  avatar: {
+    type: String,
+  },
   message: {
     type: String,
     required: true,

@@ -18,6 +18,7 @@ const authRoute = require('./routes/api/auth/authRoute')
 const taskRoute = require('./routes/api/task/taskRoute')
 const profileRoute = require('./routes/api/profile/profileRoute')
 const messageRoute = require('./routes/api/message/messageRoute')
+const conversationRoute = require('./routes/api/conversation/conversationRoute')
 // const usersRoute = require('./routes/api/usersRoute');
 // const tasksRoute = require('./routes/api/tasksRoute');
 // const authRoute = require('./routes/authRoute');
@@ -32,6 +33,7 @@ app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/tasks', taskRoute)
 app.use('/api/v1/profiles', profileRoute)
 app.use('/api/v1/messages', messageRoute)
+app.use('/api/v1/conversations', conversationRoute)
 
 // USING AUTH ROUTE
 // app.post('/login', (req, res) => {

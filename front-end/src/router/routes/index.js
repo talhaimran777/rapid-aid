@@ -67,6 +67,13 @@ const Routes = [
     exact: true,
   },
   {
+    path: '/inbox',
+    component: lazy(() => import('../../views/inbox/index')),
+    appLayout: true,
+    className: 'chat-application',
+    exact: true,
+  },
+  {
     path: '/error',
     component: lazy(() => import('../../views/Error')),
     layout: 'BlankLayout',

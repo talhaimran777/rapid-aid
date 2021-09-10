@@ -21,6 +21,23 @@ const getMyProfile = async (req, res) => {
   }
 }
 
+// GET PROFILE
+const getProfile = async (req, res) => {
+  const { id } = req.params
+  try {
+    const profile = await Profile.findOne({
+      user: id,
+    })
+      .populate('user')
+      .exec()
+
+    res.json({ status: 'SUCCES', profile })
+  } catch (err) {
+    console.error(err.response)
+    res.status(500).json({ status: 'FAILED', error: err.response })
+  }
+}
+
 // UPDATE YOUR PROFILE
 const updateProfile = async (req, res) => {
   const errors = validationResult(req)
@@ -81,5 +98,6 @@ const updateProfile = async (req, res) => {
 
 module.exports = {
   getMyProfile,
+  getProfile,
   updateProfile,
 }

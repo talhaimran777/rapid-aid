@@ -1,6 +1,6 @@
 const express = require('express')
 const { body, check } = require('express-validator')
-const { getMyProfile, updateProfile } = require('../../../controllers/profile/profileController')
+const { getMyProfile, updateProfile, getProfile } = require('../../../controllers/profile/profileController')
 
 const auth = require('../../../middlewares/auth')
 const checkObjectId = require('../../../middlewares/checkObjectId')
@@ -9,6 +9,7 @@ const checkObjectId = require('../../../middlewares/checkObjectId')
 const router = express.Router()
 
 router.route('/me').get(auth, getMyProfile)
+router.route('/:id').get([auth, checkObjectId('id')], getProfile)
 router
   .route('/me')
   .patch(

@@ -9,6 +9,7 @@ export default {
   addCommentEndPoint: '/api/v1/tasks/comment',
   getOwnProfileEndPoint: '/api/v1/profiles/me',
   updateOwnProfileEndPoint: '/api/v1/profiles/me',
+  getConversationsEndPoint: '/api/v1/conversations',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 

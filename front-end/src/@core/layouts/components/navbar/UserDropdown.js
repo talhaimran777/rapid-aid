@@ -61,8 +61,10 @@ const UserDropdown = () => {
           </Link>
         </DropdownItem>
         <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>
-          <Mail size={14} className='mr-75' />
-          <span className='align-middle'>Inbox</span>
+          <Link to={`/inbox`}>
+            <Mail size={14} className='mr-75' />
+            <span className='align-middle'>Inbox</span>
+          </Link>
         </DropdownItem>
         <DropdownItem tag={Link} to='#sdfsdf' onClick={(e) => e.preventDefault()}>
           <CheckSquare size={14} className='mr-75' />

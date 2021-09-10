@@ -7,6 +7,7 @@ const Message = require('../../models/Message')
 const postMessage = async (req, res) => {
   const { to, message, user } = req.body
   const from = user.id
+  const avatar = user.avatar
 
   try {
     const conversation = await Conversation.findOneAndUpdate(
@@ -26,6 +27,7 @@ const postMessage = async (req, res) => {
         conversation: conversation._id,
         to,
         from,
+        avatar,
         message,
       })
 
