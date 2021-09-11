@@ -1,24 +1,54 @@
 const express = require('express')
+const app = require('express')()
+const httpServer = require('http').createServer(app)
+const options = {}
+const io = require('socket.io')(httpServer, options)
+
 const cors = require('cors')
-const app = express()
-
-//use cors to allow cross origin resource sharing
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-//   })
-// )
-
-// const dotenv = require('dotenv');
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
 // ROUTES
-
 const authRoute = require('./routes/api/auth/authRoute')
 const taskRoute = require('./routes/api/task/taskRoute')
 const profileRoute = require('./routes/api/profile/profileRoute')
 const messageRoute = require('./routes/api/message/messageRoute')
 const conversationRoute = require('./routes/api/conversation/conversationRoute')
+
+dotenv.config()
+
+let connectDb = async () => {
+  let connectionString = process.env.CONNECTION_STRING
+  let databaseName = process.env.DATABASE
+  let databasePass = process.env.DATABASE_PASS
+
+  connectionString = connectionString.replace('<PASSWORD>', databasePass).replace('<DATABASE>', databaseName)
+
+  try {
+    let db = await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    })
+
+    if (db) {
+      console.log('Database Connected!')
+
+      const port = process.env.PORT || 5000
+
+      httpServer.listen(port, () => console.log('Listening for requests on port: ' + port))
+
+      io.on('connection', (socket) => {
+        console.log('Socket connected', socket)
+      })
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+connectDb()
+
 // const usersRoute = require('./routes/api/usersRoute');
 // const tasksRoute = require('./routes/api/tasksRoute');
 // const authRoute = require('./routes/authRoute');
@@ -28,6 +58,12 @@ const conversationRoute = require('./routes/api/conversation/conversationRoute')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+// ASSIGNING SOCKET OBJECT TO EACH REQUEST
+app.use((req, res, next) => {
+  req.io = io
+  next()
+})
 
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/tasks', taskRoute)

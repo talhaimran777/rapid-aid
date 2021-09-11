@@ -23,7 +23,9 @@ let connectDb = async () => {
 
       const port = process.env.PORT || 5000
 
-      app.listen(port, () => console.log('Listening for requests on port: ' + port))
+      const server = app.listen(port, () => console.log('Listening for requests on port: ' + port))
+
+      io.listen(server)
     }
   } catch (err) {
     console.log(err)
