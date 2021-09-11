@@ -19,7 +19,7 @@ import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { X, Search, CheckSquare, Bell, User, Trash } from 'react-feather'
 import { CardText, InputGroup, InputGroupAddon, Input, InputGroupText, Badge, CustomInput, Button } from 'reactstrap'
-import { handleFetchConversations } from '../../redux/actions/chat/fetch'
+import { handleFetchConversations, handleFetchMessages } from '../../redux/actions/chat/fetch'
 import ComponentSpinner from '../../@core/components/spinner/Loading-spinner'
 
 const SidebarLeft = (props) => {
@@ -42,12 +42,8 @@ const SidebarLeft = (props) => {
   const [filteredContacts, setFilteredContacts] = useState([])
 
   // ** Handles User Chat Click
-  const handleUserClick = (type, id) => {
-    dispatch(selectChat(id))
-    setActive({ type, id })
-    if (sidebar === true) {
-      handleSidebar()
-    }
+  const handleFetchChat = (id) => {
+    dispatch(handleFetchMessages(id))
   }
 
   // ** FETCHING CONVERSATIONS
@@ -202,26 +198,27 @@ const SidebarLeft = (props) => {
             <ul className='chat-users-list chat-list media-list'>
               {conversationsFetchInProcess ? (
                 <ComponentSpinner />
-              ) : (
-                conversations &&
+              ) : conversations && conversations.length > 0 ? (
                 conversations.map((conversation) => (
                   <li
-                  // className={classnames({
-                  //   active: true,
-                  // })}
-                  // key={item.id}
-                  // onClick={() => handleUserClick('chat', item.id)}
+                    // className={classnames({
+                    //   active: true,
+                    // })}
+                    key={conversation._id}
+                    onClick={() => handleFetchChat(conversation.recipients[0]._id)}
                   >
                     <Avatar img={conversation.recipients[0].avatar} imgHeight='42' imgWidth='42' />
                     <div className='chat-info flex-grow-1'>
                       <h5 className='mb-0'>{conversation.recipients[0].name}</h5>
                       <CardText className='text-truncate'>{conversation.lastMessage}</CardText>
-                    </div>
-                    <div className='chat-meta text-nowrap'>
-                      <small className='float-right mb-25 chat-time ml-25'>{moment(conversation.date).fromNow()}</small>
+                      <small style={{ fontSize: '10px' }} className='float-right chat-time'>
+                        {moment(conversation.date).fromNow()}
+                      </small>
                     </div>
                   </li>
                 ))
+              ) : (
+                <li className='no-results show'>You do not have any messages!</li>
               )}
             </ul>
           </PerfectScrollbar>

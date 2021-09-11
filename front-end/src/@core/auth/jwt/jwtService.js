@@ -141,6 +141,11 @@ export default class JwtService {
     return axios.get(this.jwtConfig.getConversationsEndPoint)
   }
 
+  getMessages(id) {
+    const endPoint = `${this.jwtConfig.getMessagesEndPoint}/${id}`
+    return axios.get(endPoint)
+  }
+
   refreshToken() {
     return axios.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken(),

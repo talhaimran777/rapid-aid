@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 import Avatar from '@components/avatar'
 
 // ** Store & Actions
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // import { sendMsg } from './store/actions'
 
 // ** Third Party Components
@@ -29,12 +29,18 @@ import {
 } from 'reactstrap'
 
 const ChatLog = () => {
+  // ** State
+  const [msg, setMsg] = useState('')
+
   // ** Refs & Dispatch
   // const chatArea = useRef(null)
   const dispatch = useDispatch()
 
-  // ** State
-  const [msg, setMsg] = useState('')
+  // ** Redux Selector
+  const { messages, showChat } = useSelector((state) => state.chat)
+  const { user } = useSelector((state) => state.auth)
+
+  // const { messages } = chat
 
   // ** Scroll to chat bottom
   // const scrollToBottom = () => {
@@ -156,70 +162,66 @@ const ChatLog = () => {
       
       ) : null} */}
 
-      <div className='active-chat d-flex flex-column'>
-        <div className='chats flex-grow-1'>
-          <div key={1} className=''>
-            <div className='chat-avatar'>
-              <Avatar
-                className='box-shadow-1 cursor-pointer'
-                // img={item.senderId === 11 ? userProfile.avatar : selectedUser.contact.avatar}
-              />
-            </div>
+      {messages && messages.length && showChat ? (
+        <div className='active-chat d-flex flex-column'>
+          <div className='chats flex-grow-1 px-1'>
+            {messages.map((message) => (
+              <div
+                key={message._id}
+                className={classnames({
+                  'chat-left': message.from._id !== user.id,
+                })}
+              >
+                <div className='chat-avatar'>
+                  <Avatar className='box-shadow-1 cursor-pointer' img={message.avatar} />
+                </div>
 
-            <div className='chat-body'>
-              {/* {item.messages.map((chat) => (
+                <div className='chat-body'>
+                  {/* {item.messages.map((chat) => (
                 ))} */}
-              <div key={1} className='chat-content'>
-                <p>Hello</p>
+                  <div key={1} className='chat-content'>
+                    <p>{message.message}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
-          <div key={1} className='chat-left'>
-            <div className='chat-avatar'>
-              <Avatar
-                className='box-shadow-1 cursor-pointer'
-                // img={item.senderId === 11 ? userProfile.avatar : selectedUser.contact.avatar}
+          <Form className='chat-app-form' onSubmit={(e) => handleSendMsg(e)}>
+            <InputGroup className='input-group-merge mr-1 form-send-message'>
+              <InputGroupAddon addonType='prepend'>
+                <InputGroupText>
+                  <Mic className='cursor-pointer' size={14} />
+                </InputGroupText>
+              </InputGroupAddon>
+              <Input
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                placeholder='Type your message or use speech to text'
               />
-            </div>
-
-            <div className='chat-body'>
-              {/* {item.messages.map((chat) => (
-                ))} */}
-              <div key={1} className='chat-content'>
-                <p>Hello</p>
-              </div>
-            </div>
-          </div>
+              <InputGroupAddon addonType='append'>
+                <InputGroupText>
+                  <Label className='attachment-icon mb-0' for='attach-doc'>
+                    <Image className='cursor-pointer text-secondary' size={14} />
+                    <input type='file' id='attach-doc' hidden />
+                  </Label>
+                </InputGroupText>
+              </InputGroupAddon>
+            </InputGroup>
+            <Button className='send' color='primary'>
+              <Send size={14} className='d-lg-none' />
+              <span className='d-none d-lg-block'>Send</span>
+            </Button>
+          </Form>
         </div>
-
-        <Form className='chat-app-form' onSubmit={(e) => handleSendMsg(e)}>
-          <InputGroup className='input-group-merge mr-1 form-send-message'>
-            <InputGroupAddon addonType='prepend'>
-              <InputGroupText>
-                <Mic className='cursor-pointer' size={14} />
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
-              placeholder='Type your message or use speech to text'
-            />
-            <InputGroupAddon addonType='append'>
-              <InputGroupText>
-                <Label className='attachment-icon mb-0' for='attach-doc'>
-                  <Image className='cursor-pointer text-secondary' size={14} />
-                  <input type='file' id='attach-doc' hidden />
-                </Label>
-              </InputGroupText>
-            </InputGroupAddon>
-          </InputGroup>
-          <Button className='send' color='primary'>
-            <Send size={14} className='d-lg-none' />
-            <span className='d-none d-lg-block'>Send</span>
-          </Button>
-        </Form>
-      </div>
+      ) : (
+        <div className='start-chat-area'>
+          <div className='start-chat-icon mb-1'>
+            <MessageSquare />
+          </div>
+          <h4 className='sidebar-toggle start-chat-text'>Start Conversation</h4>
+        </div>
+      )}
     </div>
   )
 }
