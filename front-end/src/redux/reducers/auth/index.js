@@ -1,7 +1,7 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
 // **  Initial State
 
-import { SET_CURRENT_USER } from '../../actions/action.types/actionTypes'
+import { SET_CURRENT_USER, SET_IO } from '../../actions/action.types/actionTypes'
 
 // import { SET_CURRENT_USER } from '../actions/actionTypes'
 const isEmpty = require('is-empty')
@@ -18,6 +18,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload,
+      }
+
+    case SET_IO:
+      return {
+        ...state,
+        socketClient: action.payload,
       }
     case 'LOGOUT':
       return {}
