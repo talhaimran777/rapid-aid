@@ -5,6 +5,7 @@ import {
   CONVERSATIONS_FETCH_SUCCESS,
   MESSAGES_FETCH_INITIATED,
   MESSAGES_FETCH_SUCCESS,
+  SET_CURRENT_CHAT_USER_ID,
 } from '../../action.types/actionTypes'
 
 // ** INITIATING CONVERSATIONS FETCHING
@@ -46,6 +47,7 @@ export const handleFetchMessages = (id) => {
 
       if (res && res.data) {
         dispatch({ type: MESSAGES_FETCH_SUCCESS, payload: res.data })
+        dispatch({ type: SET_CURRENT_CHAT_USER_ID, payload: id })
         console.log(res.data)
       }
     } catch (err) {

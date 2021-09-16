@@ -27,26 +27,41 @@ import {
   InputGroupText,
   Button,
 } from 'reactstrap'
+import { handleSendMessage } from '../../redux/actions/chat/message/post'
+import { handleUpdateLocalChat } from '../../redux/actions/chat/update/chat'
 
 const ChatLog = () => {
   // ** State
   const [msg, setMsg] = useState('')
 
   // ** Refs & Dispatch
-  // const chatArea = useRef(null)
+  const chatArea = useRef(null)
   const dispatch = useDispatch()
 
   // ** Redux Selector
-  const { messages, showChat } = useSelector((state) => state.chat)
-  const { user } = useSelector((state) => state.auth)
+  const { messages, showChat, currentChatUserId } = useSelector((state) => state.chat)
+  const { user, socketClient } = useSelector((state) => state.auth)
 
   // const { messages } = chat
 
   // ** Scroll to chat bottom
+  const scrollToBottom = () => {
+    const chatContainer = ReactDOM.findDOMNode(chatArea.current)
+    chatContainer.scrollTop = chatContainer.scrollHeight
+  }
+
   // const scrollToBottom = () => {
-  //   const chatContainer = ReactDOM.findDOMNode(chatArea.current)
-  //   chatContainer.scrollTop = Number.MAX_SAFE_INTEGER
+  //   chatArea.current?.scroll({
+  // top: chatArea.current.scrollHeight,
+  // behavior: 'smooth',
+  //   })
   // }
+
+  useEffect(() => {
+    if (messages && chatArea && chatArea.current) {
+      scrollToBottom()
+    }
+  }, [messages])
 
   // ** If user chat is not empty scrollToBottom
   // useEffect(() => {
@@ -137,13 +152,30 @@ const ChatLog = () => {
   // }
 
   // ** Sends New Msg
-  // const handleSendMsg = (e) => {
-  //   e.preventDefault()
-  //   if (msg.length) {
-  //     dispatch(sendMsg({ ...selectedUser, message: msg }))
-  //     setMsg('')
-  //   }
-  // }
+  const handleSendMsg = (e) => {
+    e.preventDefault()
+    if (msg.length) {
+      // dispatch(sendMsg({ ...selectedUser, message: msg }))
+
+      const data = {
+        to: currentChatUserId,
+        message: msg,
+        oldMessages: messages,
+      }
+
+      dispatch(handleSendMessage(data))
+      setMsg('')
+    }
+  }
+
+  // ** Render a new message once you send it to someone
+  useEffect(() => {
+    if (socketClient) {
+      socketClient.on(`latestMessages-${user.id}`, (messages) => {
+        dispatch(handleUpdateLocalChat(messages))
+      })
+    }
+  }, [])
 
   // ** ChatWrapper tag based on chat's length
   // const ChatWrapper = Object.keys(selectedUser).length && selectedUser.chat ? PerfectScrollbar : 'div'
@@ -164,49 +196,35 @@ const ChatLog = () => {
 
       {messages && messages.length && showChat ? (
         <div className='active-chat d-flex flex-column'>
-          <div className='chats flex-grow-1 px-1'>
-            {messages.map((message) => (
-              <div
-                key={message._id}
-                className={classnames({
-                  'chat-left': message.from._id !== user.id,
-                })}
-              >
-                <div className='chat-avatar'>
-                  <Avatar className='box-shadow-1 cursor-pointer' img={message.avatar} />
-                </div>
+          <PerfectScrollbar ref={chatArea} className='user-chats flex-grow-1' options={{ wheelPropagation: true }}>
+            <div className='chats'>
+              {messages.map((message) => (
+                <div
+                  key={message._id}
+                  className={classnames({
+                    'chat-left':
+                      message.from && message.from._id ? message.from._id !== user.id : message.from !== user.id,
+                  })}
+                >
+                  <div className='chat-avatar'>
+                    <Avatar className='box-shadow-1 cursor-pointer' img={message.avatar} />
+                  </div>
 
-                <div className='chat-body'>
-                  {/* {item.messages.map((chat) => (
+                  <div className='chat-body'>
+                    {/* {item.messages.map((chat) => (
                 ))} */}
-                  <div key={1} className='chat-content'>
-                    <p>{message.message}</p>
+                    <div key={1} className='chat-content'>
+                      <p>{message.message}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </PerfectScrollbar>
 
-          <Form className='chat-app-form' onSubmit={(e) => handleSendMsg(e)}>
+          <Form className='chat-app-form' onSubmit={handleSendMsg}>
             <InputGroup className='input-group-merge mr-1 form-send-message'>
-              <InputGroupAddon addonType='prepend'>
-                <InputGroupText>
-                  <Mic className='cursor-pointer' size={14} />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Input
-                value={msg}
-                onChange={(e) => setMsg(e.target.value)}
-                placeholder='Type your message or use speech to text'
-              />
-              <InputGroupAddon addonType='append'>
-                <InputGroupText>
-                  <Label className='attachment-icon mb-0' for='attach-doc'>
-                    <Image className='cursor-pointer text-secondary' size={14} />
-                    <input type='file' id='attach-doc' hidden />
-                  </Label>
-                </InputGroupText>
-              </InputGroupAddon>
+              <Input value={msg} onChange={(e) => setMsg(e.target.value)} placeholder='Type your message here' />
             </InputGroup>
             <Button className='send' color='primary'>
               <Send size={14} className='d-lg-none' />

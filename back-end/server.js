@@ -37,10 +37,6 @@ let connectDb = async () => {
       const port = process.env.PORT || 5000
 
       httpServer.listen(port, () => console.log('Listening for requests on port: ' + port))
-
-      io.on('connection', (socket) => {
-        console.log('Socket connected', socket)
-      })
     }
   } catch (err) {
     console.log(err)
@@ -59,7 +55,6 @@ connectDb()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// ASSIGNING SOCKET OBJECT TO EACH REQUEST
 app.use((req, res, next) => {
   req.io = io
   next()

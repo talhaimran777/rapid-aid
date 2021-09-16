@@ -29,6 +29,7 @@ const SidebarLeft = (props) => {
 
   // ** Redux Selector
   const { conversations, conversationsFetchInProcess } = useSelector((state) => state.chat)
+  const { user, socketClient } = useSelector((state) => state.auth)
 
   // ** Dispatch
   const dispatch = useDispatch()
@@ -44,6 +45,8 @@ const SidebarLeft = (props) => {
   // ** Handles User Chat Click
   const handleFetchChat = (id) => {
     dispatch(handleFetchMessages(id))
+    // socketClient.emit('join', `${user.id}--with--${id}`)
+    // socketClient.emit('join', `${id}--with--${user.id}`)
   }
 
   // ** FETCHING CONVERSATIONS

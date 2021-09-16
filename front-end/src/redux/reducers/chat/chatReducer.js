@@ -3,6 +3,9 @@ import {
   CONVERSATIONS_FETCH_SUCCESS,
   MESSAGES_FETCH_INITIATED,
   MESSAGES_FETCH_SUCCESS,
+  SET_CURRENT_CHAT_USER_ID,
+  SEND_MESSAGE_SUCCESS,
+  UPDATE_LOCAL_CHAT,
 } from '../../actions/action.types/actionTypes'
 
 /*eslint comma-dangle: ["error", "always-multiline"]*/
@@ -42,6 +45,21 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         messages: action.payload.messages,
         showChat: true,
+      }
+    }
+
+    case SET_CURRENT_CHAT_USER_ID: {
+      return {
+        ...state,
+        currentChatUserId: action.payload,
+      }
+    }
+
+    // SOCKET.IO STUFF
+    case UPDATE_LOCAL_CHAT: {
+      return {
+        ...state,
+        messages: action.payload,
       }
     }
     default:

@@ -11,6 +11,7 @@ export default {
   updateOwnProfileEndPoint: '/api/v1/profiles/me',
   getConversationsEndPoint: '/api/v1/conversations',
   getMessagesEndPoint: '/api/v1/messages',
+  sendMessageEndPoint: '/api/v1/messages',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 

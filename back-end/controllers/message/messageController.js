@@ -5,7 +5,7 @@ const Message = require('../../models/Message')
 // Post private message
 
 const postMessage = async (req, res) => {
-  const { to, message, user } = req.body
+  const { to, message, user, oldMessages } = req.body
   const from = user.id
   const avatar = user.avatar
 
@@ -40,6 +40,36 @@ const postMessage = async (req, res) => {
         avatar,
         message,
       })
+
+      oldMessages.push(newMessage)
+      req.io.sockets.emit(`latestMessages-${to}`, oldMessages)
+      req.io.sockets.emit(`latestMessages-${from}`, oldMessages)
+
+      // req.socket.emit('latestMessages', oldMessages)
+      // req.socket.to(to).to(from).emit('latestMessages', oldMessages)
+
+      // ASSIGNING SOCKET OBJECT TO EACH REQUEST
+      // req.io.on('connection', (socket) => {
+      //   console.log('User connected')
+
+      //   socket.on('disconnect', () => {
+      //     console.log('User disconnected')
+      //   })
+      // })
+
+      // req.io.on('connection', (socket) => {
+      //   // console.log('Socket connected', socket)
+
+      //   socket.on('join', (roomName) => {
+      //     console.log(roomName)
+      //   })
+      // })
+      // req.io.sockets.emit('latestMessages', oldMessages)
+
+      // req.io.on('connection', (socket) => {
+      //   socket.to(socket.id).emit('latestMessages', oldMessages)
+      // })
+      // console.log(req.io.socket)
 
       const result = await newMessage.save()
       res.status(201).json({ status: 'SUCCESS', message: result })
