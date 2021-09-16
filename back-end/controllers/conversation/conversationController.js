@@ -12,12 +12,14 @@ const getConversations = async (req, res) => {
       recipients: {
         $in: [user.id],
       },
-    }).populate({
-      path: 'recipients',
-      match: {
-        _id: { $ne: user.id },
-      },
     })
+      .populate({
+        path: 'recipients',
+        match: {
+          _id: { $ne: user.id },
+        },
+      })
+      .sort({ date: -1 })
 
     // .populate('recipients', ['name', 'email', 'avatar'])
 

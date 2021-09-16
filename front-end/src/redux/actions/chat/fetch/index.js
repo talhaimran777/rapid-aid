@@ -29,7 +29,6 @@ export const handleFetchConversations = () => {
 
       if (res && res.data) {
         dispatch({ type: CONVERSATIONS_FETCH_SUCCESS, payload: res.data })
-        console.log(res.data)
       }
     } catch (err) {
       if (err.response && err.response.data) {

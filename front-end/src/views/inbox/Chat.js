@@ -29,6 +29,7 @@ import {
 } from 'reactstrap'
 import { handleSendMessage } from '../../redux/actions/chat/message/post'
 import { handleUpdateLocalChat } from '../../redux/actions/chat/update/chat'
+import { handleFetchConversations } from '../../redux/actions/chat/fetch'
 
 const ChatLog = () => {
   // ** State
@@ -39,7 +40,7 @@ const ChatLog = () => {
   const dispatch = useDispatch()
 
   // ** Redux Selector
-  const { messages, showChat, currentChatUserId } = useSelector((state) => state.chat)
+  const { messages, showChat, currentChatUserId, conversations } = useSelector((state) => state.chat)
   const { user, socketClient } = useSelector((state) => state.auth)
 
   // const { messages } = chat
@@ -156,11 +157,11 @@ const ChatLog = () => {
     e.preventDefault()
     if (msg.length) {
       // dispatch(sendMsg({ ...selectedUser, message: msg }))
-
       const data = {
         to: currentChatUserId,
         message: msg,
         oldMessages: messages,
+        oldConversations: conversations,
       }
 
       dispatch(handleSendMessage(data))
@@ -173,6 +174,7 @@ const ChatLog = () => {
     if (socketClient) {
       socketClient.on(`latestMessages-${user.id}`, (messages) => {
         dispatch(handleUpdateLocalChat(messages))
+        dispatch(handleFetchConversations())
       })
     }
   }, [])
