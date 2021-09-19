@@ -6,14 +6,16 @@ import { handleFetchTasks, handleFetchTasksNoUpdatesVersion, initiateTaskFetch }
 import useJwt from '@src/auth/jwt/useJwt'
 import axios from 'axios'
 import ComponentSpinner from '../../@core/components/spinner/Loading-spinner'
-import { MapPin, Calendar } from 'react-feather'
+import { MapPin, Calendar, Trash } from 'react-feather'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 const Tasks = () => {
   const [keyword, setKeyword] = useState('')
   const dispatch = useDispatch()
 
   // ** REDUX SELECTORS
+  const { user } = useSelector((state) => state.auth)
   const { tasks, inProcess } = useSelector((state) => state.taskFetch)
 
   const fetchTasks = useCallback(async () => {
@@ -83,7 +85,9 @@ const Tasks = () => {
                   <Row className='justify-content-center align-items-center'>
                     <Col xs={12} className='text-left'>
                       <Calendar className='mr-1 ' size={20} />
-                      <span className='text-white font-weight-light'>{task.dueDate}</span>
+                      <span className='text-white font-weight-light'>
+                        {moment(task.dueDate).format('dddd, MMMM Do YYYY')}
+                      </span>
                     </Col>
                   </Row>
 
@@ -95,6 +99,14 @@ const Tasks = () => {
                         <Badge color='primary'>{task.status}</Badge>
                       </h4>
                     </Col>
+
+                    {task.user === user.id ? (
+                      <Col className='text-right'>
+                        <Trash size={20} className='text-danger' />
+                      </Col>
+                    ) : (
+                      ''
+                    )}
                   </Row>
                 </CardBody>
               </Card>

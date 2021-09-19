@@ -25,9 +25,6 @@ const taskFetchReducer = (state = {}, action) => {
     case TASKS_FETCH_SUCCESS:
       return { inProcess: false, tasks: action.payload }
 
-    case TASK_FETCH_INITIATED:
-      return { inProcess: true }
-
     // case TASKS_FETCH_INITIATED_NO_UPDATES_VERSION:
     //   return {}
 

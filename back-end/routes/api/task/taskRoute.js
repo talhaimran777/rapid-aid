@@ -1,6 +1,6 @@
 const express = require('express')
 const { body, check } = require('express-validator')
-const { getTasks, getTask, postTask, addComment } = require('../../../controllers/task/taskController')
+const { getTasks, getTask, postTask, addComment, updateTask } = require('../../../controllers/task/taskController')
 // const validateTask = require('../../../validation/task')
 const auth = require('../../../middlewares/auth')
 const checkObjectId = require('../../../middlewares/checkObjectId')
@@ -36,7 +36,20 @@ router
     ],
     postTask
   )
-router.route('/:id').get([auth, checkObjectId('id')], getTask)
+router
+  .route('/:id')
+  .get([auth, checkObjectId('id')], getTask)
+  .patch(
+    [
+      auth,
+      checkObjectId('id'),
+      body('title').isLength({ min: 10 }).withMessage('Title must be atleast 10 characters long!'),
+      body('description').isLength({ min: 30 }).withMessage('Description must be atleast 30 characters long!'),
+      body('address').isLength({ min: 10 }).withMessage('Address must be atleast 10 characters long!'),
+      body('budget').isNumeric().withMessage('Budget must be a number'),
+    ],
+    updateTask
+  )
 router.route('/comment/:id').post([auth, checkObjectId('id'), body('comment')], addComment)
 // router.route('/register').post(register);
 // router.route('/login').post(login)

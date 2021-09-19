@@ -119,6 +119,11 @@ export default class JwtService {
     return axios.get(endPoint)
   }
 
+  updateTask(data, id) {
+    const endPoint = `${this.jwtConfig.updateTaskEndPoint}/${id}`
+    return axios.patch(endPoint, data)
+  }
+
   postTask(data) {
     return axios.post(this.jwtConfig.postTaskEndPoint, data)
   }

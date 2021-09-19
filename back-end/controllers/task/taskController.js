@@ -60,25 +60,6 @@ const getTask = async (req, res) => {
 
     res.status(500).send({ status: 'FAILED', msg: 'Server Error' })
   }
-
-  // try {
-  //   const tasks = await Task.find().sort({ _id: -1 })
-  //   res.status(200).json({ status: 'ok', tasks })
-  // } catch (err) {
-  //   console.error(err.message)
-  //   res.status(500).send('Server Error')
-  // }
-  // if (data) {
-  //   res.status(200).json({
-  //     status: 'OK',
-  //     tasks: JSON.parse(data),
-  //   })
-  // } else {
-  //   res.status(500).json({
-  //     status: 'Failed',
-  //     error: err,
-  //   })
-  // }
 }
 
 const postTask = async (req, res) => {
@@ -103,39 +84,59 @@ const postTask = async (req, res) => {
   }
 
   const { title, description, budget, address, dueDate, userId } = req.body
-
-  const year = dueDate[0].slice(0, 4)
-  const month = dueDate[0].slice(5, 7)
-  let day = dueDate[0].slice(8, 10)
-
-  day = parseInt(day, 10) + 1
-
-  const taskDueDate = year + '-' + month + '-' + day
-
-  const today = new Date()
-  const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-  const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-  const dateTime = date + ' ' + time
   const postedDate = Date.now()
+  const lastUpdated = Date.now()
+
   try {
     const user = await User.findById(userId).select('-password')
     const task = new Task({
       title: title,
       description: description,
       budget: budget,
-      dueDate: taskDueDate,
+      dueDate,
       address: address,
       status: 'open',
       user: userId,
       name: user.name,
       avatar: user.avatar,
-      creationTime: dateTime,
       postedDate,
+      lastUpdated,
     })
 
     const result = await task.save()
 
     res.status(201).json({ status: 'SUCCESS', task: result })
+  } catch (err) {
+    res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
+  }
+}
+
+const updateTask = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  const { id } = req.params
+  const { title, description, budget, address, dueDate, userId } = req.body
+
+  try {
+    const task = await Task.findById(id)
+    if (!task) {
+      return res.status(404).json({ status: 'FAILED', msg: 'Task was not found!' })
+    } else {
+      const user = await User.findById(userId).select('-password')
+      if (user) {
+        task.title = title
+        task.description = description
+        task.budget = budget
+        task.dueDate = dueDate
+        task.address = address
+        task.lastUpdated = Date.now()
+        const result = await task.save()
+        return res.status(201).json({ status: 'SUCCESS', task: result })
+      }
+    }
   } catch (err) {
     res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
   }
@@ -150,6 +151,8 @@ const addComment = async (req, res) => {
 
   const { user, comment } = req.body
   const { id } = user
+
+  const lastUpdated = Date.now()
 
   try {
     // console.log(req.params)
@@ -223,5 +226,6 @@ module.exports = {
   getTasks,
   getTask,
   postTask,
+  updateTask,
   addComment,
 }

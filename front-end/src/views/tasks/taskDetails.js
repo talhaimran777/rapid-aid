@@ -23,7 +23,7 @@ import axios from 'axios'
 // import { MapPin, Calendar } from 'react-feather'
 import ComponentSpinner from '../../@core/components/spinner/Loading-spinner'
 import { MapPin, Calendar } from 'react-feather'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import { isObjEmpty } from '@utils'
@@ -104,9 +104,24 @@ const TaskDetails = () => {
                 <h5 className='text-primary'>Posted At</h5>
                 <p>{postTime || '26 mins ago'}</p>
               </Col>
-              <Col className='d-flex justify-content-end'>
-                <Button.Ripple color='primary'>Make Offer</Button.Ripple>
-              </Col>
+
+              {task.user === user.id ? (
+                <Col className='d-flex justify-content-end'>
+                  <Link to={`/task-update/${task._id}`}>
+                    <Button.Ripple color='primary'>Update Task</Button.Ripple>
+                  </Link>
+                </Col>
+              ) : (
+                ''
+              )}
+
+              {task.user !== user.id ? (
+                <Col className='d-flex justify-content-end'>
+                  <Button.Ripple color='primary'>Make Offer</Button.Ripple>
+                </Col>
+              ) : (
+                ''
+              )}
             </Row>
             <Row className='my-3 justify-content-between align-items-center'>
               <Col>
@@ -164,7 +179,8 @@ const TaskDetails = () => {
 
             <>
               <CardTitle>Comments</CardTitle>
-              {task &&
+
+              {task && task.comments && task.comments.length > 0 ? (
                 task.comments.map((comment) => (
                   <Col className=''>
                     <Card className='border p-1'>
@@ -189,7 +205,10 @@ const TaskDetails = () => {
                       {/* <h1>Comment</h1> */}
                     </Card>
                   </Col>
-                ))}
+                ))
+              ) : (
+                <p>No Comments Available</p>
+              )}
             </>
             {/* <CardHeader></CardHeader> */}
 

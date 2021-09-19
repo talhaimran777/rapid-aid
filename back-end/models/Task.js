@@ -25,7 +25,7 @@ const taskSchema = new Schema({
     required: true,
   },
   dueDate: {
-    type: String,
+    type: Date,
     required: true,
   },
   status: { type: String, required: true },
@@ -37,8 +37,8 @@ const taskSchema = new Schema({
     type: String,
     required: true,
   },
-  creationTime: { type: String, required: true },
   postedDate: { type: Date, required: true },
+  lastUpdated: { type: Date },
   comments: [
     {
       user: {

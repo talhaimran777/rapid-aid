@@ -27,6 +27,11 @@ const Routes = [
     component: lazy(() => import('../../views/tasks/taskDetails')),
   },
   {
+    path: '/task-update/:id',
+    exact: true,
+    component: lazy(() => import('../../views/tasks/updateTask')),
+  },
+  {
     path: '/postTask',
     component: lazy(() => import('../../views/tasks/postTask')),
   },

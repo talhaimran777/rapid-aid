@@ -4,6 +4,7 @@
 // import { Card, CardHeader, CardTitle, Form } from 'reactstrap'
 import CardBody from 'reactstrap/lib/CardBody'
 import { useState, useContext, Fragment, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import classnames from 'classnames'
 import Avatar from '@components/avatar'
 import { useSkin } from '@hooks/useSkin'
@@ -38,8 +39,9 @@ import {
 // import { Label } from 'reactstrap'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import Flatpickr from 'react-flatpickr'
-import { handlePostTask } from '../../redux/actions/task/post'
-import { RESET_TASK_POST } from '../../redux/actions/action.types/actionTypes'
+import { RESET_TASK_UPDATE } from '../../redux/actions/action.types/actionTypes'
+import { handleFetchTask } from '../../redux/actions/task/fetch'
+import { handleUpdateTask } from '../../redux/actions/task/update'
 
 const ComponentSpinner = () => {
   return (
@@ -53,20 +55,13 @@ const ComponentSpinner = () => {
   )
 }
 
-const PostTask = () => {
+const UpdateTask = () => {
   // SETTING INITIAL STATE FOR LOGIN
   const initialState = {
     title: '',
     description: '',
     address: '',
     budget: '',
-  }
-
-  // STATE FOR GRABBING ERRORS FOR SHOWING VALIDATION ERRORS
-  const initialErrorState = {
-    titleError: '',
-    descriptionError: '',
-    addressError: '',
   }
 
   const [state, setState] = useState(initialState)
@@ -76,10 +71,17 @@ const PostTask = () => {
   const [descriptionError, setDescriptionError] = useState('')
   const [addressError, setAddressError] = useState('')
 
-  const [dueDate, setDueDate] = useState(new Date())
+  const [dueDate, setDueDate] = useState()
   const { register, errors, handleSubmit } = useForm()
+
+  //   REDUX
   const { user } = useSelector((state) => state.auth)
-  const { status, inProcess, errs } = useSelector((state) => state.taskPost)
+  //   const { status, inProcess, errs } = useSelector((state) => state.taskPost)
+  const { task, inProcess, error } = useSelector((state) => state.taskFetch)
+  const { updateStatus, updatedTask, updateTaskInProcess, errs } = useSelector((state) => state.taskUpdate)
+
+  //   EXTRACTING ID FROM PARAMS
+  const { id } = useParams()
 
   const dispatch = useDispatch()
 
@@ -94,23 +96,7 @@ const PostTask = () => {
         dueDate,
         userId: user.id,
       }
-      dispatch(handlePostTask(data))
-
-      // dispatch(loginInitiated())
-      // dispatch(handleLogin({ email, password }, history))
-      // alert('You are ready to login!')
-      // try {
-      //   const res = await axios.post('/api/v1/auth/login', { email, password })
-      //   // const res = axios.get('/api')
-      //   if (res && res.data) {
-      //     console.log(res.data)
-      //   }
-      // } catch (err) {
-      //   if (err.response && err.response.data) {
-      //     console.log(err.response.data)
-      //   }
-      // }
-      // console.log(state, dueDate)
+      dispatch(handleUpdateTask(data, id))
     }
   }
 
@@ -145,17 +131,42 @@ const PostTask = () => {
 
   useEffect(() => {
     return () => {
-      dispatch({ type: RESET_TASK_POST })
+      dispatch({ type: RESET_TASK_UPDATE })
     }
   }, [])
+
+  useEffect(() => {
+    if (id) {
+      dispatch(handleFetchTask(id))
+    }
+  }, [id])
+
+  useEffect(() => {
+    if (task) {
+      setState({ ...task })
+      setDueDate(task.dueDate)
+    }
+  }, [task])
+
+  useEffect(() => {
+    if (updatedTask) {
+      setState({ ...updatedTask })
+      setDueDate(updatedTask.dueDate)
+    }
+  }, [updatedTask])
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Post Task</CardTitle>
+        <CardTitle>Update Task</CardTitle>
       </CardHeader>
 
-      {inProcess ? (
+      {inProcess || updateTaskInProcess ? (
         <ComponentSpinner />
+      ) : error ? (
+        <CardBody>
+          <CardText>Task was not found!</CardText>
+        </CardBody>
       ) : (
         <CardBody>
           <Form className='mt-2' onSubmit={handleSubmit(onSubmit)}>
@@ -296,9 +307,9 @@ const PostTask = () => {
               </Col>
             </Row>
 
-            {status === 'SUCCESS' ? <p className='text-success'>Task has been posted successfully!</p> : ''}
+            {updateStatus === 'SUCCESS' ? <p className='text-success'>Task has been updated successfully!</p> : ''}
             <Button.Ripple type='submit' color='primary'>
-              Post Task
+              Save Task
             </Button.Ripple>
           </Form>
         </CardBody>
@@ -307,4 +318,4 @@ const PostTask = () => {
   )
 }
 
-export default PostTask
+export default UpdateTask
