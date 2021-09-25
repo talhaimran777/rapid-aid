@@ -17,7 +17,7 @@ export default class JwtService {
 
     // ** Request Interceptor
     axios.interceptors.request.use(
-      (config) => {
+      config => {
         // ** Get token from localStorage
         const accessToken = this.getToken()
 
@@ -30,7 +30,7 @@ export default class JwtService {
         }
         return config
       },
-      (error) => Promise.reject(error)
+      error => Promise.reject(error)
     )
 
     // ** Add request/response interceptor
@@ -72,7 +72,7 @@ export default class JwtService {
   }
 
   onAccessTokenFetched(accessToken) {
-    this.subscribers = this.subscribers.filter((callback) => callback(accessToken))
+    this.subscribers = this.subscribers.filter(callback => callback(accessToken))
   }
 
   addSubscriber(callback) {
@@ -154,6 +154,11 @@ export default class JwtService {
   sendMessage(data) {
     const endPoint = `${this.jwtConfig.sendMessageEndPoint}`
     return axios.post(endPoint, data)
+  }
+
+  deleteTask(id) {
+    const endPoint = `${this.jwtConfig.deleteTaskEndPoint}/${id}`
+    return axios.delete(endPoint)
   }
 
   refreshToken() {

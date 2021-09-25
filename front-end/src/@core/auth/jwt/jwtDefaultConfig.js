@@ -13,6 +13,7 @@ export default {
   getConversationsEndPoint: '/api/v1/conversations',
   getMessagesEndPoint: '/api/v1/messages',
   sendMessageEndPoint: '/api/v1/messages',
+  deleteTaskEndPoint: '/api/v1/tasks',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 

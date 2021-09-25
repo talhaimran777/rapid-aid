@@ -1,6 +1,6 @@
 const express = require('express')
 const { body, check } = require('express-validator')
-const { getTasks, getTask, postTask, addComment, updateTask } = require('../../../controllers/task/taskController')
+const { getTasks, getTask, postTask, addComment, updateTask, deleteTask } = require('../../../controllers/task/taskController')
 // const validateTask = require('../../../validation/task')
 const auth = require('../../../middlewares/auth')
 const checkObjectId = require('../../../middlewares/checkObjectId')
@@ -50,6 +50,7 @@ router
     ],
     updateTask
   )
+  .delete(auth, checkObjectId('id'), deleteTask)
 router.route('/comment/:id').post([auth, checkObjectId('id'), body('comment')], addComment)
 // router.route('/register').post(register);
 // router.route('/login').post(login)

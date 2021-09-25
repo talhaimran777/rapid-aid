@@ -1,18 +1,5 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardText,
-  Row,
-  Col,
-  Badge,
-  Input,
-  Button,
-  Label,
-  Spinner,
-} from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle, CardText, Row, Col, Badge, Input, Button, Label, Spinner } from 'reactstrap'
 import classnames from 'classnames'
 import { Image } from 'react-bootstrap'
 import { useEffect, useCallback, useState } from 'react'
@@ -39,14 +26,14 @@ const TaskDetails = () => {
 
   const { register, errors, handleSubmit } = useForm()
 
-  const { task, inProcess, error } = useSelector((state) => state.taskFetch)
-  const { user } = useSelector((state) => state.auth)
-  const { commentAddInProcess } = useSelector((state) => state.addComment)
+  const { task, inProcess, error } = useSelector(state => state.taskFetch)
+  const { user } = useSelector(state => state.auth)
+  const { commentAddInProcess } = useSelector(state => state.addComment)
   const { avatar } = user
 
   //   console.log(params)
 
-  const onSubmit = (formData) => {
+  const onSubmit = formData => {
     if (isObjEmpty(errors)) {
       const data = {}
       data.taskId = task._id
@@ -57,7 +44,7 @@ const TaskDetails = () => {
     }
   }
 
-  const getCommentPostedTime = (date) => {
+  const getCommentPostedTime = date => {
     return moment(date).fromNow()
   }
 
@@ -132,7 +119,7 @@ const TaskDetails = () => {
 
                 <div className='d-flex'>
                   <Calendar className='mr-1 text-primary' />
-                  <h5 className='font-weight-bold'>{task.dueDate}</h5>
+                  <h5 className='font-weight-bold'>{moment(task.dueDate).format('dddd, MMMM Do YYYY')}</h5>
                 </div>
               </Col>
               {/* <Col>
@@ -156,14 +143,14 @@ const TaskDetails = () => {
                     name='comment'
                     id='comment'
                     rows={5}
-                    onChange={(e) => setComment(e.target.value)}
+                    onChange={e => setComment(e.target.value)}
                     value={comment}
                     className={classnames({
                       'is-invalid': errors['comment'],
                     })}
                     innerRef={register({
                       required: true,
-                      validate: (value) => value !== '',
+                      validate: value => value !== '',
                     })}
                   />
                 </Col>
@@ -181,19 +168,12 @@ const TaskDetails = () => {
               <CardTitle>Comments</CardTitle>
 
               {task && task.comments && task.comments.length > 0 ? (
-                task.comments.map((comment) => (
+                task.comments.map(comment => (
                   <Col className=''>
                     <Card className='border p-1'>
                       <Row className='align-items-center'>
                         <Col sm={2} className='mb-1 mb-sm-0'>
-                          <Image
-                            src={comment.avatar}
-                            alt='avatar'
-                            roundedCircle
-                            height='40px'
-                            width='40px'
-                            className='mr-1'
-                          />
+                          <Image src={comment.avatar} alt='avatar' roundedCircle height='40px' width='40px' className='mr-1' />
                         </Col>
                         <Col className='text-justify'>
                           <span className=''>{comment.comment}</span>

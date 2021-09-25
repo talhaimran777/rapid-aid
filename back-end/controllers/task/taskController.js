@@ -111,6 +111,22 @@ const postTask = async (req, res) => {
   }
 }
 
+const deleteTask = async (req, res) => {
+  const { id } = req.params
+  try {
+    const task = await Task.findById(id)
+
+    if (!task) {
+      return res.status(404).json({ statusCode: 404, msg: 'Task was not found!' })
+    }
+
+    await task.remove()
+    res.json({ status: 200, msg: 'Task was removed successfully!' })
+  } catch (err) {
+    res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
+  }
+}
+
 const updateTask = async (req, res) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -179,53 +195,11 @@ const addComment = async (req, res) => {
   }
 }
 
-// const postData = (req, res) => {
-// Form validation
-//   const { errors, isValid } = validateTask(req.body)
-
-//   res.status(200).json({ errors, isValid })
-
-// let { dueDate } = req.body
-
-// const year = dueDate.slice(0, 4)
-// const month = dueDate.slice(5, 7)
-// const day = dueDate.slice(8, 10)
-
-// dueDate = {
-//   day,
-//   month,
-//   year,
-// }
-// res.status(200).send(dueDate)
-// data = JSON.stringify(task)
-// fs.writeFile(
-//   path.resolve(__dirname, '../data/tasks.json'),
-//   data,
-//   'utf-8',
-//   (err) => {
-//     if (err) {
-//       res.status(500).json({
-//         status: 'Failed',
-//         error: err,
-//       })
-
-// if (data) {
-//   res.status(200).json({
-//     status: 'OK',
-//     tasks: JSON.parse(data),
-//   });
-// } else {
-//   res.status(500).json({
-//     status: 'Failed',
-//     error: err,
-//   });
-// }
-// }
-
 module.exports = {
   getTasks,
   getTask,
   postTask,
   updateTask,
   addComment,
+  deleteTask,
 }
