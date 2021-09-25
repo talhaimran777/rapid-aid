@@ -139,10 +139,9 @@ const TaskDetails = () => {
                   <Image src={avatar} alt='avatar' roundedCircle height='40px' width='40px' className='mr-1' />
 
                   <Input
-                    type='textarea'
+                    type='text'
                     name='comment'
                     id='comment'
-                    rows={5}
                     onChange={e => setComment(e.target.value)}
                     value={comment}
                     className={classnames({
@@ -154,11 +153,7 @@ const TaskDetails = () => {
                     })}
                   />
                 </Col>
-                <Col sm={12}>
-                  <Button.Ripple className='mt-2 mr-1' color='primary' type='submit'>
-                    Add
-                  </Button.Ripple>
-
+                <Col sm={12} className='my-2'>
                   {commentAddInProcess ? <Spinner type='grow' color='primary' /> : ''}
                 </Col>
               </Row>
