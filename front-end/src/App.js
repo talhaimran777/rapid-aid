@@ -8,7 +8,7 @@ import { SET_CURRENT_USER, SET_IO } from './redux/actions/action.types/actionTyp
 
 const App = () => {
   const dispatch = useDispatch()
-  const socket = io()
+  const socket = io.connect('http://127.0.0.1:5000')
 
   if (useJwt.getToken()) {
     const token = useJwt.getToken()

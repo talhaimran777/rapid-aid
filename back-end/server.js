@@ -1,7 +1,14 @@
 const express = require('express')
 const app = require('express')()
 const httpServer = require('http').createServer(app)
-const options = {}
+const options = {
+  cors: {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  },
+}
 const io = require('socket.io')(httpServer, options)
 
 const cors = require('cors')
