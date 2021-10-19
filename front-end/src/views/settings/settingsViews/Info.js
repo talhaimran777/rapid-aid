@@ -35,11 +35,9 @@ const UpdateInfo = () => {
     phone: '',
   }
   const [state, setState] = useState(initialState)
-  const [birthDate, setBirthDate] = useState(new Date())
+  const [birthDate, setBirthDate] = useState(Date.now())
 
-  const { register, errors, handleSubmit, control, trigger } = useForm({
-    defaultValues: { dob: new Date() },
-  })
+  const { register, errors, handleSubmit, control, trigger } = useForm()
 
   const dispatch = useDispatch()
 
@@ -55,7 +53,8 @@ const UpdateInfo = () => {
       }
 
       if (birthDate) {
-        data.birthDate = birthDate[0]
+        // console.log(birthDate)
+        data.birthDate = birthDate
       }
 
       if (state.website) {

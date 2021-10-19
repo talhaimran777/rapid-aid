@@ -17,21 +17,21 @@ const Tasks = () => {
   const dispatch = useDispatch()
 
   // ** REDUX SELECTORS
-  const { user } = useSelector(state => state.auth)
-  const { tasks, inProcess } = useSelector(state => state.taskFetch)
-  const { deleteTaskError, deleteTaskInProcess, deleteStatus } = useSelector(state => state.taskDelete)
+  const { user } = useSelector((state) => state.auth)
+  const { tasks, inProcess } = useSelector((state) => state.taskFetch)
+  const { deleteTaskError, deleteTaskInProcess, deleteStatus } = useSelector((state) => state.taskDelete)
 
   const fetchTasks = useCallback(async () => {
     // dispatch(initiateTaskFetch())
     dispatch(handleFetchTasks())
   }, [dispatch])
 
-  const onChangeHandler = e => {
+  const onChangeHandler = (e) => {
     setKeyword(e.target.value)
   }
 
   // ** Delete Task Handler
-  const handleDeleteTaskHandler = id => {
+  const handleDeleteTaskHandler = (id) => {
     dispatch(handleDeleteTask(id))
   }
 
@@ -63,7 +63,7 @@ const Tasks = () => {
       <Col xs={12} sm={10} md={8} lg={7} xl={6}>
         <Input type='search' name='keyword' className='mb-1' placeholder='Search Tasks' onChange={onChangeHandler} />
         {tasks && tasks.length >= 1 ? (
-          tasks.map(task => (
+          tasks.map((task) => (
             <Card key={task._id}>
               {/* <CardHeader>
                   <CardTitle>{task.title}</CardTitle>
@@ -86,13 +86,13 @@ const Tasks = () => {
                 <Row className='align-items-center mb-1'>
                   <Col xs={12} className='text-truncate text-left'>
                     <MapPin className='mr-1' size={20} />
-                    <span className='text-white font-weight-light'>{task.address}</span>
+                    <span className='font-weight-light'>{task.address}</span>
                   </Col>
                 </Row>
                 <Row className='justify-content-center align-items-center'>
                   <Col xs={12} className='text-left'>
                     <Calendar className='mr-1 ' size={20} />
-                    <span className='text-white font-weight-light'>{moment(task.dueDate).format('dddd, MMMM Do YYYY')}</span>
+                    <span className='font-weight-light'>{moment(task.dueDate).format('dddd, MMMM Do YYYY')}</span>
                   </Col>
                 </Row>
 
