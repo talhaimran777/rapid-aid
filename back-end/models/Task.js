@@ -67,15 +67,13 @@ const taskSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
       },
-      text: {
+      description: {
         type: String,
         required: true,
       },
-      name: {
-        type: String,
-      },
-      avatar: {
-        type: String,
+      offeredAmount: {
+        type: Number,
+        required: true,
       },
       date: {
         type: Date,

@@ -66,14 +66,6 @@ const UserDropdown = () => {
             <span className='align-middle'>Inbox</span>
           </Link>
         </DropdownItem>
-        <DropdownItem tag={Link} to='#sdfsdf' onClick={(e) => e.preventDefault()}>
-          <CheckSquare size={14} className='mr-75' />
-          <span className='align-middle'>Tasks</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={(e) => e.preventDefault()}>
-          <MessageSquare size={14} className='mr-75' />
-          <span className='align-middle'>Chats</span>
-        </DropdownItem>
         <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
           <Power size={14} className='mr-75' />
           <span className='align-middle'>Logout</span>

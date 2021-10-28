@@ -1,5 +1,6 @@
 const validateTask = require('../../validation/task')
 const validateComment = require('../../validation/comment')
+const validateOffer = require('../../validation/offer')
 
 const { body, check, validationResult } = require('express-validator')
 const fs = require('fs')
@@ -195,6 +196,43 @@ const addComment = async (req, res) => {
   }
 }
 
+const postOffer = async (req, res) => {
+  const errors = validationResult(req)
+  console.log(errors)
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+
+  const { user, offeredAmount, description } = req.body
+  const { id } = user
+
+  // const lastUpdated = Date.now()
+
+  try {
+    // console.log(req.params)
+    // const user = await User.findById(id).select('-password')
+    const task = await Task.findById(req.params.id)
+
+    const newOffer = {
+      user: id,
+      offeredAmount: offeredAmount,
+      description: description,
+    }
+
+    task.offers.unshift(newOffer)
+
+    await task.save()
+
+    res.status(201).json({ status: 'SUCCESS', offers: task.offers })
+
+    // console.log(req.body)
+  } catch (err) {
+    console.log('ERROR')
+    res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
+  }
+}
+
 module.exports = {
   getTasks,
   getTask,
@@ -202,4 +240,5 @@ module.exports = {
   updateTask,
   addComment,
   deleteTask,
+  postOffer,
 }

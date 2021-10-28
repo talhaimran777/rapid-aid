@@ -1,6 +1,14 @@
 const express = require('express')
 const { body, check } = require('express-validator')
-const { getTasks, getTask, postTask, addComment, updateTask, deleteTask } = require('../../../controllers/task/taskController')
+const {
+  getTasks,
+  getTask,
+  postTask,
+  addComment,
+  updateTask,
+  deleteTask,
+  postOffer,
+} = require('../../../controllers/task/taskController')
 // const validateTask = require('../../../validation/task')
 const auth = require('../../../middlewares/auth')
 const checkObjectId = require('../../../middlewares/checkObjectId')
@@ -36,6 +44,19 @@ router
     ],
     postTask
   )
+
+router
+  .route('/offer/:id')
+  .post(
+    [
+      auth,
+      checkObjectId('id'),
+      body('offeredAmount').isNumeric().withMessage('Offered amount must be a number!'),
+      body('description').isLength({ min: 30 }).withMessage('Description must be atleast 30 characters long!'),
+    ],
+    postOffer
+  )
+
 router
   .route('/:id')
   .get([auth, checkObjectId('id')], getTask)
@@ -51,7 +72,9 @@ router
     updateTask
   )
   .delete(auth, checkObjectId('id'), deleteTask)
+
 router.route('/comment/:id').post([auth, checkObjectId('id'), body('comment')], addComment)
+
 // router.route('/register').post(register);
 // router.route('/login').post(login)
 // router.route('/register').post(register)
