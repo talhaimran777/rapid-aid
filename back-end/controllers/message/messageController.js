@@ -40,10 +40,9 @@ const postMessage = async (req, res) => {
       })
 
       oldMessages.push(newMessage)
-      req.io.sockets.emit(`latestMessages-${to}`, oldMessages)
-      req.io.sockets.emit(`latestMessages-${from}`, oldMessages)
-
       const result = await newMessage.save()
+      req.io.emit(`${to}`, oldMessages)
+      req.io.emit(`${from}`, oldMessages)
       res.status(201).json({ status: 'SUCCESS', message: result })
     }
   } catch (err) {

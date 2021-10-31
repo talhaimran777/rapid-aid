@@ -65,6 +65,10 @@ app.use(cors())
 
 app.use((req, res, next) => {
   req.io = io
+
+  io.on('connection', (socket) => {
+    console.log('User connected')
+  })
   next()
 })
 

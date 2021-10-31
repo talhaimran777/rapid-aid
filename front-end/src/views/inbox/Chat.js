@@ -172,7 +172,7 @@ const ChatLog = () => {
   // ** Render a new message once you send it to someone
   useEffect(() => {
     if (socketClient) {
-      socketClient.on(`latestMessages-${user.id}`, (messages) => {
+      socketClient.on(`${user.id}`, (messages) => {
         dispatch(handleUpdateLocalChat(messages))
         dispatch(handleFetchConversations())
       })
