@@ -14,6 +14,7 @@ export default {
   getMessagesEndPoint: '/api/v1/messages',
   sendMessageEndPoint: '/api/v1/messages',
   deleteTaskEndPoint: '/api/v1/tasks',
+  postOfferEndPoint: '/api/v1/offers',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 

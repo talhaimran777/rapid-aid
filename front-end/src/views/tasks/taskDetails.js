@@ -1,5 +1,18 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
-import { Card, CardHeader, CardBody, CardTitle, CardText, Row, Col, Badge, Input, Button, Label, Spinner } from 'reactstrap'
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  CardText,
+  Row,
+  Col,
+  Badge,
+  Input,
+  Button,
+  Label,
+  Spinner,
+} from 'reactstrap'
 import classnames from 'classnames'
 import { Image } from 'react-bootstrap'
 import { useEffect, useCallback, useState } from 'react'
@@ -26,14 +39,14 @@ const TaskDetails = () => {
 
   const { register, errors, handleSubmit } = useForm()
 
-  const { task, inProcess, error } = useSelector(state => state.taskFetch)
-  const { user } = useSelector(state => state.auth)
-  const { commentAddInProcess } = useSelector(state => state.addComment)
+  const { task, inProcess, error } = useSelector((state) => state.taskFetch)
+  const { user } = useSelector((state) => state.auth)
+  const { commentAddInProcess } = useSelector((state) => state.addComment)
   const { avatar } = user
 
   //   console.log(params)
 
-  const onSubmit = formData => {
+  const onSubmit = (formData) => {
     if (isObjEmpty(errors)) {
       const data = {}
       data.taskId = task._id
@@ -44,8 +57,22 @@ const TaskDetails = () => {
     }
   }
 
-  const getCommentPostedTime = date => {
+  const getCommentPostedTime = (date) => {
     return moment(date).fromNow()
+  }
+
+  const getOfferPostedTime = (date) => {
+    return moment(date).fromNow()
+  }
+
+  const hireTasker = (offer) => {
+    const data = {}
+    data.taskId = id
+    data.offerId = offer._id
+
+    console.log(data)
+
+    // dispatch(handleFetchTask(data))
   }
 
   useEffect(() => {
@@ -104,7 +131,9 @@ const TaskDetails = () => {
 
               {task.user !== user.id ? (
                 <Col className='d-flex justify-content-end'>
-                  <Button.Ripple color='primary'>Make Offer</Button.Ripple>
+                  <Link to={`/make-offer/${task._id}`}>
+                    <Button.Ripple color='primary'>Make Offer</Button.Ripple>
+                  </Link>
                 </Col>
               ) : (
                 ''
@@ -128,6 +157,57 @@ const TaskDetails = () => {
           </Col> */}
             </Row>
 
+            <CardTitle className='text-primary'>Offers Section</CardTitle>
+
+            <>
+              {task && task.offers && task.offers.length > 0 ? (
+                task.offers.map((offer) => (
+                  <Card className='border px-3 py-2'>
+                    <Row className='justify-content-center align-items-center'>
+                      <Col sm={2}>
+                        <Row className='justify-content-start align-items-center'>
+                          <Image
+                            src={offer?.user?.avatar}
+                            alt='avatar'
+                            roundedCircle
+                            height='40px'
+                            width='40px'
+                            className='mr-1 mb-2'
+                          />
+                          <span className=''>RS {offer.offeredAmount}</span>
+                          <Col sm={12}>
+                            <span className='font-lg text-primary'>{getOfferPostedTime(offer.date)}</span>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col>
+                        <p>{offer.description}</p>
+                      </Col>
+
+                      {offer.user._id !== user.id ? (
+                        <Col className='mt-1 mt-sm-0'>
+                          <Button.Ripple
+                            /* eslint-disable */
+                            onClick={hireTasker.bind(this, offer)}
+                            /* eslint-enable */
+
+                            color='primary'
+                          >
+                            Hire
+                          </Button.Ripple>
+                        </Col>
+                      ) : (
+                        ''
+                      )}
+                    </Row>
+                    {/* <h1>Comment</h1> */}
+                  </Card>
+                ))
+              ) : (
+                <p>No Offers Available</p>
+              )}
+            </>
+
             <CardTitle className='text-primary'>Comment Section</CardTitle>
 
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -142,14 +222,14 @@ const TaskDetails = () => {
                     type='text'
                     name='comment'
                     id='comment'
-                    onChange={e => setComment(e.target.value)}
+                    onChange={(e) => setComment(e.target.value)}
                     value={comment}
                     className={classnames({
                       'is-invalid': errors['comment'],
                     })}
                     innerRef={register({
                       required: true,
-                      validate: value => value !== '',
+                      validate: (value) => value !== '',
                     })}
                   />
                 </Col>
@@ -163,12 +243,19 @@ const TaskDetails = () => {
               <CardTitle>Comments</CardTitle>
 
               {task && task.comments && task.comments.length > 0 ? (
-                task.comments.map(comment => (
+                task.comments.map((comment) => (
                   <Col className=''>
                     <Card className='border p-1'>
                       <Row className='align-items-center'>
                         <Col sm={2} className='mb-1 mb-sm-0'>
-                          <Image src={comment.avatar} alt='avatar' roundedCircle height='40px' width='40px' className='mr-1' />
+                          <Image
+                            src={comment.avatar}
+                            alt='avatar'
+                            roundedCircle
+                            height='40px'
+                            width='40px'
+                            className='mr-1'
+                          />
                         </Col>
                         <Col className='text-justify'>
                           <span className=''>{comment.comment}</span>

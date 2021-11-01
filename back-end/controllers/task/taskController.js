@@ -46,10 +46,15 @@ const getTasks = async (req, res) => {
 }
 
 const getTask = async (req, res) => {
-  // console.log(req.params.id)
-
   try {
-    const task = await Task.findById(req.params.id)
+    const task = await Task.findById(req.params.id).populate({
+      path: 'offers',
+      populate: {
+        path: 'user',
+        model: 'User',
+        select: 'name avatar',
+      },
+    })
     // console.log(task)
     if (!task) {
       return res.status(404).json({ status: 'FAILED', msg: 'Task was not found!' })

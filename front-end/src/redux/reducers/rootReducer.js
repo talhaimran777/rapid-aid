@@ -16,6 +16,7 @@ import profileReducer from './profile'
 import chatReducer from './chat/chatReducer'
 import taskUpdateReducer from './task/update'
 import taskDeleteReducer from './task/delete'
+import offerPostReducer from './offer/post'
 
 const rootReducer = combineReducers({
   auth,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   addComment: addCommentReducer,
   profile: profileReducer,
   chat: chatReducer,
+  offerPost: offerPostReducer,
 })
 
 export default rootReducer

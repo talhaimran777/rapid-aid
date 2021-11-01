@@ -64,21 +64,8 @@ const taskSchema = new Schema({
   ],
   offers: [
     {
-      user: {
-        type: Schema.Types.ObjectId,
-      },
-      description: {
-        type: String,
-        required: true,
-      },
-      offeredAmount: {
-        type: Number,
-        required: true,
-      },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'Offer',
     },
   ],
 })

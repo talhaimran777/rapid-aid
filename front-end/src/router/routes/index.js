@@ -36,6 +36,10 @@ const Routes = [
     component: lazy(() => import('../../views/tasks/postTask')),
   },
   {
+    path: '/make-offer/:id',
+    component: lazy(() => import('../../views/offer/makeOffer')),
+  },
+  {
     path: '/login',
     component: lazy(() => import('../../views/authentication/Login')),
     layout: 'BlankLayout',

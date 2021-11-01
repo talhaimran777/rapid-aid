@@ -46,18 +46,6 @@ router
   )
 
 router
-  .route('/offer/:id')
-  .post(
-    [
-      auth,
-      checkObjectId('id'),
-      body('offeredAmount').isNumeric().withMessage('Offered amount must be a number!'),
-      body('description').isLength({ min: 30 }).withMessage('Description must be atleast 30 characters long!'),
-    ],
-    postOffer
-  )
-
-router
   .route('/:id')
   .get([auth, checkObjectId('id')], getTask)
   .patch(
