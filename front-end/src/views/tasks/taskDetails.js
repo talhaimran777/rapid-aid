@@ -28,6 +28,7 @@ import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import { isObjEmpty } from '@utils'
 import { handleAddComment } from '../../redux/actions/comment/add'
+import { handleHireWorker } from '../../redux/actions/order'
 
 const TaskDetails = () => {
   const { id } = useParams()
@@ -69,10 +70,9 @@ const TaskDetails = () => {
     const data = {}
     data.taskId = id
     data.offerId = offer._id
+    data.taskerId = offer?.user?._id
 
-    console.log(data)
-
-    // dispatch(handleFetchTask(data))
+    dispatch(handleHireWorker(data))
   }
 
   useEffect(() => {

@@ -22,6 +22,7 @@ const profileRoute = require('./routes/api/profile/profileRoute')
 const messageRoute = require('./routes/api/message/messageRoute')
 const conversationRoute = require('./routes/api/conversation/conversationRoute')
 const offerRoute = require('./routes/api/offer/offerRoute')
+const orderRoute = require('./routes/api/order/orderRoute')
 
 dotenv.config()
 
@@ -79,6 +80,7 @@ app.use('/api/v1/profiles', profileRoute)
 app.use('/api/v1/messages', messageRoute)
 app.use('/api/v1/conversations', conversationRoute)
 app.use('/api/v1/offers', offerRoute)
+app.use('/api/v1/orders', orderRoute)
 
 // USING AUTH ROUTE
 // app.post('/login', (req, res) => {

@@ -166,6 +166,16 @@ export default class JwtService {
     return axios.post(endPoint, data)
   }
 
+  getOrder() {
+    const endPoint = `${this.jwtConfig.getOrderEndPoint}`
+    return axios.get(endPoint)
+  }
+
+  hireWorker(data) {
+    const endPoint = `${this.jwtConfig.createOrderEndPoint}`
+    return axios.post(endPoint, data)
+  }
+
   refreshToken() {
     return axios.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken(),
