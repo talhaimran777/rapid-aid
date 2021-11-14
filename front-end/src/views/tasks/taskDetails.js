@@ -12,6 +12,11 @@ import {
   Button,
   Label,
   Spinner,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert,
 } from 'reactstrap'
 import classnames from 'classnames'
 import { Image } from 'react-bootstrap'
@@ -36,6 +41,8 @@ const TaskDetails = () => {
 
   const [postTime, setPostTime] = useState('')
   const [comment, setComment] = useState('')
+  const [hireSuccessModal, setHireSuccessModal] = useState(false)
+
   // const [comments, setComments] = useState([])
 
   const { register, errors, handleSubmit } = useForm()
@@ -43,6 +50,7 @@ const TaskDetails = () => {
   const { task, inProcess, error } = useSelector((state) => state.taskFetch)
   const { user } = useSelector((state) => state.auth)
   const { commentAddInProcess } = useSelector((state) => state.addComment)
+  const { isHiringInProcess, isHired } = useSelector((state) => state.hireWorker)
   const { avatar } = user
 
   //   console.log(params)
@@ -67,12 +75,17 @@ const TaskDetails = () => {
   }
 
   const hireTasker = (offer) => {
-    const data = {}
-    data.taskId = id
-    data.offerId = offer._id
-    data.taskerId = offer?.user?._id
+    // eslint-disable-next-line no-restricted-globals
+    if (
+      confirm(`Are you sure you want to hire this worker with ID: ${offer?.user?._id} & Name: ${offer?.user?.name}`)
+    ) {
+      const data = {}
+      data.taskId = id
+      data.offerId = offer._id
+      data.taskerId = offer?.user?._id
 
-    dispatch(handleHireWorker(data))
+      dispatch(handleHireWorker(data))
+    }
   }
 
   useEffect(() => {
@@ -88,17 +101,32 @@ const TaskDetails = () => {
     }
   }, [task])
 
-  // useEffect(() => {
-  //   if (task) {
-  //     const { postedDate } = task
-  //     setPostTime(moment(postedDate).fromNow())
-  //   }
-  // }, [task])
+  useEffect(() => {
+    if (isHired) {
+      // show modal
+      setHireSuccessModal(true)
+    }
+  }, [isHired])
 
-  return inProcess ? (
+  return inProcess || isHiringInProcess ? (
     <ComponentSpinner />
   ) : !error && task ? (
     <Card>
+      <div className='vertically-centered-modal'>
+        <Modal
+          isOpen={hireSuccessModal}
+          toggle={() => setHireSuccessModal(!hireSuccessModal)}
+          className='modal-dialog-centered'
+        >
+          <ModalHeader toggle={() => setHireSuccessModal(!hireSuccessModal)}>Hiring Success</ModalHeader>
+          <ModalBody>
+            <Alert color='success'>
+              <p>You have successfully hired the worker.</p>
+            </Alert>
+          </ModalBody>
+        </Modal>
+      </div>
+
       <CardHeader>
         <CardTitle className='text-primary'>{task.title}</CardTitle>
       </CardHeader>

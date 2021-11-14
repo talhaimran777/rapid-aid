@@ -18,6 +18,7 @@ import taskUpdateReducer from './task/update'
 import taskDeleteReducer from './task/delete'
 import offerPostReducer from './offer/post'
 import orderFetchReducer from './order/fetch'
+import hireWorkerReducer from './order/hire'
 
 const rootReducer = combineReducers({
   auth,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   chat: chatReducer,
   offerPost: offerPostReducer,
   orderFetch: orderFetchReducer,
+  hireWorker: hireWorkerReducer,
 })
 
 export default rootReducer
