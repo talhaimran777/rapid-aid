@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const { validationResult } = require('express-validator')
 const User = require('../../models/User')
 const Order = require('../../models/Order')
+const Task = require('../../models/Task')
 
 // const sendPrivateMessageFromServer = async (req, res) => {
 //   const { to, message, user, oldMessages, oldConversations } = req.body
@@ -61,6 +62,8 @@ const createOrder = async (req, res) => {
   const { id } = user
 
   try {
+    const task = await Task.findById(taskId)
+
     const data = {}
 
     data.hirerId = id
@@ -73,6 +76,8 @@ const createOrder = async (req, res) => {
 
     if (newOrder) {
       await newOrder.save()
+      task.status = 'assigned'
+      await task.save()
       res.status(201).json({ status: 'SUCCESS', data: newOrder })
     }
   } catch (err) {
