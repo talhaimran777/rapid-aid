@@ -34,6 +34,7 @@ import { useForm } from 'react-hook-form'
 import { isObjEmpty } from '@utils'
 import { handleAddComment } from '../../redux/actions/comment/add'
 import { handleHireWorker } from '../../redux/actions/order'
+import { RESET_HIRE_WORKER } from '../../redux/actions/action.types/actionTypes'
 
 const TaskDetails = () => {
   const { id } = useParams()
@@ -88,9 +89,16 @@ const TaskDetails = () => {
     }
   }
 
+  const cleanUp = () => {
+    dispatch({ type: RESET_HIRE_WORKER })
+  }
+
   useEffect(() => {
     if (id) {
       dispatch(handleFetchTask(id))
+    }
+    return () => {
+      cleanUp()
     }
   }, [id])
 
@@ -150,7 +158,9 @@ const TaskDetails = () => {
               {task.user === user.id ? (
                 <Col className='d-flex justify-content-end'>
                   <Link to={`/task-update/${task._id}`}>
-                    <Button.Ripple color='primary'>Update Task</Button.Ripple>
+                    <Button.Ripple disabled={task.status !== 'open'} color='primary'>
+                      Update Task
+                    </Button.Ripple>
                   </Link>
                 </Col>
               ) : (
@@ -160,7 +170,9 @@ const TaskDetails = () => {
               {task.user !== user.id ? (
                 <Col className='d-flex justify-content-end'>
                   <Link to={`/make-offer/${task._id}`}>
-                    <Button.Ripple color='primary'>Make Offer</Button.Ripple>
+                    <Button.Ripple disabled={task.status !== 'open'} color='primary'>
+                      Make Offer
+                    </Button.Ripple>
                   </Link>
                 </Col>
               ) : (
@@ -191,7 +203,7 @@ const TaskDetails = () => {
               {task && task.offers && task.offers.length > 0 ? (
                 task.offers.map((offer) => (
                   <Card className='border px-3 py-2'>
-                    <Row className='justify-content-center align-items-center'>
+                    <Row className='justify-content-start align-items-center'>
                       <Col sm={2}>
                         <Row className='justify-content-start align-items-center'>
                           <Image
@@ -220,6 +232,7 @@ const TaskDetails = () => {
                             /* eslint-enable */
 
                             color='primary'
+                            disabled={task.status !== 'open'}
                           >
                             Hire
                           </Button.Ripple>

@@ -20,6 +20,11 @@ const OrderSchema = new Schema({
     ref: 'User',
   },
   orderParticipants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  orderStatus: {
+    type: String,
+    enum: ['pending', 'completed'],
+    default: 'pending',
+  },
   date: {
     type: Date,
     default: Date.now,
