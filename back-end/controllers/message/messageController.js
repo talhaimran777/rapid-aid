@@ -5,7 +5,7 @@ const Message = require('../../models/Message')
 // Post private message
 
 const postMessage = async (req, res) => {
-  const { to, message, user, oldMessages, oldConversations } = req.body
+  const { to, message, user, oldMessages } = req.body
   const from = user.id
   const avatar = user.avatar
 

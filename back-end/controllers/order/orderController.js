@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator')
 const User = require('../../models/User')
 const Order = require('../../models/Order')
 const Task = require('../../models/Task')
+const Conversation = require('../../models/Conversation')
+const Message = require('../../models/Message')
 
 // const sendPrivateMessageFromServer = async (req, res) => {
 //   const { to, message, user, oldMessages, oldConversations } = req.body
@@ -60,10 +62,9 @@ const createOrder = async (req, res) => {
 
   const { user, taskId, offerId, taskerId } = req.body
   const { id } = user
+  // console.log(user)
 
   try {
-    const task = await Task.findById(taskId)
-
     const data = {}
 
     data.hirerId = id
@@ -76,8 +77,38 @@ const createOrder = async (req, res) => {
 
     if (newOrder) {
       await newOrder.save()
+
+      const task = await Task.findById(taskId)
       task.status = 'assigned'
       await task.save()
+
+      const tasker = await User.findById(taskerId)
+      const conversation = await Conversation.findOneAndUpdate(
+        {
+          recipients: {
+            $in: [
+              [id, tasker._id],
+              [tasker._id, id],
+            ],
+          },
+        },
+        {
+          recipients: [id, tasker._id],
+          lastMessage: 'I have hired you!',
+          date: Date.now(),
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      )
+
+      const newMessage = new Message({
+        conversation: conversation._id,
+        to: tasker._id,
+        from: id,
+        avatar: user?.avatar,
+        message: 'I have hired you!',
+      })
+      await newMessage.save()
+
       res.status(201).json({ status: 'SUCCESS', data: newOrder })
     }
   } catch (err) {
