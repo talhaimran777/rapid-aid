@@ -44,7 +44,10 @@ const ToastContent = ({ name, role }) => (
       </div>
     </div>
     <div className='toastify-body'>
-      <span>You have successfully logged in as an {role} user to Vuexy. Now you can start to explore. Enjoy!</span>
+      <span>
+        You have successfully logged in as an {role} user to Rapid Aide - Services Provider Application. Now you can
+        start to explore. Enjoy!
+      </span>
     </div>
   </Fragment>
 )

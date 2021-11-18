@@ -21,8 +21,6 @@ const getConversations = async (req, res) => {
       })
       .sort({ date: -1 })
 
-    // .populate('recipients', ['name', 'email', 'avatar'])
-
     if (conversations.length > 0) {
       res.json({
         status: 'SUCCESS',
