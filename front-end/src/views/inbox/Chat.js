@@ -177,6 +177,10 @@ const ChatLog = () => {
         dispatch(handleFetchConversations())
       })
     }
+
+    return () => {
+      dispatch({ type: 'CLEAR_CHAT_DATA' })
+    }
   }, [])
 
   // ** ChatWrapper tag based on chat's length

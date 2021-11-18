@@ -62,6 +62,15 @@ const chatReducer = (state = initialState, action) => {
         messages: action.payload,
       }
     }
+
+    case 'CLEAR_CHAT_DATA': {
+      return {
+        ...state,
+        messages: [],
+        showChat: false,
+        currentChatUserId: null,
+      }
+    }
     default:
       return state
   }
