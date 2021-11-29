@@ -6,6 +6,7 @@ import {
   SET_CURRENT_CHAT_USER_ID,
   SEND_MESSAGE_SUCCESS,
   UPDATE_LOCAL_CHAT,
+  CLEAR_CHAT_DATA,
 } from '../../actions/action.types/actionTypes'
 
 /*eslint comma-dangle: ["error", "always-multiline"]*/
@@ -63,7 +64,7 @@ const chatReducer = (state = initialState, action) => {
       }
     }
 
-    case 'CLEAR_CHAT_DATA': {
+    case CLEAR_CHAT_DATA: {
       return {
         ...state,
         messages: [],

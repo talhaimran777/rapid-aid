@@ -30,6 +30,7 @@ import {
 import { handleSendMessage } from '../../redux/actions/chat/message/post'
 import { handleUpdateLocalChat } from '../../redux/actions/chat/update/chat'
 import { handleFetchConversations } from '../../redux/actions/chat/fetch'
+import { CLEAR_CHAT_DATA } from '../../redux/actions/action.types/actionTypes'
 
 const ChatLog = () => {
   // ** State
@@ -179,7 +180,7 @@ const ChatLog = () => {
     }
 
     return () => {
-      dispatch({ type: 'CLEAR_CHAT_DATA' })
+      dispatch({ type: CLEAR_CHAT_DATA })
     }
   }, [])
 
