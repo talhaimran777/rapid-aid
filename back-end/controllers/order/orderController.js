@@ -6,53 +6,6 @@ const Task = require('../../models/Task')
 const Conversation = require('../../models/Conversation')
 const Message = require('../../models/Message')
 
-// const sendPrivateMessageFromServer = async (req, res) => {
-//   const { to, message, user, oldMessages, oldConversations } = req.body
-//   const from = user.id
-//   const avatar = user.avatar
-
-//   try {
-//     const conversation = await Conversation.findOneAndUpdate(
-//       {
-//         recipients: {
-//           $in: [
-//             [to, from],
-//             [from, to],
-//           ],
-//         },
-//       },
-//       {
-//         recipients: [to, from],
-//         lastMessage: message,
-//         date: Date.now(),
-//       },
-//       { upsert: true, new: true, setDefaultsOnInsert: true }
-//     )
-
-//     if (conversation) {
-//       // console.log(conversation)
-//       // console.log(oldConversations)
-
-//       const newMessage = new Message({
-//         conversation: conversation._id,
-//         to,
-//         from,
-//         avatar,
-//         message,
-//       })
-
-//       oldMessages.push(newMessage)
-//       const result = await newMessage.save()
-//       req.io.emit(`${to}`, oldMessages)
-//       req.io.emit(`${from}`, oldMessages)
-//       res.status(201).json({ status: 'SUCCESS', message: result })
-//     }
-//   } catch (err) {
-//     console.log(err)
-//     res.status(500).json({ status: 'FAILED', error: err.response })
-//   }
-// }
-
 const createOrder = async (req, res) => {
   const errors = validationResult(req)
 
@@ -147,7 +100,57 @@ const getOrder = async (req, res) => {
   }
 }
 
+const markOrderComplete = async (req, res) => {
+  // const errors = validationResult(req)
+
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json({ errors: errors.array() })
+  // }
+
+  console.log(req.body)
+
+  const { user, orderId, taskId } = req.body
+  const { id } = user
+
+  try {
+
+    const order = await Order.findById(orderId)
+
+    if(order){
+      order.orderStatus = 'completed'
+      await order.save()
+
+      const task = await Task.findById(taskId)
+      task.status = 'completed'
+      await task.save()
+
+      res.status(200).json({ status: 'SUCCESS', data: order, message: 'Order completed successfully!' })
+    }
+    else {
+      res.status(404).json({ status: 'FAILED', message: 'No Order Found!' })
+    }
+
+    // const orders = await Order.find()
+    //   .or([
+    //     { hirerId: id, orderStatus: 'pending' },
+    //     { taskerId: id, orderStatus: 'pending' },
+    //   ])
+    //   .populate('taskId')
+    //   .populate('offerId')
+
+    // if (orders?.length) {
+    //   res.status(200).json({ status: 'SUCCESS', data: orders[0] })
+    // } else {
+    //   res.status(200).json({ status: 'SUCCESS', data: null })
+    // }
+  } catch (err) {
+    console.log('ERROR')
+    res.status(500).json({ status: 'FAILED', error: err, message: 'Server Error' })
+  }
+}
+
 module.exports = {
   createOrder,
   getOrder,
+  markOrderComplete
 }

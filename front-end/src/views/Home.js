@@ -1,19 +1,35 @@
-/*eslint comma-dangle: ["error", "always-multiline"]*/
+/* eslint-disable */
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, CardHeader, CardBody, CardTitle, CardText, CardLink, Button } from 'reactstrap'
-import { handleFetchActiveOrder } from '../redux/actions/order'
+import { handleFetchActiveOrder, handleOrderComplete } from '../redux/actions/order'
 import moment from 'moment'
 import { isObjEmpty } from '../utility/Utils'
+
 const Home = () => {
   const { order, inProcess } = useSelector((state) => state.orderFetch)
   const { user } = useSelector((state) => state.auth)
+  const { orderCompleteStatus } = useSelector((state) => state.orderComplete)
+
 
   const dispatch = useDispatch()
 
+  const markOrderComplete = (order) => {
+    console.log(order?.taskId)
+    const {taskId, _id} = order
+
+    const data = {}
+
+    data.taskId = taskId?._id
+    data.orderId = _id
+
+    dispatch(handleOrderComplete(data))
+
+  }
+
   useEffect(() => {
     dispatch(handleFetchActiveOrder())
-  }, [])
+  }, [orderCompleteStatus])
   return (
     <div>
       <Card>
@@ -44,7 +60,8 @@ const Home = () => {
             {user?.id === order?.hirerId ? (
               <div className=''>
                 <CardText>If your order has been completed then mark your order as completed!</CardText>
-                <Button.Ripple color='primary'>Mark Complete</Button.Ripple>
+                <Button.Ripple
+                onClick = {markOrderComplete.bind(this, order)} color='primary'>Mark Complete</Button.Ripple>
               </div>
             ) : (
               ''

@@ -188,7 +188,7 @@ const TaskDetails = () => {
                 ''
               )}
 
-              {task.user !== user.id && !isOfferPosted ? (
+              {task.user !== user.id && !isOfferPosted && !isActiveOrder ? (
                 <Col className='d-flex justify-content-end'>
                   <Link to={`/make-offer/${task._id}`}>
                     <Button.Ripple disabled={task.status !== 'open'} color='primary'>

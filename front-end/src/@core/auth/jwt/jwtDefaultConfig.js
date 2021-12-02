@@ -17,6 +17,7 @@ export default {
   postOfferEndPoint: '/api/v1/offers',
   getOrderEndPoint: '/api/v1/orders',
   createOrderEndPoint: '/api/v1/orders',
+  markOrderCompleteEndPoint: '/api/v1/orders',
   // refreshEndpoint: '/jwt/refresh-token',
   // logoutEndpoint: '/jwt/logout',
 
