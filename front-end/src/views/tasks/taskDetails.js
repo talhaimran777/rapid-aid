@@ -33,7 +33,7 @@ import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import { isObjEmpty } from '@utils'
 import { handleAddComment } from '../../redux/actions/comment/add'
-import { handleHireWorker } from '../../redux/actions/order'
+import { handleFetchActiveOrder, handleHireWorker } from '../../redux/actions/order'
 import { RESET_HIRE_WORKER } from '../../redux/actions/action.types/actionTypes'
 
 const TaskDetails = () => {
@@ -43,13 +43,15 @@ const TaskDetails = () => {
   const [postTime, setPostTime] = useState('')
   const [comment, setComment] = useState('')
   const [hireSuccessModal, setHireSuccessModal] = useState(false)
-
-  // const [comments, setComments] = useState([])
+  const [isOfferPosted, setIsOfferPosted] = useState(false)
+  const [isActiveOrder, setIsActiveOrder] = useState(false)
 
   const { register, errors, handleSubmit } = useForm()
 
   const { task, inProcess, error } = useSelector((state) => state.taskFetch)
   const { user } = useSelector((state) => state.auth)
+  const { order } = useSelector((state) => state.orderFetch)
+
   const { commentAddInProcess } = useSelector((state) => state.addComment)
   const { isHiringInProcess, isHired } = useSelector((state) => state.hireWorker)
   const { avatar } = user
@@ -95,6 +97,7 @@ const TaskDetails = () => {
 
   useEffect(() => {
     if (id) {
+      dispatch(handleFetchActiveOrder())
       dispatch(handleFetchTask(id))
     }
     return () => {
@@ -110,9 +113,27 @@ const TaskDetails = () => {
   }, [task])
 
   useEffect(() => {
+    if (task?.offers?.length) {
+      // console.log(task.offers)
+      const { offers } = task
+      const found = offers.find((offer) => offer?.user?._id === user.id)
+      if (found) {
+        setIsOfferPosted(true)
+      }
+    }
+  }, [task?.offers])
+
+  useEffect(() => {
+    if (order) {
+      setIsActiveOrder(order)
+    }
+  }, [order])
+
+  useEffect(() => {
     if (isHired) {
       // show modal
       setHireSuccessModal(true)
+      dispatch(handleFetchTask(id))
     }
   }, [isHired])
 
@@ -167,7 +188,7 @@ const TaskDetails = () => {
                 ''
               )}
 
-              {task.user !== user.id ? (
+              {task.user !== user.id && !isOfferPosted ? (
                 <Col className='d-flex justify-content-end'>
                   <Link to={`/make-offer/${task._id}`}>
                     <Button.Ripple disabled={task.status !== 'open'} color='primary'>
@@ -224,7 +245,7 @@ const TaskDetails = () => {
                         <p>{offer.description}</p>
                       </Col>
 
-                      {offer.user._id !== user.id ? (
+                      {task.user === user.id && !isActiveOrder ? (
                         <Col className='mt-1 mt-sm-0'>
                           <Button.Ripple
                             /* eslint-disable */

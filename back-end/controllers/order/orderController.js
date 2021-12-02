@@ -129,7 +129,10 @@ const getOrder = async (req, res) => {
 
   try {
     const orders = await Order.find()
-      .or([{ hirerId: id }, { taskerId: id }])
+      .or([
+        { hirerId: id, orderStatus: 'pending' },
+        { taskerId: id, orderStatus: 'pending' },
+      ])
       .populate('taskId')
       .populate('offerId')
 

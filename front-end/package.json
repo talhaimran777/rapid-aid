@@ -1,5 +1,5 @@
 {
-  "name": "Rapid Aide - Services Provider Application",
+  "name": "rapid-aid",
   "version": "1.0.0",
   "proxy": "http://127.0.0.1:5000",
   "private": true,
@@ -18,7 +18,7 @@
     "animate.css": "4.1.1",
     "apexcharts": "^3.27.3",
     "availity-reactstrap-validation-safe": "2.6.1",
-    "axios": "0.21.1",
+    "axios": "^0.24.0",
     "axios-mock-adapter": "1.19.0",
     "babel-plugin-react-intl": "5.1.18",
     "bootstrap": "4.5.2",
