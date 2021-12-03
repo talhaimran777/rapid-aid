@@ -11,15 +11,16 @@ import ComponentSpinner from '../../@core/components/spinner/Loading-spinner'
 import { MapPin, Calendar, Trash } from 'react-feather'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-
 const Tasks = () => {
   const [keyword, setKeyword] = useState('')
+
   const dispatch = useDispatch()
 
   // ** REDUX SELECTORS
   const { user } = useSelector((state) => state.auth)
   const { tasks, inProcess } = useSelector((state) => state.taskFetch)
   const { deleteTaskError, deleteTaskInProcess, deleteStatus } = useSelector((state) => state.taskDelete)
+
 
   const fetchTasks = useCallback(async () => {
     // dispatch(initiateTaskFetch())
@@ -32,7 +33,9 @@ const Tasks = () => {
 
   // ** Delete Task Handler
   const handleDeleteTaskHandler = (id) => {
-    dispatch(handleDeleteTask(id))
+    if(confirm(`Are you sure you want to delete this task with id ${id}?`)) {
+      alert("Deleting it!")
+    }
   }
 
   useEffect(() => {
@@ -112,7 +115,7 @@ const Tasks = () => {
                     </div>
                   </Col>
 
-                  {task.user === user.id ? (
+                  {task.user === user.id && task.status === 'open' ? (
                     <Col className='text-right'>
                       <Trash
                         style={{ cursor: 'pointer' }}

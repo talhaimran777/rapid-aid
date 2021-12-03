@@ -176,6 +176,13 @@ export default class JwtService {
     return axios.post(endPoint, data)
   }
 
+  markOrderComplete(data) {
+
+    const {orderId} = data
+    const endPoint = `${this.jwtConfig.markOrderCompleteEndPoint}/${orderId}`
+    return axios.put(endPoint, data)
+  }
+
   refreshToken() {
     return axios.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken(),

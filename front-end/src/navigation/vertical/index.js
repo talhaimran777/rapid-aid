@@ -1,5 +1,5 @@
 /*eslint comma-dangle: ["error", "always-multiline"]*/
-import { Mail, Home, Briefcase } from 'react-feather'
+import { Home, Briefcase, FilePlus } from 'react-feather'
 
 export default [
   {
@@ -17,7 +17,7 @@ export default [
   {
     id: 'postTask',
     title: 'Post Task',
-    icon: <Briefcase size={20} />,
+    icon: <FilePlus size={20} />,
     navLink: '/postTask',
   },
 ]

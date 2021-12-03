@@ -16,12 +16,12 @@ const AccountSettings = () => {
   const [activeTab, setActiveTab] = useState('1'),
     [data, setData] = useState(null)
 
-  const toggleTab = tab => {
+  const toggleTab = (tab) => {
     setActiveTab(tab)
   }
 
   useEffect(() => {
-    axios.get('/account-setting/data').then(response => setData(response.data))
+    axios.get('/account-setting/data').then((response) => setData(response.data))
   }, [])
 
   return (
@@ -37,19 +37,8 @@ const AccountSettings = () => {
               <CardBody>
                 <TabContent activeTab={activeTab}>
                   <TabPane tabId='1'>
-                    <GeneralTabContent data={data.general} />
-                  </TabPane>
-                  <TabPane tabId='2'>
-                    <PasswordTabContent />
-                  </TabPane>
-                  <TabPane tabId='3'>
+                    {/* <GeneralTabContent data={data.general} /> */}
                     <InfoTabContent data={data.info} />
-                  </TabPane>
-                  <TabPane tabId='4'>
-                    <SocialTabContent data={data.social} />
-                  </TabPane>
-                  <TabPane tabId='5'>
-                    <NotificationsTabContent data={data.notification} />
                   </TabPane>
                 </TabContent>
               </CardBody>
