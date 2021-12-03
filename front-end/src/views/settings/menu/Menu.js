@@ -18,21 +18,21 @@ const Menu = (props) => {
 
       <CardBody>
         <Nav pills>
-          <NavItem>
+          {/* <NavItem>
             <Link to='/settings-general'>
               <NavLink {...(currentActive === 'general' ? { active: true } : undefined)}>General</NavLink>
             </Link>
-          </NavItem>
+          </NavItem> */}
           <NavItem>
             <Link to='/settings-info'>
               <NavLink {...(currentActive === 'info' ? { active: true } : undefined)}>Info</NavLink>
             </Link>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <Link to='/settings-social'>
               <NavLink {...(currentActive === 'social' ? { active: true } : undefined)}>Social</NavLink>
             </Link>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </CardBody>
     </Card>

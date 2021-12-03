@@ -34,7 +34,7 @@ const ProfileHeader = ({ profile }) => {
 
               </Nav> */}
               <Button color='primary'>
-                <Link to='/settings-general'>
+                <Link to='/settings-info'>
                   <Edit className='d-block d-md-none' size={14} />
                   <span className='font-weight-bold d-none d-md-block text-white'>Edit</span>
                 </Link>

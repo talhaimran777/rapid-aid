@@ -61,8 +61,8 @@ const Routes = [
     exact: true,
   },
   {
-    path: '/settings-general',
-    component: lazy(() => import('../../views/settings/settingsViews/General')),
+    path: '/settings-info',
+    component: lazy(() => import('../../views/settings/settingsViews/Info')),
     exact: true,
   },
   {
